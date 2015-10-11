@@ -1,0 +1,5 @@
+Notes
+=====
+Coding denkmalliste.txt: ISO 8859-1
+Alle Datensätze:        cat denkmalliste.txt| grep -E '090[0-9]{5}'
+Anzahl der Datensätze:  cat denkmalliste.txt| grep -E '090[0-9]{5}' | wc -l     //(12074)

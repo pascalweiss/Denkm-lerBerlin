@@ -49,6 +49,10 @@
 		50A28EF01BCAB65000647D6B /* DenkmälerBerlinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DenkmälerBerlinUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50A28EF41BCAB65000647D6B /* Denkma_lerBerlinUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Denkma_lerBerlinUITests.swift; sourceTree = "<group>"; };
 		50A28EF61BCAB65000647D6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50A28F031BCAB9B100647D6B /* requirements.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = requirements.txt; path = supporting_files/requirements.txt; sourceTree = "<group>"; };
+		50A28F051BCAB9F500647D6B /* data_model.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = data_model.txt; path = supporting_files/data_model.txt; sourceTree = "<group>"; };
+		50A28F091BCABADA00647D6B /* denkmalliste.txt */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; name = denkmalliste.txt; path = supporting_files/denkmalliste.txt; sourceTree = "<group>"; };
+		50A28F0A1BCAC0B900647D6B /* notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = notes.txt; path = supporting_files/notes.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,7 @@
 		50A28EC51BCAB64F00647D6B = {
 			isa = PBXGroup;
 			children = (
+				50A28F021BCAB97B00647D6B /* Supporting Files */,
 				50A28ED01BCAB65000647D6B /* DenkmälerBerlin */,
 				50A28EE81BCAB65000647D6B /* DenkmälerBerlinTests */,
 				50A28EF31BCAB65000647D6B /* DenkmälerBerlinUITests */,
@@ -126,6 +131,17 @@
 				50A28EF61BCAB65000647D6B /* Info.plist */,
 			);
 			path = "DenkmälerBerlinUITests";
+			sourceTree = "<group>";
+		};
+		50A28F021BCAB97B00647D6B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				50A28F091BCABADA00647D6B /* denkmalliste.txt */,
+				50A28F031BCAB9B100647D6B /* requirements.txt */,
+				50A28F051BCAB9F500647D6B /* data_model.txt */,
+				50A28F0A1BCAC0B900647D6B /* notes.txt */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -487,6 +503,7 @@
 				50A28EFB1BCAB65000647D6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		50A28EFC1BCAB65000647D6B /* Build configuration list for PBXNativeTarget "DenkmälerBerlinTests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +512,7 @@
 				50A28EFE1BCAB65000647D6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		50A28EFF1BCAB65000647D6B /* Build configuration list for PBXNativeTarget "DenkmälerBerlinUITests" */ = {
 			isa = XCConfigurationList;
@@ -503,6 +521,7 @@
 				50A28F011BCAB65000647D6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
