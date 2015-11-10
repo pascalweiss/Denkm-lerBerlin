@@ -13,18 +13,16 @@ import MapKit
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate{
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var searchMap: UISearchBar!
     
     var clManager: CLLocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == false, animated: false)
         
-        clManager = CLLocationManager()
-        clManager.delegate = self
-        clManager.desiredAccuracy = kCLLocationAccuracyBest
-        clManager.requestWhenInUseAuthorization()
-        clManager.startUpdatingLocation()
+        clManager = initMapLocationManager()
         
         let anno = DenkmalMapAnnotation(latitude: 53.800337, longitude: 12.178451)
         anno.title = "Denkmal"
@@ -33,6 +31,27 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         mapView.addAnnotation(anno)
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == false, animated: true)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == false, animated: true)
+    }
+    
+    func initMapLocationManager() -> CLLocationManager {
+        
+        let manager = CLLocationManager()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        
+//      Update User Position
+        manager.requestAlwaysAuthorization()
+        manager.startUpdatingLocation()
+        
+        return manager
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -67,6 +86,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             return annotationView
         }
         return nil
+    }
+    
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if control == view.rightCalloutAccessoryView {
+            performSegueWithIdentifier("Detail", sender: self)
+        }
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.searchMap.endEditing(true)
     }
     
 }

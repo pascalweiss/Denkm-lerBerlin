@@ -1,27 +1,26 @@
 //
-//  ArchtektTableViewController.swift
+//  DetailsTableViewController.swift
 //  DenkmälerBerlin
 //
-//  Created by Max on 31.10.15.
+//  Created by Max on 10.11.15.
 //  Copyright © 2015 HTWBerlin. All rights reserved.
 //
 
 import UIKit
+import MapKit
 
-class ArchtektTableViewController: UITableViewController {
-    
-    var architekten = [String]()
+class DetailsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        architekten += ["Der Typ", "Der Andere Typ"]
 
+//        navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == true, animated: false)
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,48 +31,44 @@ class ArchtektTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
         return 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return architekten.count
+        // #warning Incomplete implementation, return the number of rows
+        return 0
     }
 
-    
+    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cellIdentifier: String
-        
-        cellIdentifier = "ArchitektTableViewCell"
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ArchitektTableViewCell
-        
-        
-        let architekt = architekten[indexPath.row]
-        cell.lab_name.text = architekt
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+
+        // Configure the cell...
 
         return cell
     }
+    */
 
-
-    
+    /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
         return true
     }
-    
+    */
 
-    
+    /*
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-            architekten.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    
+    */
 
     /*
     // Override to support rearranging the table view.
