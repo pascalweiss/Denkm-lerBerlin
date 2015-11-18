@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5016DDE61BF1F5BE0041414B /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016DDE51BF1F5BE0041414B /* DetailsTableViewController.swift */; };
+		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; settings = {ASSET_TAGS = (); }; };
 		5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */; };
 		5034FF1C1BE90B6C00A3C77F /* ArchtektTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */; };
 		5034FF1D1BE90B6C00A3C77F /* DenkmalMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		5016DDE51BF1F5BE0041414B /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsTableViewController.swift; sourceTree = "<group>"; };
+		502343BA1BFCDEC0008794D4 /* DMBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBModel.swift; path = Model/DMBModel.swift; sourceTree = "<group>"; };
 		5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchitektTableViewCell.swift; sourceTree = "<group>"; };
 		5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchtektTableViewController.swift; sourceTree = "<group>"; };
 		5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DenkmalMapAnnotation.swift; sourceTree = "<group>"; };
@@ -92,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		502343B91BFCDEAB008794D4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				502343BA1BFCDEC0008794D4 /* DMBModel.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		5034FF231BE90BCD00A3C77F /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +148,7 @@
 		50A28ED01BCAB65000647D6B /* DenkmälerBerlin */ = {
 			isa = PBXGroup;
 			children = (
+				502343B91BFCDEAB008794D4 /* Model */,
 				5034FF211BE90BAB00A3C77F /* Main.storyboard */,
 				50A28ED11BCAB65000647D6B /* AppDelegate.swift */,
 				5034FF231BE90BCD00A3C77F /* View Controller */,
@@ -313,6 +324,7 @@
 				5034FF201BE90B6C00A3C77F /* ZeitraumTableViewController.swift in Sources */,
 				5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */,
 				5016DDE61BF1F5BE0041414B /* DetailsTableViewController.swift in Sources */,
+				502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */,
 				5034FF1C1BE90B6C00A3C77F /* ArchtektTableViewController.swift in Sources */,
 				50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */,
 				50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */,
