@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5016DDE61BF1F5BE0041414B /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016DDE51BF1F5BE0041414B /* DetailsTableViewController.swift */; };
 		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; settings = {ASSET_TAGS = (); }; };
+		502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */ = {isa = PBXBuildFile; fileRef = 502343C01BFCE1E7008794D4 /* DMBArchitecture.png */; settings = {ASSET_TAGS = (); }; };
+		502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */; settings = {ASSET_TAGS = (); }; };
 		5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */; };
 		5034FF1C1BE90B6C00A3C77F /* ArchtektTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */; };
 		5034FF1D1BE90B6C00A3C77F /* DenkmalMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */; };
@@ -44,6 +46,8 @@
 /* Begin PBXFileReference section */
 		5016DDE51BF1F5BE0041414B /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsTableViewController.swift; sourceTree = "<group>"; };
 		502343BA1BFCDEC0008794D4 /* DMBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBModel.swift; path = Model/DMBModel.swift; sourceTree = "<group>"; };
+		502343C01BFCE1E7008794D4 /* DMBArchitecture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DMBArchitecture.png; sourceTree = "<group>"; };
+		502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DMBDataConcept_0.3.pdf; sourceTree = "<group>"; };
 		5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchitektTableViewCell.swift; sourceTree = "<group>"; };
 		5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchtektTableViewController.swift; sourceTree = "<group>"; };
 		5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DenkmalMapAnnotation.swift; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 		50A28F021BCAB97B00647D6B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */,
+				502343C01BFCE1E7008794D4 /* DMBArchitecture.png */,
 				50A28F091BCABADA00647D6B /* denkmalliste.txt */,
 				50A28F0A1BCAC0B900647D6B /* notes.txt */,
 			);
@@ -288,7 +294,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */,
 				5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */,
+				502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */,
 				50A28EDF1BCAB65000647D6B /* LaunchScreen.storyboard in Resources */,
 				50A28EDC1BCAB65000647D6B /* Assets.xcassets in Resources */,
 			);
