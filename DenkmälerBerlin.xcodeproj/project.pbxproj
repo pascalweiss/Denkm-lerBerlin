@@ -11,7 +11,18 @@
 		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; settings = {ASSET_TAGS = (); }; };
 		502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */ = {isa = PBXBuildFile; fileRef = 502343C01BFCE1E7008794D4 /* DMBArchitecture.png */; settings = {ASSET_TAGS = (); }; };
 		502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */; settings = {ASSET_TAGS = (); }; };
-		502343E01BFCE3CA008794D4 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502343D11BFCE3AB008794D4 /* SQLite.framework */; };
+		502343E11BFCE742008794D4 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502343D11BFCE3AB008794D4 /* SQLite.framework */; };
+		502343E31BFCE7D0008794D4 /* DMBDummyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E21BFCE7D0008794D4 /* DMBDummyConnection.swift */; settings = {ASSET_TAGS = (); }; };
+		502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E41BFCE892008794D4 /* DMBFilter.swift */; settings = {ASSET_TAGS = (); }; };
+		502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E61BFDADC1008794D4 /* DMBMonument.swift */; settings = {ASSET_TAGS = (); }; };
+		502343E91BFDADE4008794D4 /* DMBEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E81BFDADE4008794D4 /* DMBEntity.swift */; settings = {ASSET_TAGS = (); }; };
+		502343EB1BFDB563008794D4 /* DMBRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EA1BFDB563008794D4 /* DMBRoute.swift */; settings = {ASSET_TAGS = (); }; };
+		502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EC1BFDC6C8008794D4 /* DMBParticipant.swift */; settings = {ASSET_TAGS = (); }; };
+		502343EF1BFDC857008794D4 /* DMBTimePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EE1BFDC857008794D4 /* DMBTimePeriod.swift */; settings = {ASSET_TAGS = (); }; };
+		502343F11BFDCCF5008794D4 /* DMBAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F01BFDCCF5008794D4 /* DMBAddress.swift */; settings = {ASSET_TAGS = (); }; };
+		502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F21BFDD1D1008794D4 /* DMBEpoche.swift */; settings = {ASSET_TAGS = (); }; };
+		502343F51BFDD8B3008794D4 /* DMBDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F41BFDD8B3008794D4 /* DMBDistrict.swift */; settings = {ASSET_TAGS = (); }; };
+		502343F71BFDE113008794D4 /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F61BFDE113008794D4 /* DMBType.swift */; settings = {ASSET_TAGS = (); }; };
 		5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */; };
 		5034FF1C1BE90B6C00A3C77F /* ArchtektTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */; };
 		5034FF1D1BE90B6C00A3C77F /* DenkmalMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */; };
@@ -106,6 +117,17 @@
 		502343C01BFCE1E7008794D4 /* DMBArchitecture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DMBArchitecture.png; sourceTree = "<group>"; };
 		502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DMBDataConcept_0.3.pdf; sourceTree = "<group>"; };
 		502343C41BFCE3AB008794D4 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = ../../SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
+		502343E21BFCE7D0008794D4 /* DMBDummyConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDummyConnection.swift; path = Model/DMBDummyConnection.swift; sourceTree = "<group>"; };
+		502343E41BFCE892008794D4 /* DMBFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBFilter.swift; path = Model/DMBFilter.swift; sourceTree = "<group>"; };
+		502343E61BFDADC1008794D4 /* DMBMonument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBMonument.swift; path = Model/DMBMonument.swift; sourceTree = "<group>"; };
+		502343E81BFDADE4008794D4 /* DMBEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBEntity.swift; path = Model/DMBEntity.swift; sourceTree = "<group>"; };
+		502343EA1BFDB563008794D4 /* DMBRoute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBRoute.swift; path = Model/DMBRoute.swift; sourceTree = "<group>"; };
+		502343EC1BFDC6C8008794D4 /* DMBParticipant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBParticipant.swift; path = Model/DMBParticipant.swift; sourceTree = "<group>"; };
+		502343EE1BFDC857008794D4 /* DMBTimePeriod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBTimePeriod.swift; path = Model/DMBTimePeriod.swift; sourceTree = "<group>"; };
+		502343F01BFDCCF5008794D4 /* DMBAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBAddress.swift; path = Model/DMBAddress.swift; sourceTree = "<group>"; };
+		502343F21BFDD1D1008794D4 /* DMBEpoche.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBEpoche.swift; path = Model/DMBEpoche.swift; sourceTree = "<group>"; };
+		502343F41BFDD8B3008794D4 /* DMBDistrict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDistrict.swift; path = Model/DMBDistrict.swift; sourceTree = "<group>"; };
+		502343F61BFDE113008794D4 /* DMBType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBType.swift; path = Model/DMBType.swift; sourceTree = "<group>"; };
 		5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchitektTableViewCell.swift; sourceTree = "<group>"; };
 		5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchtektTableViewController.swift; sourceTree = "<group>"; };
 		5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DenkmalMapAnnotation.swift; sourceTree = "<group>"; };
@@ -134,7 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502343E01BFCE3CA008794D4 /* SQLite.framework in Frameworks */,
+				502343E11BFCE742008794D4 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,8 +180,19 @@
 		502343B91BFCDEAB008794D4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				502343C41BFCE3AB008794D4 /* SQLite.xcodeproj */,
+				502343F01BFDCCF5008794D4 /* DMBAddress.swift */,
+				502343E21BFCE7D0008794D4 /* DMBDummyConnection.swift */,
+				502343E81BFDADE4008794D4 /* DMBEntity.swift */,
+				502343F21BFDD1D1008794D4 /* DMBEpoche.swift */,
+				502343E41BFCE892008794D4 /* DMBFilter.swift */,
 				502343BA1BFCDEC0008794D4 /* DMBModel.swift */,
+				502343E61BFDADC1008794D4 /* DMBMonument.swift */,
+				502343EC1BFDC6C8008794D4 /* DMBParticipant.swift */,
+				502343EA1BFDB563008794D4 /* DMBRoute.swift */,
+				502343EE1BFDC857008794D4 /* DMBTimePeriod.swift */,
+				502343C41BFCE3AB008794D4 /* SQLite.xcodeproj */,
+				502343F41BFDD8B3008794D4 /* DMBDistrict.swift */,
+				502343F61BFDE113008794D4 /* DMBType.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -464,14 +497,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				5034FF1E1BE90B6C00A3C77F /* FilterViewController.swift in Sources */,
+				502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */,
+				502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */,
 				5034FF1D1BE90B6C00A3C77F /* DenkmalMapAnnotation.swift in Sources */,
+				502343EF1BFDC857008794D4 /* DMBTimePeriod.swift in Sources */,
+				502343F51BFDD8B3008794D4 /* DMBDistrict.swift in Sources */,
+				502343E91BFDADE4008794D4 /* DMBEntity.swift in Sources */,
 				5034FF201BE90B6C00A3C77F /* ZeitraumTableViewController.swift in Sources */,
+				502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */,
 				5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */,
+				502343F71BFDE113008794D4 /* DMBType.swift in Sources */,
 				5016DDE61BF1F5BE0041414B /* DetailsTableViewController.swift in Sources */,
 				502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */,
 				5034FF1C1BE90B6C00A3C77F /* ArchtektTableViewController.swift in Sources */,
+				502343E31BFCE7D0008794D4 /* DMBDummyConnection.swift in Sources */,
+				502343F11BFDCCF5008794D4 /* DMBAddress.swift in Sources */,
+				502343EB1BFDB563008794D4 /* DMBRoute.swift in Sources */,
 				50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */,
 				50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */,
+				502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */,
 				5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
