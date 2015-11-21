@@ -1,14 +1,14 @@
 //
-//  DMBDistrict.swift
+//  DMBSubDistrict.swift
 //  DenkmälerBerlin
 //
-//  Created by Pascal Weiß on 19.11.15.
+//  Created by Pascal Weiß on 21.11.15.
 //  Copyright © 2015 HTWBerlin. All rights reserved.
 //
 
 import Foundation
 import SQLite
-class DMBDistrict: DMBEntity {
+class DMBSubDistrict: DMBEntity {
     struct Expressions {
         static let id      =            Expression<Int?>(DMBAttribut.id)
         static let name    =            Expression<String?>(DMBAttribut.name)
@@ -31,8 +31,8 @@ class DMBDistrict: DMBEntity {
     }
     
     func printIt(){
-        print("\nDMBDistrict")
-        print("===========")
+        print("\nDMBSubDistrict")
+        print("==============")
         print("id:              \(id)")
         print("name:            \(name)")
     }

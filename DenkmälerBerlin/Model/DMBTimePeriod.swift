@@ -8,19 +8,46 @@
 
 import Foundation
 
-struct DMBTimePeriod {
-    private let from: NSDate
-    private let to:   NSDate
+import Foundation
+import SQLite
+class DMBTimePeriod: DMBEntity {
+    struct Expressions {
+        static let id         = Expression<Int?>(DMBAttribut.id)
+        static let from       = Expression<String?>(DMBAttribut.beginning)
+        static let to         = Expression<String?>(DMBAttribut.ending)
+        static let monumentId = Expression<Int?>(DMBAttribut.monument_id)
+    }
     
-    init(from:NSDate, to:NSDate){
+    private let id:Int?
+    private let from:NSDate?
+    private let to:NSDate?
+    private let monumentId:Int?
+    
+    init(dbConnection: Connection, id: Int?, from:NSDate?, to:NSDate?, monumentId:Int?) {
+        self.id   = id
         self.from = from
         self.to   = to
+        self.monumentId = monumentId
+        super.init(dbConnection: dbConnection)
+    }
+    func getFrom()->NSDate? {
+        return from
+    }
+    func getTo()->NSDate? {
+        return to
     }
     
-    func getFrom()->NSDate{
-        return self.from
+    func getAllMonuments()->[DMBMonument] {
+        assert(false, "getAllMonuments() not implemented yet. I will do if required")
+        return []
     }
-    func getTo()->  NSDate{
-        return self.to
+    
+    func printIt(){
+        print("\nDMBTimePeriod")
+        print("=============")
+        print("id:              \(id)")
+        print("from:            \(from)")
+        print("to:              \(to)")
+        print("monumentId:      \(monumentId)")
     }
 }

@@ -1,17 +1,20 @@
 //
-//  DMBDistrict.swift
+//  DMBMonumentNotion.swift
 //  DenkmälerBerlin
 //
-//  Created by Pascal Weiß on 19.11.15.
+//  Created by Pascal Weiß on 21.11.15.
 //  Copyright © 2015 HTWBerlin. All rights reserved.
 //
 
 import Foundation
+
+import Foundation
 import SQLite
-class DMBDistrict: DMBEntity {
+class DMBMonumentNotion: DMBEntity {
+    
     struct Expressions {
-        static let id      =            Expression<Int?>(DMBAttribut.id)
-        static let name    =            Expression<String?>(DMBAttribut.name)
+        static let id   = Expression<Int?>(DMBAttribut.id)
+        static let name = Expression<String?>(DMBAttribut.name)
     }
     
     private let id:Int?
@@ -25,13 +28,14 @@ class DMBDistrict: DMBEntity {
     func getName()->String? {
         return name
     }
+    
     func getAllMonuments()->[DMBMonument] {
         assert(false, "getAllMonuments() not implemented yet. I will do if required")
         return []
     }
     
     func printIt(){
-        print("\nDMBDistrict")
+        print("\nDMBMonumentNotion")
         print("===========")
         print("id:              \(id)")
         print("name:            \(name)")
