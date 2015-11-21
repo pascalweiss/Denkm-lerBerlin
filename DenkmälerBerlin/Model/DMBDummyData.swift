@@ -46,7 +46,7 @@ struct DMBDummyData {
             let name = Expression<String>(DMBAttribut.name)
             var inserts = [Insert]()
             inserts.append(districts.insert(id <- 600, name <- "Mitte"))
-            inserts.append(districts.insert(id <- 601, name <- "Tempelhof"))
+            inserts.append(districts.insert(id <- 601, name <- "Tempelhof-Schöneberg"))
             inserts.forEach({try! dbConnection.run($0)})
         }
         

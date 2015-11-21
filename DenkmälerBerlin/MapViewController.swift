@@ -23,7 +23,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 //        navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == false, animated: false)
         
         clManager = initMapLocationManager()
-        
         let anno = DenkmalMapAnnotation(latitude: 53.800337, longitude: 12.178451)
         anno.title = "Denkmal"
         
