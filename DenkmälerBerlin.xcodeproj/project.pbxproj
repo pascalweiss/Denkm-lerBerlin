@@ -7,21 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007DE081BFF34A300987901 /* DMBDummyData.swift */; settings = {ASSET_TAGS = (); }; };
+		5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007DE081BFF34A300987901 /* DMBDummyData.swift */; };
 		5016DDE61BF1F5BE0041414B /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016DDE51BF1F5BE0041414B /* DetailsTableViewController.swift */; };
-		501AD0491C030A7300195AED /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 501AD03A1C030A5D00195AED /* SQLite.framework */; };
-		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; settings = {ASSET_TAGS = (); }; };
-		502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */ = {isa = PBXBuildFile; fileRef = 502343C01BFCE1E7008794D4 /* DMBArchitecture.png */; settings = {ASSET_TAGS = (); }; };
-		502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */; settings = {ASSET_TAGS = (); }; };
-		502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E41BFCE892008794D4 /* DMBFilter.swift */; settings = {ASSET_TAGS = (); }; };
-		502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E61BFDADC1008794D4 /* DMBMonument.swift */; settings = {ASSET_TAGS = (); }; };
-		502343E91BFDADE4008794D4 /* DMBEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E81BFDADE4008794D4 /* DMBEntity.swift */; settings = {ASSET_TAGS = (); }; };
-		502343EB1BFDB563008794D4 /* DMBRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EA1BFDB563008794D4 /* DMBRoute.swift */; settings = {ASSET_TAGS = (); }; };
-		502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EC1BFDC6C8008794D4 /* DMBParticipant.swift */; settings = {ASSET_TAGS = (); }; };
-		502343EF1BFDC857008794D4 /* DMBTimePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EE1BFDC857008794D4 /* DMBTimePeriod.swift */; settings = {ASSET_TAGS = (); }; };
-		502343F11BFDCCF5008794D4 /* DMBAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F01BFDCCF5008794D4 /* DMBAddress.swift */; settings = {ASSET_TAGS = (); }; };
-		502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F21BFDD1D1008794D4 /* DMBEpoche.swift */; settings = {ASSET_TAGS = (); }; };
-		502343F51BFDD8B3008794D4 /* DMBDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F41BFDD8B3008794D4 /* DMBDistrict.swift */; settings = {ASSET_TAGS = (); }; };
+		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; };
+		502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */ = {isa = PBXBuildFile; fileRef = 502343C01BFCE1E7008794D4 /* DMBArchitecture.png */; };
+		502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */; };
+		502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E41BFCE892008794D4 /* DMBFilter.swift */; };
+		502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E61BFDADC1008794D4 /* DMBMonument.swift */; };
+		502343E91BFDADE4008794D4 /* DMBEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343E81BFDADE4008794D4 /* DMBEntity.swift */; };
+		502343EB1BFDB563008794D4 /* DMBRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EA1BFDB563008794D4 /* DMBRoute.swift */; };
+		502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EC1BFDC6C8008794D4 /* DMBParticipant.swift */; };
+		502343EF1BFDC857008794D4 /* DMBTimePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343EE1BFDC857008794D4 /* DMBTimePeriod.swift */; };
+		502343F11BFDCCF5008794D4 /* DMBAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F01BFDCCF5008794D4 /* DMBAddress.swift */; };
+		502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F21BFDD1D1008794D4 /* DMBEpoche.swift */; };
+		502343F51BFDD8B3008794D4 /* DMBDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F41BFDD8B3008794D4 /* DMBDistrict.swift */; };
 		5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */; };
 		5034FF1C1BE90B6C00A3C77F /* ArchtektTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */; };
 		5034FF1D1BE90B6C00A3C77F /* DenkmalMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */; };
@@ -29,22 +28,23 @@
 		5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF191BE90B6C00A3C77F /* MapViewController.swift */; };
 		5034FF201BE90B6C00A3C77F /* ZeitraumTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF1A1BE90B6C00A3C77F /* ZeitraumTableViewController.swift */; };
 		5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5034FF211BE90BAB00A3C77F /* Main.storyboard */; };
-		506B82621BFFCDC2001B971A /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B82611BFFCDC2001B971A /* DMBType.swift */; settings = {ASSET_TAGS = (); }; };
+		506B82621BFFCDC2001B971A /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B82611BFFCDC2001B971A /* DMBType.swift */; };
 		50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED11BCAB65000647D6B /* AppDelegate.swift */; };
 		50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED81BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld */; };
 		50A28EDC1BCAB65000647D6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50A28EDB1BCAB65000647D6B /* Assets.xcassets */; };
 		50A28EDF1BCAB65000647D6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A28EDD1BCAB65000647D6B /* LaunchScreen.storyboard */; };
 		50A28EEA1BCAB65000647D6B /* Denkma_lerBerlinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A28EE91BCAB65000647D6B /* Denkma_lerBerlinTests.swift */; };
 		50A28EF51BCAB65000647D6B /* Denkma_lerBerlinUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A28EF41BCAB65000647D6B /* Denkma_lerBerlinUITests.swift */; };
-		50B3B66C1C0060600042B3F7 /* DMBMonumentNotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B66B1C0060600042B3F7 /* DMBMonumentNotion.swift */; settings = {ASSET_TAGS = (); }; };
-		50B3B6761C00618E0042B3F7 /* DMBNotionsRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B6751C00618E0042B3F7 /* DMBNotionsRelation.swift */; settings = {ASSET_TAGS = (); }; };
-		50B3B6781C0063CB0042B3F7 /* DMBModelEXAMPLES.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B6771C0063CB0042B3F7 /* DMBModelEXAMPLES.swift */; settings = {ASSET_TAGS = (); }; };
-		50B3B67A1C0068840042B3F7 /* DMBGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B6791C0068840042B3F7 /* DMBGlobals.swift */; settings = {ASSET_TAGS = (); }; };
-		50B74F921BFE11FC002B970E /* DMBPostgresDatabase_0.2.sql in Sources */ = {isa = PBXBuildFile; fileRef = 50B74F911BFE11FC002B970E /* DMBPostgresDatabase_0.2.sql */; settings = {ASSET_TAGS = (); }; };
-		50E511E71BFF342600E8CEB4 /* DMBsqlite_v2.db in Resources */ = {isa = PBXBuildFile; fileRef = 50E511E61BFF342600E8CEB4 /* DMBsqlite_v2.db */; settings = {ASSET_TAGS = (); }; };
-		50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */; settings = {ASSET_TAGS = (); }; };
-		50F2E0951C0080CA00CE633B /* DMBDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */; settings = {ASSET_TAGS = (); }; };
-		50F2E0971C0083CE00CE633B /* DMBSubDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0961C0083CE00CE633B /* DMBSubDistrictRelation.swift */; settings = {ASSET_TAGS = (); }; };
+		50B3B66C1C0060600042B3F7 /* DMBMonumentNotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B66B1C0060600042B3F7 /* DMBMonumentNotion.swift */; };
+		50B3B6761C00618E0042B3F7 /* DMBNotionsRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B6751C00618E0042B3F7 /* DMBNotionsRelation.swift */; };
+		50B3B6781C0063CB0042B3F7 /* DMBModelEXAMPLES.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B6771C0063CB0042B3F7 /* DMBModelEXAMPLES.swift */; };
+		50B3B67A1C0068840042B3F7 /* DMBGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B6791C0068840042B3F7 /* DMBGlobals.swift */; };
+		50B74F921BFE11FC002B970E /* DMBPostgresDatabase_0.2.sql in Sources */ = {isa = PBXBuildFile; fileRef = 50B74F911BFE11FC002B970E /* DMBPostgresDatabase_0.2.sql */; };
+		50E453A91C03E8C10004CF71 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E4539A1C03E8AD0004CF71 /* SQLite.framework */; };
+		50E511E71BFF342600E8CEB4 /* DMBsqlite_v2.db in Resources */ = {isa = PBXBuildFile; fileRef = 50E511E61BFF342600E8CEB4 /* DMBsqlite_v2.db */; };
+		50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */; };
+		50F2E0951C0080CA00CE633B /* DMBDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */; };
+		50F2E0971C0083CE00CE633B /* DMBSubDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0961C0083CE00CE633B /* DMBSubDistrictRelation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +118,62 @@
 			remoteGlobalIDString = 50A28ECD1BCAB64F00647D6B;
 			remoteInfo = "DenkmälerBerlin";
 		};
+		50E453991C03E8AD0004CF71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DC2B29E21B26F718001C60EA;
+			remoteInfo = "SQLite iOS";
+		};
+		50E4539B1C03E8AD0004CF71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DC2B29EC1B26F718001C60EA;
+			remoteInfo = "SQLite iOS Tests";
+		};
+		50E4539D1C03E8AD0004CF71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DC7253AC1B52ADEB009B38B1;
+			remoteInfo = "SQLite Mac";
+		};
+		50E4539F1C03E8AD0004CF71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DC7253B51B52ADEC009B38B1;
+			remoteInfo = "SQLite Mac Tests";
+		};
+		50E453A11C03E8AD0004CF71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCE7BB7A1B7434F90040D364;
+			remoteInfo = "SQLiteCipher iOS";
+		};
+		50E453A31C03E8AD0004CF71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCE7BB831B7434F90040D364;
+			remoteInfo = "SQLiteCipher iOS Tests";
+		};
+		50E453A51C03E8AD0004CF71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCE7BBB01B7438610040D364;
+			remoteInfo = "SQLiteCipher Mac";
+		};
+		50E453A71C03E8AD0004CF71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCE7BBB91B7438620040D364;
+			remoteInfo = "SQLiteCipher Mac Tests";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -163,6 +219,7 @@
 		50B3B6771C0063CB0042B3F7 /* DMBModelEXAMPLES.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBModelEXAMPLES.swift; path = "DenkmälerBerlin/DMBModelEXAMPLES.swift"; sourceTree = "<group>"; };
 		50B3B6791C0068840042B3F7 /* DMBGlobals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBGlobals.swift; path = Model/DMBGlobals.swift; sourceTree = "<group>"; };
 		50B74F911BFE11FC002B970E /* DMBPostgresDatabase_0.2.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = DMBPostgresDatabase_0.2.sql; path = Model/DMBPostgresDatabase_0.2.sql; sourceTree = "<group>"; };
+		50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		50E511E61BFF342600E8CEB4 /* DMBsqlite_v2.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = DMBsqlite_v2.db; path = Model/DMBsqlite_v2.db; sourceTree = "<group>"; };
 		50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSubDistrict.swift; path = Model/DMBSubDistrict.swift; sourceTree = "<group>"; };
 		50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDistrictRelation.swift; path = Model/DMBDistrictRelation.swift; sourceTree = "<group>"; };
@@ -174,7 +231,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				501AD0491C030A7300195AED /* SQLite.framework in Frameworks */,
+				50E453A91C03E8C10004CF71 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +326,7 @@
 				50A28EE81BCAB65000647D6B /* DenkmälerBerlinTests */,
 				50A28EF31BCAB65000647D6B /* DenkmälerBerlinUITests */,
 				50A28ECF1BCAB65000647D6B /* Products */,
+				50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -324,6 +382,21 @@
 				50A28F0A1BCAC0B900647D6B /* notes.txt */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		50E4538F1C03E8AD0004CF71 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50E4539A1C03E8AD0004CF71 /* SQLite.framework */,
+				50E4539C1C03E8AD0004CF71 /* SQLite iOS Tests.xctest */,
+				50E4539E1C03E8AD0004CF71 /* SQLite.framework */,
+				50E453A01C03E8AD0004CF71 /* SQLite Mac Tests.xctest */,
+				50E453A21C03E8AD0004CF71 /* SQLiteCipher.framework */,
+				50E453A41C03E8AD0004CF71 /* SQLiteCipher iOS Tests.xctest */,
+				50E453A61C03E8AD0004CF71 /* SQLiteCipher.framework */,
+				50E453A81C03E8AD0004CF71 /* SQLiteCipher Mac Tests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -417,6 +490,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 50E4538F1C03E8AD0004CF71 /* Products */;
+					ProjectRef = 50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */;
+				},
+				{
 					ProductGroup = 501AD02F1C030A5D00195AED /* Products */;
 					ProjectRef = 502343C41BFCE3AB008794D4 /* SQLite.xcodeproj */;
 				},
@@ -485,6 +562,62 @@
 			fileType = wrapper.cfbundle;
 			path = "SQLiteCipher Mac Tests.xctest";
 			remoteRef = 501AD0471C030A5D00195AED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50E4539A1C03E8AD0004CF71 /* SQLite.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SQLite.framework;
+			remoteRef = 50E453991C03E8AD0004CF71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50E4539C1C03E8AD0004CF71 /* SQLite iOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SQLite iOS Tests.xctest";
+			remoteRef = 50E4539B1C03E8AD0004CF71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50E4539E1C03E8AD0004CF71 /* SQLite.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SQLite.framework;
+			remoteRef = 50E4539D1C03E8AD0004CF71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50E453A01C03E8AD0004CF71 /* SQLite Mac Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SQLite Mac Tests.xctest";
+			remoteRef = 50E4539F1C03E8AD0004CF71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50E453A21C03E8AD0004CF71 /* SQLiteCipher.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SQLiteCipher.framework;
+			remoteRef = 50E453A11C03E8AD0004CF71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50E453A41C03E8AD0004CF71 /* SQLiteCipher iOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SQLiteCipher iOS Tests.xctest";
+			remoteRef = 50E453A31C03E8AD0004CF71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50E453A61C03E8AD0004CF71 /* SQLiteCipher.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SQLiteCipher.framework;
+			remoteRef = 50E453A51C03E8AD0004CF71 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50E453A81C03E8AD0004CF71 /* SQLiteCipher Mac Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SQLiteCipher Mac Tests.xctest";
+			remoteRef = 50E453A71C03E8AD0004CF71 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

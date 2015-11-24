@@ -10,12 +10,13 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate{
+class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var searchMap: UISearchBar!
     
     var clManager: CLLocationManager!
+    var filteredData: [String]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +97,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.searchMap.endEditing(true)
+    }
+    
+    // MARK: Search
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("TableCell")! as UITableViewCell
+        cell.textLabel?.text = filteredData[indexPath.row]
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
     }
     
 }

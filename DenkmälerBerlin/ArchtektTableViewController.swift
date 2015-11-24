@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArchtektTableViewController: UITableViewController {
+class ArchtektTableViewController: UITableViewController, UISearchBarDelegate, UISearchDisplayDelegate {
     
     var architekten = [String]()
 

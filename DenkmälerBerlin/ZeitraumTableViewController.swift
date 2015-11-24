@@ -8,22 +8,38 @@
 
 import UIKit
 
-class ZeitraumTableViewController: UITableViewController {
+class ZeitraumTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var lab_startDetail: UILabel!
     @IBOutlet weak var lab_endDetail: UILabel!
     
     @IBOutlet weak var tc_startCell: UITableViewCell!
     @IBOutlet weak var tc_endCell: UITableViewCell!
+    @IBOutlet weak var pickerView: UIPickerView!
+    
+    var pickerDataSourceYears: [[Int]] = []
+    var pickerChoosenDate: [Int] = [20, 1, 5] // 20 und 15 sind default werte
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        self.pickerView.dataSource = self;
+        self.pickerView.delegate = self;
+        
+            
+        for i in 0...2 {
+            pickerDataSourceYears.append([])
+            
+            for j in 0...30 {
+                if (i == 0 && j <= 21) || (i != 0 && j <= 9) {
+                    pickerDataSourceYears[i].append(j)
+                }
+                
+            }
+        }
+        pickerView.selectRow(20, inComponent: 0, animated: false)
+        pickerView.selectRow(1, inComponent: 1, animated: false)
+        pickerView.selectRow(5, inComponent: 2, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,5 +55,40 @@ class ZeitraumTableViewController: UITableViewController {
         
     }
     
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 3
+    }
     
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerDataSourceYears[component].count;
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return String(pickerDataSourceYears[component][row])
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickerChoosenDate[component] = pickerDataSourceYears[component][row]
+        lab_startDetail.text =  String(pickerChoosenDate[0]) + String(pickerChoosenDate[1])  + String(pickerChoosenDate[2])
+    }
+    
+    func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        switch component {
+        case 0..<1: return 100
+        case 1..<2: return 30
+        default: return 40
+        }
+    }
+    
+    // MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        NSLog(segue.identifier!)
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func performSegueToFilterView(sender: AnyObject) {
+        //        performSegueWithIdentifier("FilterBack", sender: <#T##AnyObject?#>)
+    }
 }
