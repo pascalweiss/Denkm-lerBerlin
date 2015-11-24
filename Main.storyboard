@@ -321,7 +321,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Filter" id="l0Y-gq-zxo"/>
                     <connections>
-                        <outlet property="lab_epDetail" destination="2Fo-WI-896" id="1aC-mx-2mV"/>
+                        <outlet property="labelZeitraumDetail" destination="xNM-eC-FtW" id="Ger-og-Six"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mBm-gv-CYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -488,11 +488,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Zeitraum" id="sel-ss-ysI">
-                        <barButtonItem key="backBarButtonItem" title="Filter" id="3V7-vq-j8D">
-                            <connections>
-                                <action selector="performSegueToFilterView:" destination="eMa-eD-WEf" id="mQQ-eg-o4W"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="backBarButtonItem" title="Filter" id="3V7-vq-j8D"/>
                     </navigationItem>
                     <connections>
                         <outlet property="lab_startDetail" destination="hHV-RU-rII" id="ANU-TB-wCr"/>
