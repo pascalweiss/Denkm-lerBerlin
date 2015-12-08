@@ -11,7 +11,7 @@ import SQLite
 struct DMBNotionsRelation {
     struct Expressions {
         static let id               = Expression<Int?>(DMBAttribut.id)
-        static let monumentNotionId = Expression<Int?>(DMBAttribut.monument_notion_id)
-        static let monumentId       = Expression<Int?>(DMBAttribut.monument_id)
+        static let monumentNotionId = Expression<Int?>(DMBAttribut.monumentNotionId)
+        static let monumentId       = Expression<Int?>(DMBAttribut.monumentId)
     }
 }

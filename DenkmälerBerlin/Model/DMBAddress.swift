@@ -16,21 +16,18 @@ struct DMBAddress {
         static let long = Expression<Double?>(DMBAttribut.long)
         static let street = Expression<String?>(DMBAttribut.street)
         static let nr = Expression<String?>(DMBAttribut.nr)
-        static let monumentId = Expression<Int?>(DMBAttribut.monument_id)
     }
     private let id  :Int?
     private let lat :Double?
     private let long:Double?
     private let street: String?
     private let nr: String?
-    private let monumentId:Int?
-    init(id:Int?,lat:Double?,long:Double?,street:String?,nr:String?, monumentId:Int?) {
+    init(id:Int?,lat:Double?,long:Double?,street:String?,nr:String?) {
         self.id     = id
         self.lat    = lat
         self.long   = long
         self.street = street
         self.nr     = nr
-        self.monumentId = monumentId
     }
     func getLat()->Double?{
         return lat
@@ -52,6 +49,5 @@ struct DMBAddress {
         print("long:       \(long)")
         print("street:     \(street)")
         print("nr:         \(nr)")
-        print("monumentId: \(monumentId)")
     }
 }
