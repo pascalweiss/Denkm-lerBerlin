@@ -18,8 +18,9 @@ class DMBModel {
     private let debug = true
 
     private init() {
-        self.dbConnection = try! Connection(NSBundle.mainBundle().pathForResource("DMBsqlite_v2", ofType: "db")!, readonly: false)
-        DMBDummyData.createDummyData(self.dbConnection) //TODO remove
+        print(NSBundle.mainBundle().pathForResource("DMBsqlite_v6", ofType: "db"))
+        self.dbConnection = try! Connection(NSBundle.mainBundle().pathForResource("DMBsqlite_v6", ofType: "db")!, readonly: false)
+//        DMBDummyData.createDummyData(self.dbConnection) //TODO remove
     }
     
     func setFilter(filter:DMBFilter) {
@@ -47,51 +48,43 @@ class DMBModel {
     
     func getAllMonumentTypes()->[DMBType] {
         let types = Table(DMBTable.type)
-        return dbConnection.prepare(types).map{
-            DMBType(
-                dbConnection: dbConnection,
-                id:     $0[DMBType.Expressions.id],
-                name:   $0[DMBType.Expressions.name])
+        return dbConnection.prepare(types).map{row -> DMBType in
+            return DMBConverter.rowToType(row, connection: dbConnection)
         }
     }
     
     func getAllMonuments() -> [DMBMonument] {
         let monuments = Table(DMBTable.monument)
         return dbConnection.prepare(monuments)
-            .map({
-            DMBMonument(
-                dbConnection:       dbConnection,
-                id:                 $0[DMBMonument.Expressions.id],
-                name:               $0[DMBMonument.Expressions.name],
-                objNr:              $0[DMBMonument.Expressions.objNr],
-                descr:              $0[DMBMonument.Expressions.descr],
-                type_id:            $0[DMBMonument.Expressions.typeId],
-                super_monument_id:  $0[DMBMonument.Expressions.superMonumentId],
-                link_id:            $0[DMBMonument.Expressions.linkId]
-            )
+            .map({row -> DMBMonument in
+                return DMBConverter.rowToMonument(row, connection: dbConnection)
         })
     }
     
+    
     func getMonuments(area:MKCoordinateRegion) -> [DMBMonument]{
-        let monuments = Table(DMBTable.monument)
-        let addresses = Table(DMBTable.address)
+        let monuments  = Table(DMBTable.monument)
+        let addresses  = Table(DMBTable.address)
+        let addressRel = Table(DMBTable.addressRel)
         let inLongitude = area.center.longitude - area.span.longitudeDelta < DMBAddress.Expressions.long
             && DMBAddress.Expressions.long < area.center.longitude + area.span.longitudeDelta
         let inLatitude  = area.center.latitude - area.span.latitudeDelta < DMBAddress.Expressions.lat
             && DMBAddress.Expressions.lat < area.center.latitude + area.span.latitudeDelta
         return dbConnection.prepare(monuments
-            .join(addresses, on: DMBAddress.Expressions.monumentId == monuments[DMBMonument.Expressions.id]).filter(inLongitude && inLatitude))
-            .map({
-            DMBMonument(
-                dbConnection:       dbConnection,
-                id:                 $0[monuments[DMBMonument.Expressions.id]],
-                name:               $0[monuments[DMBMonument.Expressions.name]],
-                objNr:              $0[monuments[DMBMonument.Expressions.objNr]],
-                descr:              $0[monuments[DMBMonument.Expressions.descr]],
-                type_id:            $0[monuments[DMBMonument.Expressions.typeId]],
-                super_monument_id:  $0[monuments[DMBMonument.Expressions.superMonumentId]],
-                link_id:            $0[monuments[DMBMonument.Expressions.linkId]]
-            )
+            .join(addressRel, on: monuments[DMBMonument.Expressions.id] == addressRel[DMBAddressRelation.Expressions.monumentId])
+            .join(addresses, on: addressRel[DMBAddressRelation.Expressions.addressId] == addresses[DMBAddress.Expressions.id])
+            .filter(inLongitude && inLatitude))
+            .map({row -> DMBMonument in
+                return DMBConverter.rowToMonument(row, connection: dbConnection)
         })
+    }
+    
+    func getMonumentsWithRegexByName(regex: String) -> [DMBMonument] {
+        let monuments = Table(DMBTable.monument)
+        return dbConnection.prepare(monuments
+            .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(regex)))
+            .map({row -> DMBMonument in
+                return DMBConverter.rowToMonument(row, connection: dbConnection)
+            })
     }
 }
