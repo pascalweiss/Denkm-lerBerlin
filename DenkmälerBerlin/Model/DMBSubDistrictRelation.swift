@@ -9,6 +9,7 @@
 import Foundation
 import SQLite
 
+/// Ermöglicht eine n:n Beziehung zwischen Denkmälern und Ortsteilen
 struct DMBSubDistrictRelation {
     struct Expressions {
         static let id         = Expression<Int?>(DMBAttribut.id)

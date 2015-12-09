@@ -8,6 +8,9 @@
 
 import Foundation
 import SQLite
+
+/// Repräsentiert die Datenbank-Entität "monument_notion_rel". 
+/// Ermöglicht eine n:n Beziehung zwischen Denkmälern und und Objekttypen
 struct DMBNotionsRelation {
     struct Expressions {
         static let id               = Expression<Int?>(DMBAttribut.id)

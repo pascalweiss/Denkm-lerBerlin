@@ -10,6 +10,9 @@ import Foundation
 
 import Foundation
 import SQLite
+
+/// Repräsentiert die Datenbank-Entität "monument_notion"
+/// Liefert den "ObjektTyp" (z.B. "Brücke", "Brunnen") zu bestimmten Denkmälern
 class DMBNotion: DMBEntity {
     
     struct Expressions {

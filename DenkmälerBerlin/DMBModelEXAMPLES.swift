@@ -29,13 +29,13 @@ struct DMBModelEXAMPLES {
         monuments_2.forEach{m in m.printIt()}
         
         // get all types
-        let t = DMBModel.sharedInstance.getAllMonumentTypes()
+        let t = DMBModel.sharedInstance.getAllTypes()
         t.forEach{t in t.printIt()}
         
         // Every subclass of DMBEntity can query die database on itself.
         // For example you can query the addresses of a monument
         let mon_1:DMBMonument = monuments_1[0]
-        let address:DMBAddress = mon_1.getAddress()
+        let address:DMBLocation = mon_1.getAddress()
         address.printIt()
         
         // get type of a specific monument
@@ -54,7 +54,10 @@ struct DMBModelEXAMPLES {
         
         // get subdistrics of a specific monument
         mon_1.getSubDistricts().forEach({sd in sd.printIt()})
-        let monuments_3:[DMBMonument] = DMBModel.sharedInstance.getMonumentsWithRegexByName("%Brandenburger%")
+        let monuments_3:[DMBMonument] = DMBModel.sharedInstance.searchMonumentsByName("%Brandenburger%")
         monuments_3.forEach({m in m.printIt()})
+        
+        // get all districts
+        DMBModel.sharedInstance.getAllDistricts().forEach({d in d.printIt()})
     }
 }

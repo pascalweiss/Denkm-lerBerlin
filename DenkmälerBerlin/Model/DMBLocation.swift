@@ -9,6 +9,8 @@
 import Foundation
 import SQLite
 
+/// Kapselt die Datenbank-Entität "address"
+/// Liefert Ortsdaten zu bestimmten Denkmälern (Straße, Hausnummer, Longitude, Latitude)
 struct DMBLocation {
     struct Expressions {
         static let id = Expression<Int?>(DMBAttribut.id)

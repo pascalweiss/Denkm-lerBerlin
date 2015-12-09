@@ -9,6 +9,8 @@
 import Foundation
 import SQLite
 
+/// Repräsentiert die Datenbank-Entität "district_rel".
+/// Ermöglicht eine n:n Beziehung zwischen Denkmälern und Bezirken
 struct DMBDistrictRelation {
     struct Expressions {
         static let id         = Expression<Int?>(DMBAttribut.id)

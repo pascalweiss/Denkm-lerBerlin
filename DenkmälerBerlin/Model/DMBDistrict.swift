@@ -8,6 +8,9 @@
 
 import Foundation
 import SQLite
+
+/// Repräsentiert die Datenbank-Entität "district".
+/// Liefert Informationen zu einem DMBMonument.
 class DMBDistrict: DMBEntity {
     struct Expressions {
         static let id      =            Expression<Int?>(DMBAttribut.id)
@@ -30,6 +33,7 @@ class DMBDistrict: DMBEntity {
         return []
     }
     
+    /// Convenient Methode zur Ausgabe in der Console
     func printIt(){
         print("\nDMBDistrict")
         print("===========")

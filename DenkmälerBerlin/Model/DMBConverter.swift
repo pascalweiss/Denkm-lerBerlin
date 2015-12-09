@@ -38,13 +38,13 @@ struct DMBConverter {
         )
     }
     
-    static func rowToAddress(row: SQLite.Row, connection: Connection, table: Table) -> DMBAddress {
-        return DMBAddress(
-            id:         row[table[DMBAddress.Expressions.id]],
-            lat:        row[table[DMBAddress.Expressions.lat]],
-            long:       row[table[DMBAddress.Expressions.long]],
-            street:     row[table[DMBAddress.Expressions.street]],
-            nr:         row[table[DMBAddress.Expressions.nr]])
+    static func rowToAddress(row: SQLite.Row, connection: Connection, table: Table) -> DMBLocation {
+        return DMBLocation(
+            id:         row[table[DMBLocation.Expressions.id]],
+            lat:        row[table[DMBLocation.Expressions.lat]],
+            long:       row[table[DMBLocation.Expressions.long]],
+            street:     row[table[DMBLocation.Expressions.street]],
+            nr:         row[table[DMBLocation.Expressions.nr]])
     }
     
     static func rowToType(row: SQLite.Row, connection: Connection) -> DMBType {
@@ -74,11 +74,11 @@ struct DMBConverter {
             to:             {rowTo != nil ? formatter.dateFromString(rowTo!):nil}())
     }
     
-    static func rowToNotion(row: SQLite.Row, connection: Connection) -> DMBMonumentNotion {
-        return DMBMonumentNotion(
+    static func rowToNotion(row: SQLite.Row, connection: Connection) -> DMBNotion {
+        return DMBNotion(
             dbConnection:   connection,
-            id:             row[DMBMonumentNotion.Expressions.id],
-            name:           row[DMBMonumentNotion.Expressions.name])
+            id:             row[DMBNotion.Expressions.id],
+            name:           row[DMBNotion.Expressions.name])
     }
     
     static func rowToDistrict(row: SQLite.Row, connection: Connection, table: Table) -> DMBDistrict {
@@ -93,5 +93,12 @@ struct DMBConverter {
             dbConnection:   connection,
             id:             row[table[DMBDistrict.Expressions.id]],
             name:           row[table[DMBDistrict.Expressions.name]])
+    }
+    
+    static func rowToDistrict(row: SQLite.Row, connection: Connection) -> DMBDistrict {
+        return DMBDistrict(
+            dbConnection:   connection,
+            id:             row[DMBDistrict.Expressions.id],
+            name:           row[DMBDistrict.Expressions.name])
     }
 }

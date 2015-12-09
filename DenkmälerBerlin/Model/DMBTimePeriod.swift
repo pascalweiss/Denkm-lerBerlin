@@ -10,6 +10,9 @@ import Foundation
 
 import Foundation
 import SQLite
+
+/// Repräsentiert die Datenbank-Entität "dating". 
+/// Liefert eine Zeitspanne, die z.B. die Bauzeit eines Denkmals repräsentiert.
 class DMBTimePeriod: DMBEntity {
     struct Expressions {
         static let id         = Expression<Int?>(DMBAttribut.id)
@@ -39,6 +42,7 @@ class DMBTimePeriod: DMBEntity {
         return []
     }
     
+    /// Convenient Methode zur Ausgabe in der Console
     func printIt(){
         print("\nDMBTimePeriod")
         print("=============")

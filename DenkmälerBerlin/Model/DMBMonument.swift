@@ -9,6 +9,8 @@
 import Foundation
 import SQLite
 
+/// Repräsentiert die Datenbank-Entität "monument". 
+/// Liefert Informationen zu bestimmten Denkmälern
 class DMBMonument: DMBEntity {
     
     struct Expressions {
@@ -30,7 +32,7 @@ class DMBMonument: DMBEntity {
     private let type_id:Int?
     private let super_monument_id:Int?
     private let link_id:Int?
-    private var addresses:[DMBAddress]?
+    private var addresses:[DMBLocation]?
     private let datingId:Int?
     
     init(dbConnection: Connection, id: Int?, name:String?, objNr:String?, descr:String?, type_id:Int?, super_monument_id:Int?, link_id:Int?, datingId: Int?) {
@@ -44,7 +46,7 @@ class DMBMonument: DMBEntity {
         self.datingId = datingId
         super.init(dbConnection: dbConnection)
     }
-    init(dbConnection: Connection, id: Int?, name:String?, objNr:String?, descr:String?, type_id:Int?, super_monument_id:Int?, link_id:Int?, datingId: Int?, addresses:[DMBAddress]?) {
+    init(dbConnection: Connection, id: Int?, name:String?, objNr:String?, descr:String?, type_id:Int?, super_monument_id:Int?, link_id:Int?, datingId: Int?, addresses:[DMBLocation]?) {
         self.id = id
         self.name = name
         self.objNr = objNr
@@ -56,24 +58,30 @@ class DMBMonument: DMBEntity {
         super.init(dbConnection: dbConnection)
     }
     
-    // e.g. Brandenburger Tor
+    /// Der Name des Denkmals
     func getName()->String? {
         return name
     }
     
+    /// Die Objektnummer des Denkmals
     func getObjNr()->String? {
         return objNr
     }
     
-    func getPicUrl()->NSURL? {  //TODO
+    /// Die URLs sämtlicher Bilder des Denkmals
+    func getPicUrl()->NSURL? {  //TODO -> schöner währe ein DMBPicture
         return NSURL(string: "http://dummy.url.com")
     }
     
+    /// Liefert die textuelle Beschreibung des Denkmals
     func getDescription()->String?{
         return descr
     }
     
-    // e.g. Charlottenburg-Wilmersdorf
+    /// Liefert sämtliche Bezirke, in denen sich das Denkmal befindet 
+    /// (...ja, manche Denkmäler gehören zu mehr als 1 Bezirk)
+    /// Als Rückgabewert erhälst du ein Array vom Typ DMBDistrict
+    /// Diese können z.B. folgende Bezirke repräsentieren: "Prenzlauer Berg", "Neukölln", etc.
     func getDistricts()->[DMBDistrict] {
         let districts = Table(DMBTable.district)
         let monuments = Table(DMBTable.monument)
@@ -88,7 +96,10 @@ class DMBMonument: DMBEntity {
             })
     }
     
-    // e.g. Charlottenburg
+    /// Liefert sämtliche Stadtteile, in denen sich das Denkmal befindet
+    /// (...ja, manche Denkmäler gehören zu mehr als 1 Stadtteil)
+    /// Als Rückgabewert erhälst du ein Array vom Typ DMBSubDistrict
+    /// Diese können z.B. folgende Stadtteil repräsentieren: "Dahlem", "Zehlendorf", etc.
     func getSubDistricts()->[DMBSubDistrict] {
         let subDistricts = Table(DMBTable.subDistrict)
         let monuments = Table(DMBTable.monument)
@@ -106,7 +117,7 @@ class DMBMonument: DMBEntity {
         return []
     }
     
-    // e.g. Baudenkmal
+    // Liefert den Denkmaltyp des Denkmals. Z.B. "Baudenkmal" oder "Ensemble"
     func getType() -> DMBType? {
         let types = Table(DMBTable.type)
         let monuments = Table(DMBTable.monument)
@@ -118,19 +129,23 @@ class DMBMonument: DMBEntity {
         }
         return nil
     }
-    
-    func getMonumentNotions() -> [DMBMonumentNotion]{
+    /// Liefert sämtliche Objekttypen, wie z.B. "Brücke", "Brunnen", etc.
+    /// Als Rückgabewert erhälst du ein Array vom Typ DMBNotion
+    func getNotions() -> [DMBNotion]{
         let notions = Table(DMBTable.monumentNotion)
         let monuments = Table(DMBTable.monument)
         let notionsRels = Table(DMBTable.monumentNotionRel)
         return dbConnection.prepare(notions
-            .join(notionsRels, on: notions[DMBMonumentNotion.Expressions.id] == notionsRels[DMBNotionsRelation.Expressions.monumentNotionId])
+            .join(notionsRels, on: notions[DMBNotion.Expressions.id] == notionsRels[DMBNotionsRelation.Expressions.monumentNotionId])
             .join(monuments, on: notionsRels[DMBNotionsRelation.Expressions.monumentId] == notionsRels[DMBMonument.Expressions.id])
             .filter(id == monuments[DMBMonument.Expressions.id]))
-            .map({row -> DMBMonumentNotion in
+            .map({row -> DMBNotion in
                 return DMBConverter.rowToNotion(row,connection: dbConnection)
             })
     }
+    
+    /// Liefert den Zeitraum, in dem das Denkmal entstanden ist,
+    /// in Form eines Objektes vom Typ DMBTimePeriod
     func getCreationPeriod()->DMBTimePeriod? {
         let monuments = Table(DMBTable.monument)
         let datings = Table(DMBTable.dating)
@@ -142,15 +157,17 @@ class DMBMonument: DMBEntity {
         return nil
     }
     
-    func getAddress()->DMBAddress{
+    /// Liefert die Ortsdaten für das jeweilige Denkmal (Straße, Hausnummer, Longitude, Latitude)
+    /// In Form einer DMBLocation
+    func getAddress()->DMBLocation{
         let addresses   = Table(DMBTable.address)
         let addressRel  = Table(DMBTable.addressRel)
         let monuments = Table(DMBTable.monument)
         let res =  dbConnection.pluck(addresses
-            .join(addressRel, on: addresses[DMBAddress.Expressions.id] == addressRel[DMBAddressRelation.Expressions.addressId])
-            .join(monuments, on: monuments[DMBMonument.Expressions.id] == addressRel[DMBAddressRelation.Expressions.monumentId])
-            .filter(addressRel[DMBAddressRelation.Expressions.monumentId] == self.id))
-            .map({row -> DMBAddress in
+            .join(addressRel, on: addresses[DMBLocation.Expressions.id] == addressRel[DMBLocationRelation.Expressions.addressId])
+            .join(monuments, on: monuments[DMBMonument.Expressions.id] == addressRel[DMBLocationRelation.Expressions.monumentId])
+            .filter(addressRel[DMBLocationRelation.Expressions.monumentId] == self.id))
+            .map({row -> DMBLocation in
                 return DMBConverter.rowToAddress(row, connection: dbConnection, table: addresses)
             })
         return res!
@@ -172,6 +189,7 @@ class DMBMonument: DMBEntity {
         return []
     }
     
+    /// Convenient Methode zur Ausgabe in der Console
     func printIt() {
         print("\nDMBMonument")
         print("===========")
