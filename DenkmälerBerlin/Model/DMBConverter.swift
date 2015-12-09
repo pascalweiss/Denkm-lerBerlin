@@ -63,15 +63,13 @@ struct DMBConverter {
     
     
     static func rowToTimePeriod(row: SQLite.Row, connection: Connection, table: Table) -> DMBTimePeriod {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
         let rowFrom = row[table[DMBTimePeriod.Expressions.from]]
         let rowTo   = row[table[DMBTimePeriod.Expressions.to]]
         return DMBTimePeriod(
             dbConnection:   connection,
             id:             row[table[DMBTimePeriod.Expressions.id]],
-            from:           {rowFrom != nil ? formatter.dateFromString(rowFrom!):nil}(),
-            to:             {rowTo != nil ? formatter.dateFromString(rowTo!):nil}())
+            from:           {rowFrom != nil ? DMBConverter.stringToDate(rowFrom!):nil}(),
+            to:             {rowTo != nil ? DMBConverter.stringToDate(rowTo!):nil}())
     }
     
     static func rowToNotion(row: SQLite.Row, connection: Connection) -> DMBNotion {
@@ -100,5 +98,11 @@ struct DMBConverter {
             dbConnection:   connection,
             id:             row[DMBDistrict.Expressions.id],
             name:           row[DMBDistrict.Expressions.name])
+    }
+    
+    static func stringToDate(s:String) -> NSDate? {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.dateFromString(s)
     }
 }

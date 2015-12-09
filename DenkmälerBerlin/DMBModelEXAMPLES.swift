@@ -59,5 +59,14 @@ struct DMBModelEXAMPLES {
         
         // get all districts
         DMBModel.sharedInstance.getAllDistricts().forEach({d in d.printIt()})
+        
+        // get the earliest date
+        print("\nEarliest date:\n" +
+                "==============\n" +
+                String(DMBModel.sharedInstance.getMinDate()))
+        
+        // get the most recent date
+        print("\nMost recent date:\n" +
+                "=================\n"+String(DMBModel.sharedInstance.getMaxDate()))
     }
 }

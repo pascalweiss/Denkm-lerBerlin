@@ -36,6 +36,15 @@ class DMBModel {
         self.filter=filter
     }
     
+    /*
+     _____       _   _ _            ___                  _
+    | ____|_ __ | |_(_) |_ _   _   / _ \ _   _  ___ _ __(_) ___  ___
+    |  _| | '_ \| __| | __| | | | | | | | | | |/ _ \ '__| |/ _ \/ __|
+    | |___| | | | |_| | |_| |_| | | |_| | |_| |  __/ |  | |  __/\__ \
+    |_____|_| |_|\__|_|\__|\__, |  \__\_\\__,_|\___|_|  |_|\___||___/
+                           |___/
+    */
+    
     func getAllParticipants()->[DMBParticipant]{
         return []
     }
@@ -113,4 +122,57 @@ class DMBModel {
                 return DMBConverter.rowToMonument(row, connection: dbConnection)
             })
     }
+    
+/*
+     ____            _               ___                  _
+    / ___|  ___ __ _| | __ _ _ __   / _ \ _   _  ___ _ __(_) ___  ___
+    \___ \ / __/ _` | |/ _` | '__| | | | | | | |/ _ \ '__| |/ _ \/ __|
+     ___) | (_| (_| | | (_| | |    | |_| | |_| |  __/ |  | |  __/\__ \
+    |____/ \___\__,_|_|\__,_|_|     \__\_\\__,_|\___|_|  |_|\___||___/
+*/
+    
+    /// Gibt das kleinste Datum zurück
+    func getMinDate() -> NSDate? {
+        let datings = DMBTable.dating
+        let from = DMBTimePeriod.Expressions.from.template
+        let to   = DMBTimePeriod.Expressions.to.template
+        let stmtFrom = dbConnection.prepare("SELECT min(\(from)) FROM \(datings)")
+        let stmtTo   = dbConnection.prepare("SELECT min(\(to)) FROM \(datings)")
+        let maxFrom = DMBConverter.stringToDate(stmtFrom.scalar() as! String)
+        let maxTo   = DMBConverter.stringToDate(stmtTo.scalar() as! String)
+        if maxTo != nil && maxFrom != nil {
+            return {maxTo!.timeIntervalSinceDate(maxFrom!) > 0 ? maxFrom:maxTo}()
+        }
+        else if maxTo != nil {
+            return maxTo
+        }
+        else if maxFrom != nil {
+            return maxFrom
+        }
+        return nil
+    }
+    
+    /// Gibt größte Datum zurück
+    func getMaxDate() -> NSDate? {
+        let datings = DMBTable.dating
+        let from = DMBTimePeriod.Expressions.from.template
+        let to   = DMBTimePeriod.Expressions.to.template
+        let stmtFrom = dbConnection.prepare("SELECT max(\(from)) FROM \(datings)")
+        let stmtTo   = dbConnection.prepare("SELECT max(\(to)) FROM \(datings)")
+        let maxFrom = DMBConverter.stringToDate(stmtFrom.scalar() as! String)
+        let maxTo   = DMBConverter.stringToDate(stmtTo.scalar() as! String)
+        if maxTo != nil && maxFrom != nil {
+            return {maxTo!.timeIntervalSinceDate(maxFrom!) > 0 ? maxTo:maxFrom}()
+        }
+        else if maxTo != nil {
+            return maxTo
+        }
+        else if maxFrom != nil {
+            return maxFrom
+        }
+        return nil
+    }
 }
+
+
+
