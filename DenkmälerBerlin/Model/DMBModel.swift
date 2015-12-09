@@ -10,6 +10,16 @@ import Foundation
 import SQLite
 import MapKit
 
+/// Diese Klasse implementiert das Singleton-Pattern, wodruch sie nicht vom Entwickler selbst instanziiert werden muss.
+/// Zugriff auf die Methoden werden - wie z.B, bei "NSUserDefaults.standardUserDefaults" - durch das statische Objekt "DMBModel.sharedInstance" gewährt.
+/// Es liefert einige Methoden, mit denen Daten aus der Datenbank abgefragt werden können.
+/// Z.B. können bestimmte Denkmäler anhand eines Suchstrings gesucht werden. 
+/// Sämtliche Suchergebnisse sind Objekte, deren Klassen von "DMBEntity" erben. 
+/// Diese haben die Fähigkeit, weitere Anfragen an die Datenbank zu stellen, wobei dann wiederum Objekte vom Typ DMBEntity zurück gegeben werden.
+/// z.B. liefert ein Objekt der Klasse "DMBMonument" mit "getAddress" sämtliche Ortsdaten (Straße, Hausnummer, Longitude, Latitude) in Form eines DMBLocation-Objekts.
+/// Dieses Verfahren ermöglicht einen möglichst komfortablen und effizenten Umgang mit der darunter liegenden Datenbank,
+/// da sämtliche Operationen durch Methoden gekapselt werden, und gleichzeitig die benötigten Daten erst dann abgefragt werden, wenn sie benötigt werden.
+/// Das Verfahren ist dem Apple eigenen Framework CoreData nachempfunden.
 class DMBModel {
     
     static let sharedInstance = DMBModel()
@@ -20,7 +30,6 @@ class DMBModel {
     private init() {
         print(NSBundle.mainBundle().pathForResource("DMBsqlite_v6", ofType: "db"))
         self.dbConnection = try! Connection(NSBundle.mainBundle().pathForResource("DMBsqlite_v6", ofType: "db")!, readonly: false)
-//        DMBDummyData.createDummyData(self.dbConnection) //TODO remove
     }
     
     func setFilter(filter:DMBFilter) {
@@ -36,7 +45,17 @@ class DMBModel {
         return []
     }
     
-    func getAllDistricts()->[String] {
+    /// Liefert sämtliche Bezirke, die in der Datenbank vermerkt sind.
+    /// Z.B. "Prenzlauer Berg", "Neukölln", etc. 
+    /// Der Rückgabewert ist ein Array vom Typ DMBDistrict
+    func getAllDistricts()->[DMBDistrict] {
+        let districts = Table(DMBTable.district)
+        return dbConnection.prepare(districts).map{row -> DMBDistrict in
+            return DMBConverter.rowToDistrict(row, connection: dbConnection)
+        }
+    }
+    
+    func getAllSubDistricts()->[DMBSubDistrict] {
         assert(false, "getAllMonuments() not implemented yet. I will do if required")
         return []
     }
@@ -45,14 +64,18 @@ class DMBModel {
         assert(false, "getAllMonuments() not implemented yet. I will do if required")
         return []
     }
-    
-    func getAllMonumentTypes()->[DMBType] {
+    /// Liefert sämtliche Denkmaltypen. 
+    /// Z.B.: "Baudenkmal" oder "Ensemble".
+    /// Rückgabewert ist ein Array vom Typ DMBType.
+    func getAllTypes()->[DMBType] {
         let types = Table(DMBTable.type)
         return dbConnection.prepare(types).map{row -> DMBType in
             return DMBConverter.rowToType(row, connection: dbConnection)
         }
     }
     
+    /// Liefert sämtliche Denkmäler.
+    /// Rückgabewert ist ein Array vom Typ DMBMonument.
     func getAllMonuments() -> [DMBMonument] {
         let monuments = Table(DMBTable.monument)
         return dbConnection.prepare(monuments)
@@ -61,28 +84,31 @@ class DMBModel {
         })
     }
     
-    
+    /// Liefert sämtliche Denkmäler, die sich innerhalb der als Parameter übergebenen MKCooridnateRegion befinden.
     func getMonuments(area:MKCoordinateRegion) -> [DMBMonument]{
         let monuments  = Table(DMBTable.monument)
         let addresses  = Table(DMBTable.address)
         let addressRel = Table(DMBTable.addressRel)
-        let inLongitude = area.center.longitude - area.span.longitudeDelta < DMBAddress.Expressions.long
-            && DMBAddress.Expressions.long < area.center.longitude + area.span.longitudeDelta
-        let inLatitude  = area.center.latitude - area.span.latitudeDelta < DMBAddress.Expressions.lat
-            && DMBAddress.Expressions.lat < area.center.latitude + area.span.latitudeDelta
+        let inLongitude = area.center.longitude - area.span.longitudeDelta < DMBLocation.Expressions.long
+            && DMBLocation.Expressions.long < area.center.longitude + area.span.longitudeDelta
+        let inLatitude  = area.center.latitude - area.span.latitudeDelta < DMBLocation.Expressions.lat
+            && DMBLocation.Expressions.lat < area.center.latitude + area.span.latitudeDelta
         return dbConnection.prepare(monuments
-            .join(addressRel, on: monuments[DMBMonument.Expressions.id] == addressRel[DMBAddressRelation.Expressions.monumentId])
-            .join(addresses, on: addressRel[DMBAddressRelation.Expressions.addressId] == addresses[DMBAddress.Expressions.id])
+            .join(addressRel, on: monuments[DMBMonument.Expressions.id] == addressRel[DMBLocationRelation.Expressions.monumentId])
+            .join(addresses, on: addressRel[DMBLocationRelation.Expressions.addressId] == addresses[DMBLocation.Expressions.id])
             .filter(inLongitude && inLatitude))
             .map({row -> DMBMonument in
                 return DMBConverter.rowToMonument(row, connection: dbConnection)
         })
     }
     
-    func getMonumentsWithRegexByName(regex: String) -> [DMBMonument] {
+    /// Eine Methode, mit der Denkmäler anhand ihres Namens gesucht werden. 
+    /// Als Übergabeparameter kann ein String übergeben werden.
+    /// Dieser kann mehrere Wörter beinhalten, wobei die Denkmäler anhand jedes einzelnen Wortes gesucht werden.
+    func searchMonumentsByName(searchString: String) -> [DMBMonument] {
         let monuments = Table(DMBTable.monument)
         return dbConnection.prepare(monuments
-            .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(regex)))
+            .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(searchString)))
             .map({row -> DMBMonument in
                 return DMBConverter.rowToMonument(row, connection: dbConnection)
             })
