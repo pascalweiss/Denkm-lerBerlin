@@ -123,6 +123,23 @@ class DMBModel {
             })
     }
     
+    /////////////////////////////////////////////////////////
+    
+    func createTokens(s: String) -> [String] {
+        let words = s.characters.split{$0 == " "}.map(String.init)   //TODO Bisher bloss split bei "_"
+        return Array(Set(words.map{$0.lowercaseString}))
+    }
+    
+    func searchMonuments(searchString: String) -> [DMBMonument] {
+        let tokens = createTokens(searchString).map{"%"+$0+"%"}
+        let m = tokens.flatMap({word -> [DMBMonument] in
+            return self.searchMonumentsByName(word)
+        })
+        return []
+    }
+
+    /////////////////////////////////////////////////////////
+    
 /*
      ____            _               ___                  _
     / ___|  ___ __ _| | __ _ _ __   / _ \ _   _  ___ _ __(_) ___  ___

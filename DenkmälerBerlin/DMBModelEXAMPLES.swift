@@ -57,6 +57,9 @@ struct DMBModelEXAMPLES {
         let monuments_3:[DMBMonument] = DMBModel.sharedInstance.searchMonumentsByName("%Brandenburger%")
         monuments_3.forEach({m in m.printIt()})
         
+        let monuments_4:[DMBMonument] = DMBModel.sharedInstance.searchMonuments("Brandenburg Schiller Tor Tor")
+        monuments_4.forEach({m in m.printIt()})
+        
         // get all districts
         DMBModel.sharedInstance.getAllDistricts().forEach({d in d.printIt()})
         
