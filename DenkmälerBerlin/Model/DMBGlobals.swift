@@ -20,6 +20,7 @@ struct DMBTable {
     static let address              = "address"
     static let addressRel           = "address_rel"
     static let participant          = "participant"
+    static let participantRel       = "participant_rel"
     static let participantType      = "participant_type"
     static let monumentNotionRel    = "monument_notion_rel"
     static let districtRel          = "district_rel"

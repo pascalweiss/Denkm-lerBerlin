@@ -115,7 +115,8 @@ class DMBModel {
         let tokens = createTokens(searchString)
         let m1 = rankedMonumentsByName(tokens)
         let m2 = rankedMonumentsByLocation(tokens)
-        return ["byName": m1, "byLocation": m2]
+        let m3 = rankedMonumentsByParticipant(tokens)
+        return ["byName": m1, "byLocation": m2, "byParticipant": m3]
     }
     
 /*
@@ -207,6 +208,14 @@ class DMBModel {
             })
     }
     
+    private func searchMonumentsByParticipant(token: String) -> [(Double, DMBMonument)] {
+        let monuments = Table(DMBTable.monument)
+        let participantsRel = Table(DMBTable.participantRel)
+        let participants = Table(DMBTable.participant)
+        //TODO
+        return []
+    }
+    
     private func searchableString(string: String) -> String {
         return "%" + string + "%"
     }
@@ -241,6 +250,12 @@ class DMBModel {
     private func rankedMonumentsByLocation(tokens: [String]) -> [(Double,DMBMonument)] {
         return rankMonuments(tokens.flatMap({word -> [(Double,DMBMonument)] in
             return self.searchMonumentsByLocation(word)
+        }))
+    }
+    
+    private func rankedMonumentsByParticipant(tokens: [String]) -> [(Double, DMBMonument)] {
+        return rankMonuments(tokens.flatMap({word -> [(Double, DMBMonument)] in
+            return self.searchMonumentsByParticipant(word)
         }))
     }
 }
