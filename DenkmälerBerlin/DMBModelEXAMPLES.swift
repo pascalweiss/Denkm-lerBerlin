@@ -53,12 +53,12 @@ struct DMBModelEXAMPLES {
         mon_1.getDistricts().forEach({d in d.printIt()})
         
         // get subdistrics of a specific monument
-        mon_1.getSubDistricts().forEach({sd in sd.printIt()})
-        let monuments_3:[DMBMonument] = DMBModel.sharedInstance.searchMonumentsByName("%Brandenburger%")
-        monuments_3.forEach({m in m.printIt()})
+//        mon_1.getSubDistricts().forEach({sd in sd.printIt()})
+//        let monuments_3:[DMBMonument] = DMBModel.sharedInstance.searchMonumentsByName("brandenburger")
+//        monuments_3.forEach({m in m.printIt()})
         
-        let monuments_4:[DMBMonument] = DMBModel.sharedInstance.searchMonuments("Brandenburg Schiller Tor Tor")
-        monuments_4.forEach({m in m.printIt()})
+        let monuments_4 = DMBModel.sharedInstance.searchMonuments("Brandenburg Schiller Tor Tor")
+//        monuments_4.forEach({m in m.printIt()})
         
         // get all districts
         DMBModel.sharedInstance.getAllDistricts().forEach({d in d.printIt()})
@@ -71,5 +71,6 @@ struct DMBModelEXAMPLES {
         // get the most recent date
         print("\nMost recent date:\n" +
                 "=================\n"+String(DMBModel.sharedInstance.getMaxDate()))
+        
     }
 }

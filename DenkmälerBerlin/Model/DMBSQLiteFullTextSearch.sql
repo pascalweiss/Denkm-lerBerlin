@@ -1,7 +1,9 @@
 --- Integrates full text search into the monument database
 
+DROP TABLE monument_search;
+
 CREATE VIRTUAL TABLE monument_search
-USING fts4( id,
+USING fts3( id,
 name,
 obj_nr,
 descr,

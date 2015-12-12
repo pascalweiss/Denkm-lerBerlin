@@ -111,34 +111,12 @@ class DMBModel {
         })
     }
     
-    /// Eine Methode, mit der Denkmäler anhand ihres Namens gesucht werden. 
-    /// Als Übergabeparameter kann ein String übergeben werden.
-    /// Dieser kann mehrere Wörter beinhalten, wobei die Denkmäler anhand jedes einzelnen Wortes gesucht werden.
-    func searchMonumentsByName(searchString: String) -> [DMBMonument] {
-        let monuments = Table(DMBTable.monument)
-        return dbConnection.prepare(monuments
-            .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(searchString)))
-            .map({row -> DMBMonument in
-                return DMBConverter.rowToMonument(row, connection: dbConnection)
-            })
+    func searchMonuments(searchString: String) -> [String:[(Double,DMBMonument)]] {
+        let tokens = createTokens(searchString)
+        let m1 = rankedMonumentsByName(tokens)
+        let m2 = rankedMonumentsByLocation(tokens)
+        return ["byName": m1, "byLocation": m2]
     }
-    
-    /////////////////////////////////////////////////////////
-    
-    func createTokens(s: String) -> [String] {
-        let words = s.characters.split{$0 == " "}.map(String.init)   //TODO Bisher bloss split bei "_"
-        return Array(Set(words.map{$0.lowercaseString}))
-    }
-    
-    func searchMonuments(searchString: String) -> [DMBMonument] {
-        let tokens = createTokens(searchString).map{"%"+$0+"%"}
-        let m = tokens.flatMap({word -> [DMBMonument] in
-            return self.searchMonumentsByName(word)
-        })
-        return []
-    }
-
-    /////////////////////////////////////////////////////////
     
 /*
      ____            _               ___                  _
@@ -188,6 +166,82 @@ class DMBModel {
             return maxFrom
         }
         return nil
+    }
+    
+/*
+                             _             _
+     ___  ___  __ _ _ __ ___| |__     __ _| | __ _  ___
+    / __|/ _ \/ _` | '__/ __| '_ \   / _` | |/ _` |/ _ \
+    \__ \  __/ (_| | | | (__| | | | | (_| | | (_| | (_) |
+    |___/\___|\__,_|_|  \___|_| |_|  \__,_|_|\__, |\___/
+                                             |___/
+*/
+    /// Eine Methode, mit der Denkmäler anhand ihres Namens gesucht werden.
+    /// Als Übergabeparameter kann ein String übergeben werden.
+    /// Dieser kann mehrere Wörter beinhalten, wobei die Denkmäler anhand jedes einzelnen Wortes gesucht werden.
+    private func searchMonumentsByName(token: String) -> [(Double,DMBMonument)] {
+        let monuments = Table(DMBTable.monument)
+        return dbConnection.prepare(monuments
+            .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(searchableString(token))))
+            .map({row -> (Double,DMBMonument) in
+                let monum = DMBConverter.rowToMonument(row, connection: dbConnection)
+                let match = getMatch(monum.getName()!, searchString: token)
+                return (match,monum)
+            })
+        //            .sort({$0.0 > $1.0})
+    }
+    
+    private func searchMonumentsByLocation(token: String) -> [(Double,DMBMonument)] {
+        let monuments   = Table(DMBTable.monument)
+        let locationRel = Table(DMBTable.addressRel)
+        let locations   = Table(DMBTable.address)
+        return dbConnection.prepare(monuments
+            .join(locationRel, on: monuments[DMBMonument.Expressions.id] == locationRel[DMBLocationRelation.Expressions.monumentId])
+            .join(locations, on: locationRel[DMBLocationRelation.Expressions.addressId] == locations[DMBLocation.Expressions.id])
+            .filter(locations[DMBLocation.Expressions.street].lowercaseString.like(searchableString(token))))
+            .map({row -> (Double, DMBMonument) in
+                let address = row.get(DMBLocation.Expressions.street)
+                let monum   = DMBConverter.rowToMonument(row, connection: dbConnection, table: monuments)
+                let match   = getMatch(address!, searchString: token)
+                return (match, monum)
+            })
+    }
+    
+    private func searchableString(string: String) -> String {
+        return "%" + string + "%"
+    }
+    
+    private func createTokens(s: String) -> [String] {
+        let words = s.characters.split{$0 == " "}.map(String.init)   //TODO Bisher bloss split bei "_"
+        return Array(Set(words.map{$0.lowercaseString}))
+    }
+    
+    private func getMatch(resultString: String, searchString: String) -> Double {
+        let mismatch = resultString.lowercaseString.stringByReplacingOccurrencesOfString(searchString, withString: "")
+        let match = 1-Double(mismatch.characters.count) / Double(resultString.characters.count)
+        return match
+    }
+    
+    private func rankMonuments(monuments:[(Double,DMBMonument)]) -> [(Double, DMBMonument)]{
+        return monuments.groupBy({$0.1.getName()!}).map({groupedMon -> (Double,DMBMonument) in
+            let m:DMBMonument = groupedMon.1[0].1
+            return groupedMon.1.reduce((0,m), combine: {
+                (m1,m2) -> (Double, DMBMonument) in
+                return (m1.0 + m2.0, m)
+            })
+        }).sort({$0.0 > $1.0})
+    }
+    
+    private func rankedMonumentsByName(tokens: [String]) -> [(Double,DMBMonument)] {
+        return rankMonuments(tokens.flatMap({word -> [(Double,DMBMonument)] in
+            return self.searchMonumentsByName(word)
+        }))
+    }
+    
+    private func rankedMonumentsByLocation(tokens: [String]) -> [(Double,DMBMonument)] {
+        return rankMonuments(tokens.flatMap({word -> [(Double,DMBMonument)] in
+            return self.searchMonumentsByLocation(word)
+        }))
     }
 }
 
