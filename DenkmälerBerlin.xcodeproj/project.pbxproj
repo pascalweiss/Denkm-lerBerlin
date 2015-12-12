@@ -30,7 +30,6 @@
 		5034FF201BE90B6C00A3C77F /* ZeitraumTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF1A1BE90B6C00A3C77F /* ZeitraumTableViewController.swift */; };
 		5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5034FF211BE90BAB00A3C77F /* Main.storyboard */; };
 		506B82621BFFCDC2001B971A /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B82611BFFCDC2001B971A /* DMBType.swift */; };
-		507B2D991C1AD459006760C4 /* Array+groupBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B2D981C1AD459006760C4 /* Array+groupBy.swift */; };
 		50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED11BCAB65000647D6B /* AppDelegate.swift */; };
 		50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED81BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld */; };
 		50A28EDC1BCAB65000647D6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50A28EDB1BCAB65000647D6B /* Assets.xcassets */; };
@@ -45,6 +44,7 @@
 		50CC2D5F1C15BF3B00652D35 /* DMBLocationRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC2D5E1C15BF3B00652D35 /* DMBLocationRelation.swift */; };
 		50CC2D611C15FD9300652D35 /* DMBsqlite_v6.db in Resources */ = {isa = PBXBuildFile; fileRef = 50CC2D601C15FD9300652D35 /* DMBsqlite_v6.db */; };
 		50CC2D631C16D33800652D35 /* DMBConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC2D621C16D33700652D35 /* DMBConverter.swift */; };
+		50DBD35F1C1C829B0010F68E /* Array+groupBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBD35E1C1C829B0010F68E /* Array+groupBy.swift */; };
 		50E453A91C03E8C10004CF71 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E4539A1C03E8AD0004CF71 /* SQLite.framework */; };
 		50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */; };
 		50F2E0951C0080CA00CE633B /* DMBDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */; };
@@ -205,7 +205,6 @@
 		5034FF1A1BE90B6C00A3C77F /* ZeitraumTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZeitraumTableViewController.swift; sourceTree = "<group>"; };
 		5034FF211BE90BAB00A3C77F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Main.storyboard; sourceTree = "<group>"; };
 		506B82611BFFCDC2001B971A /* DMBType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBType.swift; path = Model/DMBType.swift; sourceTree = "<group>"; };
-		507B2D981C1AD459006760C4 /* Array+groupBy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+groupBy.swift"; path = "Model/Array+groupBy.swift"; sourceTree = "<group>"; };
 		50A28ECE1BCAB65000647D6B /* DenkmälerBerlin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DenkmälerBerlin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50A28ED11BCAB65000647D6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50A28ED91BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Denkma_lerBerlin.xcdatamodel; sourceTree = "<group>"; };
@@ -228,6 +227,7 @@
 		50CC2D5E1C15BF3B00652D35 /* DMBLocationRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBLocationRelation.swift; path = Model/DMBLocationRelation.swift; sourceTree = "<group>"; };
 		50CC2D601C15FD9300652D35 /* DMBsqlite_v6.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = DMBsqlite_v6.db; path = Model/DMBsqlite_v6.db; sourceTree = "<group>"; };
 		50CC2D621C16D33700652D35 /* DMBConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBConverter.swift; path = Model/DMBConverter.swift; sourceTree = "<group>"; };
+		50DBD35E1C1C829B0010F68E /* Array+groupBy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+groupBy.swift"; path = "Model/Array+groupBy.swift"; sourceTree = "<group>"; };
 		50E4538E1C03E8AD0004CF71 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSubDistrict.swift; path = Model/DMBSubDistrict.swift; sourceTree = "<group>"; };
 		50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDistrictRelation.swift; path = Model/DMBDistrictRelation.swift; sourceTree = "<group>"; };
@@ -340,7 +340,7 @@
 				5026559C1C19782500B35679 /* DMBSQLiteFullTextSearch.sql */,
 				50CC2D5A1C15B7B200652D35 /* DMBPostgresDatabase_0.5.sql */,
 				50CC2D601C15FD9300652D35 /* DMBsqlite_v6.db */,
-				507B2D981C1AD459006760C4 /* Array+groupBy.swift */,
+				50DBD35E1C1C829B0010F68E /* Array+groupBy.swift */,
 			);
 			name = Various;
 			sourceTree = "<group>";
@@ -687,6 +687,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50DBD35F1C1C829B0010F68E /* Array+groupBy.swift in Sources */,
 				5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */,
 				5034FF1E1BE90B6C00A3C77F /* FilterViewController.swift in Sources */,
 				502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */,
@@ -714,7 +715,6 @@
 				506B82621BFFCDC2001B971A /* DMBType.swift in Sources */,
 				50B3B67A1C0068840042B3F7 /* DMBGlobals.swift in Sources */,
 				50CC2D631C16D33800652D35 /* DMBConverter.swift in Sources */,
-				507B2D991C1AD459006760C4 /* Array+groupBy.swift in Sources */,
 				502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */,
 				50B3B6761C00618E0042B3F7 /* DMBNotionsRelation.swift in Sources */,
 				5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */,
