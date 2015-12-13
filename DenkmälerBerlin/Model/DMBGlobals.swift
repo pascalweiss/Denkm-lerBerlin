@@ -44,9 +44,18 @@ struct DMBAttribut {
     static let nr                   = "nr"
     static let linkId               = "link_id"
     static let monumentNotionId     = "monument_notion_id"
+    static let participantId        = "participant_id"
+    static let participantTypeId    = "participant_type_id"
     static let monumentId           = "monument_id"
     static let addressId            = "address_id"
     static let districtId           = "district_id"
     static let subDistrictId        = "sub_district_id"
     static let datingId             = "dating_id"
+}
+
+struct DMBSearchKey {
+    static let byName           = "byName"
+    static let byLocation       = "byLocation"
+    static let byNotion         = "byNotion"
+    static let byParticipant    = "byParticipant"
 }
