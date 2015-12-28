@@ -10,13 +10,20 @@ import UIKit
 
 class FilterViewController : UITableViewController {
     
-    @IBOutlet weak var lab_epDetail: UILabel!
+    @IBOutlet weak var labelZeitraumDetail: UILabel!
+    
+    var startZeitraumValue: Int = 0
     
     
     //MARK -Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
     }
 
+    override func viewDidAppear(animated: Bool) {
+        labelZeitraumDetail.text = String(startZeitraumValue)
+    }
     
 }
