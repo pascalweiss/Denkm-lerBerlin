@@ -15,36 +15,38 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     @IBOutlet weak var mapView: MKMapView!
     var clManager: CLLocationManager!
     
-    let sectionNames = ["Name"]
     
-    var monumentString: [String] = []
-    var monuments: [DMBMonument] = []
-    
-    var searchHistory: [String] = ["Schloss", "Kirche"]
-    
-    var filteredData = Array(count: 5, repeatedValue: Array(count: 0, repeatedValue: String()))
     var searchController: UISearchController!
-    
     var searchResultsTableView = UITableViewController()
     
+    // Categories for Searchfiltering
+    let sectionNames = ["Name"]
+    
+    // Array for all Monuments
+    var monuments: [DMBMonument] = []
+    var filteredData = Array(count: 5, repeatedValue: Array(count: 0, repeatedValue: String()))
+    
+    // Values for search History
+    var searchHistory: [String] = ["Schloss", "Kirche"]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Load Database
         DMBModel.sharedInstance
         monuments = DMBModel.sharedInstance.getAllMonuments()
         
+        // Mapstuff
         clManager = initMapLocationManager()
         let anno = DenkmalMapAnnotation(latitude: 53.800337, longitude: 12.178451)
         anno.title = "Denkmal"
         
         mapView.delegate = self
-        
         mapView.addAnnotation(anno)
         
+        // Setup Search Controller
         setupSearchController()
         setupSearchResultsTable()
-        
-        
         
     }
     
@@ -105,9 +107,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     // MARK: Search
     
     func setupSearchController(){
-        
-        //filteredData = data
-        
         
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -171,7 +170,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return sectionNames.count + 1
     }
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -183,10 +182,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchTabelCell")! as UITableViewCell
         
-        switch(indexPath.section){
-        case 0: cell.textLabel?.text = filteredData[0][indexPath.row]
-        case 1: cell.textLabel?.text = filteredData[1][indexPath.row]
-        default: break
+        // Set Labels for Cells
+        if(indexPath.section <= sectionNames.count) {
+            cell.textLabel?.text = filteredData[indexPath.section][indexPath.row]
         }
         
         // Color and Transparency Settings
@@ -196,13 +194,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch(section){
-        case 0: return filteredData[0].count
-        case 1: return filteredData[1].count
-        default: return 0
-        }
-        
-        
+        if(section <= sectionNames.count) {
+            return filteredData[section].count
+        } else {return 0}
     }
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
@@ -215,10 +209,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if searchText?.isEmpty == false {
             var filteredMonuments: [[DMBMonument]] = []
             
+            // Filter by Name
             filteredMonuments.append(monuments.filter(){
                 return $0.getName()!.rangeOfString(searchText!, options: .CaseInsensitiveSearch) != nil
             })
             
+            // Get Strings vom filtered Monuments
             for i in 0..<filteredMonuments.count {
                 for j in 0..<filteredMonuments[i].count {
                     switch (i + 1) {
@@ -229,6 +225,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 }
             }
         } else {
+            // Displays Default Search History
             filteredData[0] = searchHistory
         }
         
