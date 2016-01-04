@@ -213,12 +213,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
         if searchText?.isEmpty == false {
-            let filteredMonuments = monuments.filter(){
+            var filteredMonuments: [[DMBMonument]] = []
+            
+            filteredMonuments.append(monuments.filter(){
                 return $0.getName()!.rangeOfString(searchText!, options: .CaseInsensitiveSearch) != nil
-            }
+            })
             
             for i in 0..<filteredMonuments.count {
-                filteredData[1].append(filteredMonuments[i].getName()!)
+                for j in 0..<filteredMonuments[i].count {
+                    switch (i + 1) {
+                    case 1: filteredData[i].append(filteredMonuments[i][j].getName()!)
+                    default: break
+                    }
+                    
+                }
             }
         } else {
             filteredData[0] = searchHistory
