@@ -15,6 +15,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     @IBOutlet weak var mapView: MKMapView!
     var clManager: CLLocationManager!
     
+    var internalData: String? // Passed Data from Advanced Search
+    
     
     var searchController: UISearchController!
     var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
@@ -30,6 +32,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var searchHistory: [String] = ["Schloss", "Kirche"]
     var showHistory: Bool = true
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,6 +54,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
     }
     
+    override func viewWillAppear(animated: Bool) {
+        print(self.internalData)
+    }
+    
     // MARK: Button Action
     func segueToAdvancedSearchView(sender:UIButton!){
         performSegueWithIdentifier("AdvancedSearchSegue", sender: self)
@@ -58,6 +65,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func showMoreResultsButton(sender:UIButton!){
         print(sender.tag)
+    }
+    
+    // MARK: Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "AdvancedSearchSegue" {
+            (segue.destinationViewController as! AdvancedSearchViewController).delegate = self
+        }
     }
     
     // MARK: Map
@@ -144,16 +159,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
         configSearchResultsTableView()
         
-        // Advanced Search Button
-        var tableViewFrame = searchResultsTableView.tableView.frame;
-        let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 130, y: 0, width: 130, height: 18))
-        advancedSearchButton.setTitle("Erweiterte Suche >", forState: UIControlState.Normal)
-        advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        advancedSearchButton.addTarget(self, action: "segueToAdvancedSearchView:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        searchResultsTableView.tableView.addSubview(advancedSearchButton)
-
-        
         self.view.addSubview(searchResultsTableView.tableView)
     }
     
@@ -184,24 +189,38 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if (showHistory || filteredData[section].isEmpty) {
-            return nil
+        if (section != 0) {
+            if (showHistory || filteredData[section - 1].isEmpty) {
+                return nil
+            }
+            return sectionNames[section - 1]
         }
-        return sectionNames[section]
+        return nil
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (filteredData[section].isEmpty) {
-            return 4
+        if (section != 0 && filteredData[section - 1].isEmpty) {
+            return 0.01
         }
-        return section == 0 ? 36 : 18
+        return 18
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: self.tableView(tableView, heightForHeaderInSection: section)))
         
-        if (showHistory || filteredData[section].isEmpty) {
-            return nil
+        if (section == 0){
+            // Advanced Search Button
+            let tableViewFrame = headerView.frame
+            let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 130, y: 0, width: 130, height: 18))
+            advancedSearchButton.setTitle("Erweiterte Suche >", forState: UIControlState.Normal)
+            advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            advancedSearchButton.addTarget(self, action: "segueToAdvancedSearchView:", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            headerView.addSubview(advancedSearchButton)
+        }
+        
+        if (showHistory || (section != 0 && filteredData[section - 1].isEmpty) || section == 0) {
+            return headerView
         } else {
             
             // Label
@@ -211,29 +230,38 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
             headerView.addSubview(titleLabel)
         
-            // Button
-            let advancedSearchButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 105, y: headerView.frame.size.height - 18, width: 100, height: 18))
-            advancedSearchButton.setTitle("Mehr Anzeigen", forState: UIControlState.Normal)
-            advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
-            advancedSearchButton.tag = section
-            advancedSearchButton.addTarget(self, action: "showMoreResultsButton:", forControlEvents: UIControlEvents.TouchUpInside)
+            if (section != 0 && filteredData[section - 1].count > 1) { // 1 ändern!! Value ab dem "Mehr Anzeigen" gezeigt wird
+                // Button
+                let showMoreButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 105, y: headerView.frame.size.height - 18, width: 100, height: 18))
+                showMoreButton.setTitle("Mehr Anzeigen", forState: UIControlState.Normal)
+                showMoreButton.titleLabel?.adjustsFontSizeToFitWidth = true
+                showMoreButton.tag = section
+                showMoreButton.addTarget(self, action: "showMoreResultsButton:", forControlEvents: UIControlEvents.TouchUpInside)
+                
+                headerView.addSubview(showMoreButton)
+            }
             
-            headerView.addSubview(advancedSearchButton)
-        
             return headerView
         }
     }
     
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if (section == 0 || (section != 0 && filteredData[section - 1].isEmpty)) {
+            return section == 0 ? 4 : 0.01
+        }
+        return 18
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sectionNames.count
+        return sectionNames.count + 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchTabelCell")! as UITableViewCell
         
         // Set Labels for Cells
-        if(indexPath.section <= sectionNames.count) {
-            cell.textLabel?.text = filteredData[indexPath.section][indexPath.row]
+        if(indexPath.section <= sectionNames.count && indexPath.section != 0) {
+            cell.textLabel?.text = filteredData[indexPath.section - 1][indexPath.row]
         }
         
         // Color and Transparency Settings
@@ -243,8 +271,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(section <= sectionNames.count) {
-            return filteredData[section].count
+        if(section - 1 <= sectionNames.count && section != 0) {
+            return filteredData[section - 1].count
         } else {return 0}
     }
     
@@ -292,5 +320,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
         searchResultsTableView.tableView.reloadData()
+    }
+}
+
+extension MapViewController: AdvancedSearchDelegate {
+    func sendDataBack(data: String) {
+        self.internalData = data
     }
 }

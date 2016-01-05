@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol AdvancedSearchDelegate {
+    func sendDataBack(data: String)
+}
+
 class AdvancedSearchViewController: UITableViewController {
+    
+    var delegate: AdvancedSearchDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +28,15 @@ class AdvancedSearchViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillDisappear(animated: Bool) {
+        navigationBackPassData(self)
+    }
+    
+    
+    // MARK: Navigation
+    func navigationBackPassData(sender: AnyObject) {
+        // do the things
+        self.delegate?.sendDataBack("Text")
     }
 
     // MARK: - Table view data source
@@ -84,14 +96,5 @@ class AdvancedSearchViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
