@@ -71,7 +71,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AdvancedSearchSegue" {
-            (segue.destinationViewController as! DMBAdvancedSearchViewController).delegate = self
+            //(segue.destinationViewController as! DMBAdvancedSearchViewController).delegate = self
         }
         
         if segue.identifier == "Detail" {

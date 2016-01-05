@@ -19,7 +19,7 @@ class DMBTableHeaderView: UIView {
             let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 130, y: 0, width: 130, height: 18))
             advancedSearchButton.setTitle("Erweiterte Suche >", forState: UIControlState.Normal)
             advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
-            advancedSearchButton.addTarget(self, action: "segueToAdvancedSearchView:", forControlEvents: UIControlEvents.TouchUpInside)
+            advancedSearchButton.addTarget(mapViewSender, action: "segueToAdvancedSearchView:", forControlEvents: UIControlEvents.TouchUpInside)
             
             self.addSubview(advancedSearchButton)
         }

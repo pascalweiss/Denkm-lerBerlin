@@ -33,7 +33,7 @@
                     <connections>
                         <outlet property="mapView" destination="jf7-LD-yj9" id="p3L-SD-40J"/>
                         <segue destination="591-Wd-Ids" kind="push" identifier="Detail" id="st8-uG-m2O"/>
-                        <segue destination="L54-b2-asp" kind="push" identifier="AdvancedSearchSegue" id="TH9-9B-AG6"/>
+                        <segue destination="L54-b2-asp" kind="push" identifier="AdvancedSearchSegue" id="vk6-Ic-BJ3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kUv-Au-haG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -43,7 +43,7 @@
         <!--AdvancedSearchViewController-->
         <scene sceneID="1Ay-KX-vK8">
             <objects>
-                <tableViewController title="AdvancedSearchViewController" id="L54-b2-asp" customClass="AdvancedSearchViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="AdvancedSearchViewController" id="L54-b2-asp" customClass="DMBAdvancedSearchViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1dk-q2-oBx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -92,7 +92,7 @@
         <!--Details-->
         <scene sceneID="JgM-mF-ofP">
             <objects>
-                <tableViewController id="591-Wd-Ids" customClass="DetailsTableViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="591-Wd-Ids" customClass="DMBDetailsTableViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Itr-as-4FT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
