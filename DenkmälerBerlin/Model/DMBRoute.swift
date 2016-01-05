@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Repräsentiert die Datenbank-Entität "route". 
+/// Repräsentiert eine Route, die dem User vorgeschlagen werden sollen. 
 class DMBRoute: DMBEntity {
     func getDescription()->String {
         return "this is a dummy route"

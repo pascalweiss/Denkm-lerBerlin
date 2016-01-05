@@ -8,6 +8,8 @@
 
 import Foundation
 import SQLite
+
+/// Repräsentiert einen Denkmaltyp z.B. "Baudenkmal" oder "Ensemble".
 class DMBType: DMBEntity {
     struct Expressions {
         static let id      =            Expression<Int?>(DMBAttribut.id)
@@ -30,6 +32,7 @@ class DMBType: DMBEntity {
         return []
     }
     
+    /// Convenient Methode zur Ausgabe in der Console
     func printIt(){
         print("\nDMBType")
         print("=======")

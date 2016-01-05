@@ -7,15 +7,20 @@
 //
 
 import Foundation
+import SQLite
 
-class DMBParticipant: DMBEntity {
+/// Repräsentiert die Datenbank-Entität "participant".
+/// Liefert Informationen zu bestimmten Personen, die z.B. als Architekten beim Bau von Denkmälern involviert waren.
+struct DMBParticipant {
+    struct Expressions {
+        static let id   = Expression<Int?>   (DMBAttribut.id)
+        static let name = Expression<String?>(DMBAttribut.name)
+    }
     func getName()->String {
         return "Pascal Weiß"
     }
     func getType()->String {
         return "Baudenkmal"
     }
-    func getMonuments()->[DMBMonument] {
-        return []
-    }
+
 }

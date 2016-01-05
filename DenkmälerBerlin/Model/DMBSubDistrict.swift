@@ -8,6 +8,9 @@
 
 import Foundation
 import SQLite
+
+/// Repräsentiert die Datenbank-Entität "sub_district".
+/// Liefert einen Ortsteil von Berlin, z.B. "Schöneweide"
 class DMBSubDistrict: DMBEntity {
     struct Expressions {
         static let id      =            Expression<Int?>(DMBAttribut.id)
@@ -30,6 +33,7 @@ class DMBSubDistrict: DMBEntity {
         return []
     }
     
+    /// Convenient Methode zur Ausgabe in der Console
     func printIt(){
         print("\nDMBSubDistrict")
         print("==============")
