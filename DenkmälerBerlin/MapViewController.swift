@@ -42,7 +42,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         // Mapstuff
         clManager = initMapLocationManager()
-        let anno = DenkmalMapAnnotation(latitude: 53.800337, longitude: 12.178451)
+        let anno = DMBDenkmalMapAnnotation(latitude: 53.800337, longitude: 12.178451)
         anno.title = "Denkmal"
         
         mapView.delegate = self
@@ -71,7 +71,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AdvancedSearchSegue" {
-            (segue.destinationViewController as! AdvancedSearchViewController).delegate = self
+            (segue.destinationViewController as! DMBAdvancedSearchViewController).delegate = self
         }
         
         if segue.identifier == "Detail" {
@@ -107,7 +107,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         let identifier = "DenkmalAnnotation"
         
-        if annotation.isKindOfClass(DenkmalMapAnnotation.self) {
+        if annotation.isKindOfClass(DMBDenkmalMapAnnotation.self) {
             var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
             
             if annotationView == nil {
@@ -211,43 +211,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: self.tableView(tableView, heightForHeaderInSection: section)))
-        
-        if (section == 0){
-            // Advanced Search Button
-            let tableViewFrame = headerView.frame
-            let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 130, y: 0, width: 130, height: 18))
-            advancedSearchButton.setTitle("Erweiterte Suche >", forState: UIControlState.Normal)
-            advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
-            advancedSearchButton.addTarget(self, action: "segueToAdvancedSearchView:", forControlEvents: UIControlEvents.TouchUpInside)
-            
-            headerView.addSubview(advancedSearchButton)
-        }
-        
-        if (showHistory || (section != 0 && filteredData[section - 1].isEmpty) || section == 0) {
-            return headerView
-        } else {
-            
-            // Label
-            let titleLabel = UILabel(frame: CGRect(x: 10, y: headerView.frame.size.height - 18, width: tableView.frame.size.width, height: 18))
-            titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-            titleLabel.font = UIFont.boldSystemFontOfSize(12)
-        
-            headerView.addSubview(titleLabel)
-        
-            if (section != 0 && filteredData[section - 1].count > 1) { // 1 ändern!! Value ab dem "Mehr Anzeigen" gezeigt wird
-                // Button
-                let showMoreButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 105, y: headerView.frame.size.height - 18, width: 100, height: 18))
-                showMoreButton.setTitle("Mehr Anzeigen", forState: UIControlState.Normal)
-                showMoreButton.titleLabel?.adjustsFontSizeToFitWidth = true
-                showMoreButton.tag = section
-                showMoreButton.addTarget(self, action: "showMoreResultsButton:", forControlEvents: UIControlEvents.TouchUpInside)
-                
-                headerView.addSubview(showMoreButton)
-            }
-            
-            return headerView
-        }
+        return DMBTableHeaderView(tableView: tableView, viewForHeaderInSection: section, mapViewSender: self)
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -328,7 +292,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
 }
 
-extension MapViewController: AdvancedSearchDelegate {
+extension MapViewController: DMBAdvancedSearchDelegate {
     func sendDataBack(data: String) {
         self.internalData = data
     }

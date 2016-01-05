@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterViewController : UITableViewController {
+class DMBFilterViewController : UITableViewController {
     
     @IBOutlet weak var labelZeitraumDetail: UILabel!
     

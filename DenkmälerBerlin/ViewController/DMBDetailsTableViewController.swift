@@ -1,26 +1,21 @@
 //
-//  AdvancedSearchViewController.swift
+//  DetailsTableViewController.swift
 //  DenkmälerBerlin
 //
-//  Created by Max on 05.01.16.
-//  Copyright © 2016 HTWBerlin. All rights reserved.
+//  Created by Max on 10.11.15.
+//  Copyright © 2015 HTWBerlin. All rights reserved.
 //
 
 import UIKit
+import MapKit
 
-protocol AdvancedSearchDelegate {
-    func sendDataBack(data: String)
-}
-
-class AdvancedSearchViewController: UITableViewController {
-    
-    var delegate: AdvancedSearchDelegate?
+class DMBDetailsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.backBarButtonItem?.title = "Search"
 
+//        navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == true, animated: false)
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -28,15 +23,9 @@ class AdvancedSearchViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
-    override func viewWillDisappear(animated: Bool) {
-        navigationBackPassData(self)
-    }
-    
-    
-    // MARK: Navigation
-    func navigationBackPassData(sender: AnyObject) {
-        // do the things
-        self.delegate?.sendDataBack("Text")
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -96,5 +85,14 @@ class AdvancedSearchViewController: UITableViewController {
     }
     */
 
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
 
 }

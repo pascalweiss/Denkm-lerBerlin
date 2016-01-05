@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007DE081BFF34A300987901 /* DMBDummyData.swift */; };
-		5016DDE61BF1F5BE0041414B /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016DDE51BF1F5BE0041414B /* DetailsTableViewController.swift */; };
+		5016DDE61BF1F5BE0041414B /* DMBDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */; };
 		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; };
 		502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */ = {isa = PBXBuildFile; fileRef = 502343C01BFCE1E7008794D4 /* DMBArchitecture.png */; };
 		502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */; };
@@ -21,13 +21,14 @@
 		502343F11BFDCCF5008794D4 /* DMBAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F01BFDCCF5008794D4 /* DMBAddress.swift */; };
 		502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F21BFDD1D1008794D4 /* DMBEpoche.swift */; };
 		502343F51BFDD8B3008794D4 /* DMBDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343F41BFDD8B3008794D4 /* DMBDistrict.swift */; };
-		502FDA001C3BF6C80010E1FB /* AdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502FD9FF1C3BF6C80010E1FB /* AdvancedSearchViewController.swift */; };
-		5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */; };
-		5034FF1C1BE90B6C00A3C77F /* ArchtektTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */; };
-		5034FF1D1BE90B6C00A3C77F /* DenkmalMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */; };
-		5034FF1E1BE90B6C00A3C77F /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF181BE90B6C00A3C77F /* FilterViewController.swift */; };
+		502FDA001C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502FD9FF1C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift */; };
+		502FDA121C3C0AEC0010E1FB /* DMBTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502FDA111C3C0AEC0010E1FB /* DMBTableHeaderView.swift */; };
+		5034FF1B1BE90B6C00A3C77F /* DMBArchitektTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF151BE90B6C00A3C77F /* DMBArchitektTableViewCell.swift */; };
+		5034FF1C1BE90B6C00A3C77F /* DMBArchtektTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF161BE90B6C00A3C77F /* DMBArchtektTableViewController.swift */; };
+		5034FF1D1BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF171BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift */; };
+		5034FF1E1BE90B6C00A3C77F /* DMBFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF181BE90B6C00A3C77F /* DMBFilterViewController.swift */; };
 		5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF191BE90B6C00A3C77F /* MapViewController.swift */; };
-		5034FF201BE90B6C00A3C77F /* ZeitraumTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF1A1BE90B6C00A3C77F /* ZeitraumTableViewController.swift */; };
+		5034FF201BE90B6C00A3C77F /* DMBZeitraumTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF1A1BE90B6C00A3C77F /* DMBZeitraumTableViewController.swift */; };
 		5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5034FF211BE90BAB00A3C77F /* Main.storyboard */; };
 		506B82621BFFCDC2001B971A /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B82611BFFCDC2001B971A /* DMBType.swift */; };
 		50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED11BCAB65000647D6B /* AppDelegate.swift */; };
@@ -179,7 +180,7 @@
 
 /* Begin PBXFileReference section */
 		5007DE081BFF34A300987901 /* DMBDummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDummyData.swift; path = Model/DMBDummyData.swift; sourceTree = "<group>"; };
-		5016DDE51BF1F5BE0041414B /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewController.swift; path = "DenkmälerBerlin/ViewController/DetailsTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDetailsTableViewController.swift; path = "DenkmälerBerlin/ViewController/DMBDetailsTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		502343BA1BFCDEC0008794D4 /* DMBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBModel.swift; path = Model/DMBModel.swift; sourceTree = "<group>"; };
 		502343C01BFCE1E7008794D4 /* DMBArchitecture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DMBArchitecture.png; path = supporting_files/DMBArchitecture.png; sourceTree = "<group>"; };
 		502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = DMBDataConcept_0.3.pdf; path = supporting_files/DMBDataConcept_0.3.pdf; sourceTree = "<group>"; };
@@ -193,13 +194,14 @@
 		502343F01BFDCCF5008794D4 /* DMBAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBAddress.swift; path = Model/DMBAddress.swift; sourceTree = "<group>"; };
 		502343F21BFDD1D1008794D4 /* DMBEpoche.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBEpoche.swift; path = Model/DMBEpoche.swift; sourceTree = "<group>"; };
 		502343F41BFDD8B3008794D4 /* DMBDistrict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDistrict.swift; path = Model/DMBDistrict.swift; sourceTree = "<group>"; };
-		502FD9FF1C3BF6C80010E1FB /* AdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdvancedSearchViewController.swift; path = ViewController/AdvancedSearchViewController.swift; sourceTree = "<group>"; };
-		5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArchitektTableViewCell.swift; path = "DenkmälerBerlin/ViewController/SubViewController/ArchitektTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
-		5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArchtektTableViewController.swift; path = "DenkmälerBerlin/ViewController/ArchtektTableViewController.swift"; sourceTree = SOURCE_ROOT; };
-		5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DenkmalMapAnnotation.swift; sourceTree = "<group>"; };
-		5034FF181BE90B6C00A3C77F /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterViewController.swift; path = "DenkmälerBerlin/ViewController/FilterViewController.swift"; sourceTree = SOURCE_ROOT; };
+		502FD9FF1C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBAdvancedSearchViewController.swift; path = ViewController/DMBAdvancedSearchViewController.swift; sourceTree = "<group>"; };
+		502FDA111C3C0AEC0010E1FB /* DMBTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBTableHeaderView.swift; path = ViewController/SubViewController/DMBTableHeaderView.swift; sourceTree = "<group>"; };
+		5034FF151BE90B6C00A3C77F /* DMBArchitektTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBArchitektTableViewCell.swift; path = "DenkmälerBerlin/ViewController/SubViewController/DMBArchitektTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		5034FF161BE90B6C00A3C77F /* DMBArchtektTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBArchtektTableViewController.swift; path = "DenkmälerBerlin/ViewController/DMBArchtektTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		5034FF171BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMBDenkmalMapAnnotation.swift; sourceTree = "<group>"; };
+		5034FF181BE90B6C00A3C77F /* DMBFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBFilterViewController.swift; path = "DenkmälerBerlin/ViewController/DMBFilterViewController.swift"; sourceTree = SOURCE_ROOT; };
 		5034FF191BE90B6C00A3C77F /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		5034FF1A1BE90B6C00A3C77F /* ZeitraumTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZeitraumTableViewController.swift; path = "DenkmälerBerlin/ViewController/ZeitraumTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		5034FF1A1BE90B6C00A3C77F /* DMBZeitraumTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBZeitraumTableViewController.swift; path = "DenkmälerBerlin/ViewController/DMBZeitraumTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		5034FF211BE90BAB00A3C77F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Main.storyboard; sourceTree = "<group>"; };
 		506B82611BFFCDC2001B971A /* DMBType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBType.swift; path = Model/DMBType.swift; sourceTree = "<group>"; };
 		50A28ECE1BCAB65000647D6B /* DenkmälerBerlin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DenkmälerBerlin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -301,12 +303,12 @@
 			isa = PBXGroup;
 			children = (
 				5034FF241BE90BE300A3C77F /* Supporting */,
-				5034FF161BE90B6C00A3C77F /* ArchtektTableViewController.swift */,
-				5034FF181BE90B6C00A3C77F /* FilterViewController.swift */,
+				5034FF161BE90B6C00A3C77F /* DMBArchtektTableViewController.swift */,
+				5034FF181BE90B6C00A3C77F /* DMBFilterViewController.swift */,
 				5034FF191BE90B6C00A3C77F /* MapViewController.swift */,
-				5034FF1A1BE90B6C00A3C77F /* ZeitraumTableViewController.swift */,
-				5016DDE51BF1F5BE0041414B /* DetailsTableViewController.swift */,
-				502FD9FF1C3BF6C80010E1FB /* AdvancedSearchViewController.swift */,
+				5034FF1A1BE90B6C00A3C77F /* DMBZeitraumTableViewController.swift */,
+				5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */,
+				502FD9FF1C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -314,8 +316,9 @@
 		5034FF241BE90BE300A3C77F /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
-				5034FF171BE90B6C00A3C77F /* DenkmalMapAnnotation.swift */,
-				5034FF151BE90B6C00A3C77F /* ArchitektTableViewCell.swift */,
+				5034FF171BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift */,
+				5034FF151BE90B6C00A3C77F /* DMBArchitektTableViewCell.swift */,
+				502FDA111C3C0AEC0010E1FB /* DMBTableHeaderView.swift */,
 			);
 			name = Supporting;
 			sourceTree = "<group>";
@@ -661,25 +664,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */,
-				5034FF1E1BE90B6C00A3C77F /* FilterViewController.swift in Sources */,
+				5034FF1E1BE90B6C00A3C77F /* DMBFilterViewController.swift in Sources */,
 				502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */,
 				502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */,
-				5034FF1D1BE90B6C00A3C77F /* DenkmalMapAnnotation.swift in Sources */,
+				5034FF1D1BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift in Sources */,
 				50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */,
 				502343EF1BFDC857008794D4 /* DMBTimePeriod.swift in Sources */,
+				502FDA121C3C0AEC0010E1FB /* DMBTableHeaderView.swift in Sources */,
 				50B3B6781C0063CB0042B3F7 /* DMBModelEXAMPLES.swift in Sources */,
 				502343F51BFDD8B3008794D4 /* DMBDistrict.swift in Sources */,
 				502343E91BFDADE4008794D4 /* DMBEntity.swift in Sources */,
 				50B74F921BFE11FC002B970E /* DMBPostgresDatabase_0.2.sql in Sources */,
 				50F2E0951C0080CA00CE633B /* DMBDistrictRelation.swift in Sources */,
-				5034FF201BE90B6C00A3C77F /* ZeitraumTableViewController.swift in Sources */,
+				5034FF201BE90B6C00A3C77F /* DMBZeitraumTableViewController.swift in Sources */,
 				50B3B66C1C0060600042B3F7 /* DMBMonumentNotion.swift in Sources */,
-				502FDA001C3BF6C80010E1FB /* AdvancedSearchViewController.swift in Sources */,
+				502FDA001C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift in Sources */,
 				502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */,
-				5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */,
-				5016DDE61BF1F5BE0041414B /* DetailsTableViewController.swift in Sources */,
+				5034FF1B1BE90B6C00A3C77F /* DMBArchitektTableViewCell.swift in Sources */,
+				5016DDE61BF1F5BE0041414B /* DMBDetailsTableViewController.swift in Sources */,
 				502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */,
-				5034FF1C1BE90B6C00A3C77F /* ArchtektTableViewController.swift in Sources */,
+				5034FF1C1BE90B6C00A3C77F /* DMBArchtektTableViewController.swift in Sources */,
 				502343F11BFDCCF5008794D4 /* DMBAddress.swift in Sources */,
 				502343EB1BFDB563008794D4 /* DMBRoute.swift in Sources */,
 				50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */,
