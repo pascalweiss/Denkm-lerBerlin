@@ -28,6 +28,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     // Values for search History
     var searchHistory: [String] = ["Schloss", "Kirche"]
+    var showHistory: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,14 +137,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         // Advanced Search Button
         var tableViewFrame = searchResultsTableView.tableView.frame;
-        let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 150, y: 5, width: 140, height: 30))
-        advancedSearchButton.setTitle("Erweiterte Suche", forState: UIControlState.Normal)
+        let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 130, y: 5, width: 130, height: 30))
+        advancedSearchButton.setTitle("Erweiterte Suche >", forState: UIControlState.Normal)
+        advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
         advancedSearchButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        
         searchResultsTableView.tableView.addSubview(advancedSearchButton)
-        
-        
+
         
         self.view.addSubview(searchResultsTableView.tableView)
     }
@@ -179,14 +179,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if (section == 0 || filteredData[section].isEmpty) {
+        if (showHistory || filteredData[section].isEmpty) {
             return nil
         }
-        return sectionNames[section - 1]
+        return sectionNames[section]
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sectionNames.count + 1
+        return sectionNames.count
     }
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -234,15 +234,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             for i in 0..<filteredMonuments.count {
                 for j in 0..<filteredMonuments[i].count {
                     switch (i + 1) {
-                    case 1: filteredData[i + 1].append(filteredMonuments[i][j].getName()!)
+                    case 1: filteredData[i].append(filteredMonuments[i][j].getName()!)
                     default: break
                     }
                     
                 }
             }
+            
+            showHistory = false
         } else {
             // Displays Default Search History
             filteredData[0] = searchHistory
+            showHistory = true
         }
         
         searchResultsTableView.tableView.reloadData()
