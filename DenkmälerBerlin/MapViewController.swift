@@ -73,6 +73,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if segue.identifier == "AdvancedSearchSegue" {
             (segue.destinationViewController as! AdvancedSearchViewController).delegate = self
         }
+        
+        if segue.identifier == "Detail" {
+            // Data Passing for Annotations
+        }
     }
     
     // MARK: Map
@@ -126,6 +130,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
+        // Segue for Annotaion
         if control == view.rightCalloutAccessoryView {
             performSegueWithIdentifier("Detail", sender: self)
         }
