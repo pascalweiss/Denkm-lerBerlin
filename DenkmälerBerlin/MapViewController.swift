@@ -17,10 +17,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     
     var searchController: UISearchController!
-    var searchResultsTableView = UITableViewController()
+    var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
     
     // Categories for Searchfiltering
-    let sectionNames = ["Name"]
+    let sectionNames = ["Name", "Architekten"]
     
     // Array for all Monuments
     var monuments: [DMBMonument] = []
@@ -134,8 +134,22 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
         configSearchResultsTableView()
         
+        // Advanced Search Button
+        var tableViewFrame = searchResultsTableView.tableView.frame;
+        let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 150, y: 5, width: 140, height: 30))
+        advancedSearchButton.setTitle("Erweiterte Suche", forState: UIControlState.Normal)
+        advancedSearchButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        searchResultsTableView.tableView.addSubview(advancedSearchButton)
+        
+        
         
         self.view.addSubview(searchResultsTableView.tableView)
+    }
+    
+    func buttonAction(sender:UIButton!){
+        print("Button tapped")
     }
     
     func configSearchResultsTableView(){
@@ -150,8 +164,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let searchResultsTableViewRect = CGRect(origin: originPoint, size: viewFrame.size)
         searchResultsTableView.tableView.frame = searchResultsTableViewRect
         
+        searchResultsTableView.tableView.scrollEnabled = true
+        
         // Color and Transparency
-        searchResultsTableView.tableView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
+        //searchResultsTableView.tableView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
     }
     
     func willPresentSearchController(searchController: UISearchController) {
@@ -175,8 +191,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         // Text Color for Header
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor.whiteColor()
+        //let header = view as! UITableViewHeaderFooterView
+        //header.textLabel?.textColor = UIColor.whiteColor()
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -188,8 +204,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
         // Color and Transparency Settings
-        cell.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
-        cell.textLabel?.textColor = UIColor.whiteColor()
+        //cell.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+        //cell.textLabel?.textColor = UIColor.whiteColor()
         return cell
     }
     
@@ -218,7 +234,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             for i in 0..<filteredMonuments.count {
                 for j in 0..<filteredMonuments[i].count {
                     switch (i + 1) {
-                    case 1: filteredData[i].append(filteredMonuments[i][j].getName()!)
+                    case 1: filteredData[i + 1].append(filteredMonuments[i][j].getName()!)
                     default: break
                     }
                     
