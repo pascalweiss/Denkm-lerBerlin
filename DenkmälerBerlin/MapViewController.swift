@@ -26,7 +26,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     // Array for all Monuments
     var monuments: [DMBMonument] = []
-    var filteredData = Array(count: 5, repeatedValue: Array(count: 0, repeatedValue: String()))
+    var filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
     
     // Values for search History
     var searchHistory: [String] = ["Schloss", "Kirche"]
@@ -37,8 +37,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         super.viewDidLoad()
 
         // Load Database
-        DMBModel.sharedInstance
-        monuments = DMBModel.sharedInstance.getAllMonuments()
+        //DMBModel.sharedInstance
+        //monuments = DMBModel.sharedInstance.getAllMonuments()
         
         // Mapstuff
         clManager = initMapLocationManager()
@@ -230,7 +230,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         // Set Labels for Cells
         if(indexPath.section <= sectionNames.count && indexPath.section != 0) {
-            cell.textLabel?.text = filteredData[indexPath.section - 1][indexPath.row]
+            if showHistory {
+                if (indexPath.section == 1) {
+                    cell.textLabel?.text = searchHistory[indexPath.row]
+                }
+            } else {
+                cell.textLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+            }
         }
         
         // Color and Transparency Settings
@@ -240,51 +246,43 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(section - 1 <= sectionNames.count && section != 0) {
-            return filteredData[section - 1].count
-        } else {return 0}
+        if showHistory && section == 1 {
+            return searchHistory.count
+        } else if(section - 1 <= sectionNames.count && section != 0) {
+                return filteredData[section - 1].count
+        } else { return 0 }
     }
+
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searchText = searchController.searchBar.text
+        
+        sleep(1)
         
         for i in 0..<filteredData.count {
             filteredData[i].removeAll()
         }
         
         if searchText?.isEmpty == false {
-            var filteredMonuments: [[DMBMonument]] = []
+            
+            var filteredMonuments: [String:[(Double,DMBMonument)]] = DMBModel.sharedInstance.searchMonuments(searchText!)
+            
             
             // Filter by Name
-            filteredMonuments.append(monuments.filter(){
-                return $0.getName()!.rangeOfString(searchText!, options: .CaseInsensitiveSearch) != nil
-            })
-            
-            filteredMonuments.append(monuments.filter(){
-                for i in 0..<$0.getDistricts().count{
-                    return $0.getDistricts()[i].getName()!.rangeOfString(searchText!, options: .CaseInsensitiveSearch) != nil
-                }
-                return false
-            })
-            
-            // Get Strings vom filtered Monuments
-            for i in 0..<filteredMonuments.count {
-                for j in 0..<filteredMonuments[i].count {
-                    filteredData[i].append(filteredMonuments[i][j].getName()!)
-                    /*switch (i + 1) {
-                    case 1: filteredData[i].append(filteredMonuments[i][j].getName()!)
-                    default: break
-                    }*/
-                    
-                }
+            for var i = 0; i < filteredMonuments[DMBSearchKey.byName]!.count && i < 5; i++ {
+                filteredData.append([])
+                filteredData[0].append(filteredMonuments[DMBSearchKey.byName]![i].1)
             }
             
-            print(filteredMonuments[1].count)
+            for var i = 0; i < filteredMonuments[DMBSearchKey.byName]!.count && i < 5; i++ {
+                filteredData.append([])
+                filteredData[1].append(filteredMonuments[DMBSearchKey.byName]![i].1)
+            }
             
             showHistory = false
         } else {
             // Displays Default Search History
-            filteredData[0] = searchHistory
+            //filteredData[0] = searchHistory
             showHistory = true
         }
         
