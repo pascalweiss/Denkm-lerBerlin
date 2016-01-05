@@ -20,7 +20,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
     
     // Categories for Searchfiltering
-    let sectionNames = ["Name", "Architekten"]
+    let sectionNames = ["Name", "Bezirk"]
     
     // Array for all Monuments
     var monuments: [DMBMonument] = []
@@ -50,6 +50,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         setupSearchResultsTable()
         
     }
+    
+    // MARK: Button Action
+    func segueToAdvancedSearchView(sender:UIButton!){
+        performSegueWithIdentifier("AdvancedSearchSegue", sender: self)
+    }
+    
+    func showMoreResultsButton(sender:UIButton!){
+        print(sender.tag)
+    }
+    
+    // MARK: Map
     
     func initMapLocationManager() -> CLLocationManager {
         
@@ -130,26 +141,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         searchResultsTableView.tableView.dataSource = self
         searchResultsTableView.tableView.delegate = self
-        
-        //searchResultsTableView.automaticallyAdjustsScrollViewInsets = true
 
         configSearchResultsTableView()
         
         // Advanced Search Button
         var tableViewFrame = searchResultsTableView.tableView.frame;
-        let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 130, y: 5, width: 130, height: 30))
+        let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 130, y: 0, width: 130, height: 18))
         advancedSearchButton.setTitle("Erweiterte Suche >", forState: UIControlState.Normal)
         advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        advancedSearchButton.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        advancedSearchButton.addTarget(self, action: "segueToAdvancedSearchView:", forControlEvents: UIControlEvents.TouchUpInside)
         
         searchResultsTableView.tableView.addSubview(advancedSearchButton)
 
         
         self.view.addSubview(searchResultsTableView.tableView)
-    }
-    
-    func buttonAction(sender:UIButton!){
-        print("Button tapped")
     }
     
     func configSearchResultsTableView(){
@@ -185,14 +190,42 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         return sectionNames[section]
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sectionNames.count
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (filteredData[section].isEmpty) {
+            return 4
+        }
+        return section == 0 ? 36 : 18
     }
     
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        // Text Color for Header
-        //let header = view as! UITableViewHeaderFooterView
-        //header.textLabel?.textColor = UIColor.whiteColor()
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: self.tableView(tableView, heightForHeaderInSection: section)))
+        
+        if (showHistory || filteredData[section].isEmpty) {
+            return nil
+        } else {
+            
+            // Label
+            let titleLabel = UILabel(frame: CGRect(x: 10, y: headerView.frame.size.height - 18, width: tableView.frame.size.width, height: 18))
+            titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+            titleLabel.font = UIFont.boldSystemFontOfSize(12)
+        
+            headerView.addSubview(titleLabel)
+        
+            // Button
+            let advancedSearchButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 105, y: headerView.frame.size.height - 18, width: 100, height: 18))
+            advancedSearchButton.setTitle("Mehr Anzeigen", forState: UIControlState.Normal)
+            advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            advancedSearchButton.tag = section
+            advancedSearchButton.addTarget(self, action: "showMoreResultsButton:", forControlEvents: UIControlEvents.TouchUpInside)
+            
+            headerView.addSubview(advancedSearchButton)
+        
+            return headerView
+        }
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return sectionNames.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -230,16 +263,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 return $0.getName()!.rangeOfString(searchText!, options: .CaseInsensitiveSearch) != nil
             })
             
+            filteredMonuments.append(monuments.filter(){
+                for i in 0..<$0.getDistricts().count{
+                    return $0.getDistricts()[i].getName()!.rangeOfString(searchText!, options: .CaseInsensitiveSearch) != nil
+                }
+                return false
+            })
+            
             // Get Strings vom filtered Monuments
             for i in 0..<filteredMonuments.count {
                 for j in 0..<filteredMonuments[i].count {
-                    switch (i + 1) {
+                    filteredData[i].append(filteredMonuments[i][j].getName()!)
+                    /*switch (i + 1) {
                     case 1: filteredData[i].append(filteredMonuments[i][j].getName()!)
                     default: break
-                    }
+                    }*/
                     
                 }
             }
+            
+            print(filteredMonuments[1].count)
             
             showHistory = false
         } else {
