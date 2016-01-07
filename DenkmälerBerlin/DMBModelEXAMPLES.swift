@@ -94,5 +94,13 @@ struct DMBModelEXAMPLES {
         print("\nMost recent date:\n" +
                 "=================\n"+String(DMBModel.sharedInstance.getMaxDate()))
         
+        
+        // Add entries to the history
+        DMBModel.sharedInstance.setHistoryEntry("HTWBerlin")
+        DMBModel.sharedInstance.setHistoryEntry("Pascals Schloss")
+        DMBModel.sharedInstance.setHistoryEntry("Süssigkeitenfabrik")
+        
+        // Get History Entries
+        DMBModel.sharedInstance.getHistory().forEach({h in h.printIt()})
     }
 }

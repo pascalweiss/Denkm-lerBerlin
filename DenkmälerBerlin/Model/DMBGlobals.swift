@@ -25,6 +25,7 @@ struct DMBTable {
     static let monumentNotionRel    = "monument_notion_rel"
     static let districtRel          = "district_rel"
     static let subDistrictRel       = "sub_district_rel"
+    static let history              = "history"
 }
 
 struct DMBAttribut {
@@ -51,6 +52,8 @@ struct DMBAttribut {
     static let districtId           = "district_id"
     static let subDistrictId        = "sub_district_id"
     static let datingId             = "dating_id"
+    static let searchString         = "search_string"
+    static let timeIntSince1970     = "time_int_since_1970"
 }
 
 struct DMBSearchKey {
