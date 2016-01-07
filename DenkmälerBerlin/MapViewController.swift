@@ -29,7 +29,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
     
     // Values for search History
-    var searchHistory: [String] = ["Schloss", "Kirche"]
+    var searchHistory: [String] = []
     var showHistory: Bool = true
 
     
@@ -47,6 +47,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // Setup Search Controller
         setupSearchController()
         setupSearchResultsTable()
+        
+        DMBModel.sharedInstance.getHistory().forEach({entry in
+            
+        })
         
     }
     
