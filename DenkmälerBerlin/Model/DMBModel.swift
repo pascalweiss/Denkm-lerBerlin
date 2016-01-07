@@ -28,7 +28,9 @@ class DMBModel {
     private let debug = true
 
     private init() {
-        print(NSBundle.mainBundle().pathForResource("DMBsqlite_v7", ofType: "db"))
+        if debug {
+            print(NSBundle.mainBundle().pathForResource("DMBsqlite_v7", ofType: "db"))
+        }
         self.dbConnection = try! Connection(NSBundle.mainBundle().pathForResource("DMBsqlite_v7", ofType: "db")!, readonly: false)
     }
     
@@ -319,7 +321,7 @@ class DMBModel {
     }
     
     private func searchableString(string: String) -> String {
-        return "%" + string + "%"
+        return string + "%"
     }
     
     /// - parameter string: Der Suchstring, so, wie er vom User eingegeben wurde.
@@ -356,6 +358,17 @@ class DMBModel {
                 })
             }).sort({$0.0 > $1.0})
     }
+
+/*
+     ____                                _           _
+    |  _ \  ___ _ __  _ __ ___  ___ __ _| |_ ___  __| |
+    | | | |/ _ \ '_ \| '__/ _ \/ __/ _` | __/ _ \/ _` |
+    | |_| |  __/ |_) | | |  __/ (_| (_| | ||  __/ (_| |
+    |____/ \___| .__/|_|  \___|\___\__,_|\__\___|\__,_|
+               |_|
+    */
+
+
 }
 
 
