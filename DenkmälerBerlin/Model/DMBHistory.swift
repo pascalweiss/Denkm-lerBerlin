@@ -21,6 +21,14 @@ struct DMBHistory {
         self.timeIntervalSince1970  = timeIntSince1970
     }
     
+    func getSearchString() -> String? {
+        return searchString
+    }
+    
+    func getTimeIntervalSince1970() -> NSTimeInterval? {
+        return timeIntervalSince1970
+    }
+    
     func printIt() {
         print("\nHistory Entry:\n" +
                 "==============\n")
