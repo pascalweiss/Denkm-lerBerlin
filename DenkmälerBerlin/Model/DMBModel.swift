@@ -77,7 +77,7 @@ class DMBModel {
     }
     
     func getAllEpoches()->[DMBEpoche] {
-        assert(false, "getAllMonuments() not implemented yet. I will do if required")
+        assert(false, "getAllMonuments() not implemented yet. I will do it if required")
         return []
     }
     
@@ -92,12 +92,12 @@ class DMBModel {
     }
     
     func getAllSubDistricts()->[DMBSubDistrict] {
-        assert(false, "getAllMonuments() not implemented yet. I will do if required")
+        assert(false, "getAllMonuments() not implemented yet. I will do it if required")
         return []
     }
     
     func getAllRoutes()->[DMBRoute] {
-        assert(false, "getAllMonuments() not implemented yet. I will do if required")
+        assert(false, "getAllMonuments() not implemented yet. I will do it if required")
         return []
     }
     /// - returns:  Sämtliche Denkmaltypen.

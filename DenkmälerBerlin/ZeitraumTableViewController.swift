@@ -18,7 +18,15 @@ class ZeitraumTableViewController: UITableViewController, UIPickerViewDelegate, 
     @IBOutlet weak var pickerView: UIPickerView!
     
     var pickerDataSourceYears: [[Int]] = []
-    var pickerChoosenDate: [Int] = [20, 1, 5] // 20 und 15 sind default werte
+    var pickerChoosenDate: [Int] // 20 und 15 sind default werte
+    
+    var filterView: FilterViewController?
+    
+    required init?(coder aDecoder: NSCoder) {
+        pickerChoosenDate = [20, 1, 5]
+        
+        super.init(coder: aDecoder)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,8 +95,25 @@ class ZeitraumTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
     
     // MARK: Actions
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        
+        if parent == nil && filterView != nil {
+            print("Button pressed")
+            filterView!.startZeitraumValue = getBuildZeitIntegerFromArray(pickerChoosenDate)
+            
+
+        } else {
+            let parentNavigationController = parent as! UINavigationController
+            filterView = parentNavigationController.viewControllers[parentNavigationController.viewControllers.count-2] as! FilterViewController
+        }
+        
+        
+    }
     
-    @IBAction func performSegueToFilterView(sender: AnyObject) {
-        //        performSegueWithIdentifier("FilterBack", sender: <#T##AnyObject?#>)
+    // MARK: Get Functions
+    
+    func getBuildZeitIntegerFromArray(zeitIntegerArray: [Int]) -> Int {
+        let zeitString = String(zeitIntegerArray[0]) + String(zeitIntegerArray[1]) + String(zeitIntegerArray[2])
+        return Int(zeitString)!
     }
 }
