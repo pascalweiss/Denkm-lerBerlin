@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate{
+class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate, UIGestureRecognizerDelegate{
     
     @IBOutlet weak var mapView: MKMapView!
     var clManager: CLLocationManager!
@@ -35,10 +35,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Load Database
-        //DMBModel.sharedInstance
-        //monuments = DMBModel.sharedInstance.getAllMonuments()
         
         // Mapstuff
         clManager = initMapLocationManager()
@@ -180,6 +176,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         searchResultsTableView.tableView.frame = searchResultsTableViewRect
         
         searchResultsTableView.tableView.scrollEnabled = true
+        
+        
+        let gestureRecognizer = UISwipeGestureRecognizer(target: self, action: "segueToAdvancedSearchView:");
+        gestureRecognizer.direction = UISwipeGestureRecognizerDirection.Left
+        gestureRecognizer.delegate = self
+        
+        searchResultsTableView.tableView.addGestureRecognizer(gestureRecognizer)
         
         // Color and Transparency
         //searchResultsTableView.tableView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)

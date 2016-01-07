@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007DE081BFF34A300987901 /* DMBDummyData.swift */; };
 		5016DDE61BF1F5BE0041414B /* DMBDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */; };
+		50188DCF1C3EB8E4007137E2 /* DMBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5072AAA41C3E5366002ABE39 /* DMBHistory.swift */; };
 		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; };
 		502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */ = {isa = PBXBuildFile; fileRef = 502343C01BFCE1E7008794D4 /* DMBArchitecture.png */; };
 		502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */; };
@@ -31,7 +32,6 @@
 		5034FF201BE90B6C00A3C77F /* DMBZeitraumTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF1A1BE90B6C00A3C77F /* DMBZeitraumTableViewController.swift */; };
 		5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5034FF211BE90BAB00A3C77F /* Main.storyboard */; };
 		506B82621BFFCDC2001B971A /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B82611BFFCDC2001B971A /* DMBType.swift */; };
-		5072AAA51C3E5366002ABE39 /* DMBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5072AAA41C3E5366002ABE39 /* DMBHistory.swift */; };
 		50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED11BCAB65000647D6B /* AppDelegate.swift */; };
 		50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED81BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld */; };
 		50A28EDC1BCAB65000647D6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50A28EDB1BCAB65000647D6B /* Assets.xcassets */; };
@@ -703,6 +703,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50188DCF1C3EB8E4007137E2 /* DMBHistory.swift in Sources */,
 				50A3F85F1C3C17BD0065B335 /* DMBLocationRelation.swift in Sources */,
 				50DBD35F1C1C829B0010F68E /* Array+groupBy.swift in Sources */,
 				5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */,
