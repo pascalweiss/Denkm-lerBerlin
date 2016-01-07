@@ -21,15 +21,27 @@ class Denkma_lerBerlinTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testSearch_B() {
+        let searchS = "\'B\'"
+        print("\nSearching for " + searchS + "...\n")
+        self.measureBlock {
+            DMBModel.sharedInstance.searchMonuments(searchS)
+        }
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
+    func testSearch_Brandenburg() {
+        let searchS = "\'Brandenburg\'"
+        print("\nSearching for " + searchS + "...\n")
         self.measureBlock {
-            // Put the code you want to measure the time of here.
+            DMBModel.sharedInstance.searchMonuments(searchS)
+        }
+    }
+    
+    func testSearch_Brandenburg_Schiller_Tor_Tor() {
+        let searchS = "\'Brandenburg Schiller Tor Tor\'"
+        print("\nSearching for " + searchS + "...\n")
+        self.measureBlock {
+            DMBModel.sharedInstance.searchMonuments(searchS)
         }
     }
     
