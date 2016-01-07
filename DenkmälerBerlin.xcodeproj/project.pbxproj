@@ -30,6 +30,7 @@
 		5034FF201BE90B6C00A3C77F /* ZeitraumTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF1A1BE90B6C00A3C77F /* ZeitraumTableViewController.swift */; };
 		5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5034FF211BE90BAB00A3C77F /* Main.storyboard */; };
 		506B82621BFFCDC2001B971A /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B82611BFFCDC2001B971A /* DMBType.swift */; };
+		5072AAA51C3E5366002ABE39 /* DMBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5072AAA41C3E5366002ABE39 /* DMBHistory.swift */; };
 		50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED11BCAB65000647D6B /* AppDelegate.swift */; };
 		50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED81BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld */; };
 		50A28EDC1BCAB65000647D6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50A28EDB1BCAB65000647D6B /* Assets.xcassets */; };
@@ -206,6 +207,7 @@
 		5034FF1A1BE90B6C00A3C77F /* ZeitraumTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZeitraumTableViewController.swift; sourceTree = "<group>"; };
 		5034FF211BE90BAB00A3C77F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Main.storyboard; sourceTree = "<group>"; };
 		506B82611BFFCDC2001B971A /* DMBType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBType.swift; path = Model/DMBType.swift; sourceTree = "<group>"; };
+		5072AAA41C3E5366002ABE39 /* DMBHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBHistory.swift; path = Model/DMBHistory.swift; sourceTree = "<group>"; };
 		50A28ECE1BCAB65000647D6B /* DenkmälerBerlin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DenkmälerBerlin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50A28ED11BCAB65000647D6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50A28ED91BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Denkma_lerBerlin.xcdatamodel; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 			children = (
 				502343F01BFDCCF5008794D4 /* DMBLocation.swift */,
 				50CC2D5E1C15BF3B00652D35 /* DMBLocationRelation.swift */,
+				5072AAA41C3E5366002ABE39 /* DMBHistory.swift */,
 				502343F41BFDD8B3008794D4 /* DMBDistrict.swift */,
 				50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */,
 				502343E61BFDADC1008794D4 /* DMBMonument.swift */,
@@ -705,6 +708,7 @@
 				50CC2D5F1C15BF3B00652D35 /* DMBLocationRelation.swift in Sources */,
 				5034FF201BE90B6C00A3C77F /* ZeitraumTableViewController.swift in Sources */,
 				50B3B66C1C0060600042B3F7 /* DMBNotion.swift in Sources */,
+				5072AAA51C3E5366002ABE39 /* DMBHistory.swift in Sources */,
 				502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */,
 				5034FF1B1BE90B6C00A3C77F /* ArchitektTableViewCell.swift in Sources */,
 				5016DDE61BF1F5BE0041414B /* DetailsTableViewController.swift in Sources */,
