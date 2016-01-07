@@ -10,6 +10,10 @@ import Foundation
 import SQLite
 
 struct DMBConverter {
+    static func rowToHistory(row: SQLite.Row, connection: Connection) -> DMBHistory {
+        return DMBHistory(searchString: row[DMBHistory.Expressions.searchString], timeIntSince1970: row[DMBHistory.Expressions.timeIntSince1970])
+    }
+    
     static func rowToMonument(row: SQLite.Row, connection: Connection) -> DMBMonument {
         return DMBMonument(
             dbConnection:       connection,
