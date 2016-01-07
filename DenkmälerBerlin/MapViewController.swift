@@ -25,12 +25,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let sectionNames = ["Name", "Bezirk"]
     
     // Array for all Monuments
-    var monuments: [DMBMonument] = []
     var filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
     
     // Values for search History
     var searchHistory: [String] = []
     var showHistory: Bool = true
+    
+    // Active Threads
+    let pendingOperations = PendingOperations()
 
     
     override func viewDidLoad() {
@@ -48,9 +50,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         setupSearchController()
         setupSearchResultsTable()
         
-        DMBModel.sharedInstance.getHistory().forEach({entry in
-            
-        })
+        updateLocalSearchHistory()
         
     }
     
@@ -65,6 +65,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func showMoreResultsButton(sender:UIButton!){
         print(sender.tag)
+    }
+    
+    // MARK: Gesture Handling
+    
+    func gestureEndSearchBarEditing(recognizer: UITapGestureRecognizer){
+        self.searchController.searchBar.endEditing(true)
     }
     
     // MARK: Navigation
@@ -136,8 +142,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
-    // MARK: Search
+    // MARK: Search Setup & Config
     
+    /// Initialisiert und Configuriert den Search Controller
     func setupSearchController(){
         
         searchController = UISearchController(searchResultsController: nil)
@@ -156,6 +163,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
     }
     
+    /// Erstellt den TableViewController für die Suchergebnisse und den Verlauf
+    /// Und ruft Functionen zum Configureren auf
     func setupSearchResultsTable(){
         searchResultsTableView.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "SearchTabelCell")
         
@@ -163,15 +172,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         searchResultsTableView.tableView.delegate = self
 
         configSearchResultsTableView()
+        addGestureRecognitionToTableView()
         
         self.view.addSubview(searchResultsTableView.tableView)
     }
     
+    /// Configuriert die Tabelle mit den Suchergebnissen
+    /// Setzt vor allem die Position der TableView unter die Navbar
     func configSearchResultsTableView(){
         // Hide Table at Map
         searchResultsTableView.tableView.hidden = true
         
-        // Set Size and Position of Map
+        // Setzt Position unter die NavBar und Größe an Display angepasst
         let viewFrame = self.view.frame
         let x = self.navigationController?.navigationBar.frame.origin.x
         let y = (self.navigationController?.navigationBar.frame.origin.y)! + (self.navigationController?.navigationBar.frame.height)!
@@ -179,26 +191,33 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let searchResultsTableViewRect = CGRect(origin: originPoint, size: viewFrame.size)
         searchResultsTableView.tableView.frame = searchResultsTableViewRect
         
+        // Erlaub Scrollen
         searchResultsTableView.tableView.scrollEnabled = true
+        // Versteckt Tastatur wenn gescrollt wird
+        searchResultsTableView.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         
-        
-        let gestureRecognizer = UISwipeGestureRecognizer(target: self, action: "segueToAdvancedSearchView:");
-        gestureRecognizer.direction = UISwipeGestureRecognizerDirection.Left
-        gestureRecognizer.delegate = self
-        
-        searchResultsTableView.tableView.addGestureRecognizer(gestureRecognizer)
-        
-        // Color and Transparency
-        //searchResultsTableView.tableView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
     }
     
+    /// Fügt Gesten zum TableView hinzu
+    func addGestureRecognitionToTableView(){
+        let gestureSwipeRecognizer = UISwipeGestureRecognizer(target: self, action: "segueToAdvancedSearchView:");
+        gestureSwipeRecognizer.direction = UISwipeGestureRecognizerDirection.Left
+        gestureSwipeRecognizer.delegate = self
+        
+        searchResultsTableView.tableView.addGestureRecognizer(gestureSwipeRecognizer)
+    }
+    
+    /// Zeigt TableView an wenn Search beginnt
     func willPresentSearchController(searchController: UISearchController) {
         searchResultsTableView.tableView.hidden = false
     }
     
+    /// Versteckt TableView an wenn Search gecancelt wird
     func willDismissSearchController(searchController: UISearchController) {
         searchResultsTableView.tableView.hidden = true
     }
+    
+    // MARK: Search Result Table
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if (section != 0) {
@@ -211,7 +230,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section != 0 && filteredData[section - 1].isEmpty) {
+        if (filteredData.isEmpty || (section != 0 && filteredData[section - 1].isEmpty && !filteredData.isEmpty)) {
             return 0.01
         }
         return 18
@@ -222,7 +241,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if (section == 0 || (section != 0 && filteredData[section - 1].isEmpty)) {
+        if (filteredData.isEmpty || (section == 0 || (section != 0 && filteredData[section - 1].isEmpty) && !filteredData.isEmpty)) {
             return section == 0 ? 4 : 0.01
         }
         return 18
@@ -252,48 +271,90 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if showHistory {
+            self.searchController.searchBar.text = searchHistory[indexPath.row]
+        } else {
+            DMBModel.sharedInstance.setHistoryEntry(filteredData[indexPath.section][indexPath.row].getName()!)
+            updateLocalSearchHistory()
+        }
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if showHistory && section == 1 {
             return searchHistory.count
-        } else if(section - 1 <= sectionNames.count && section != 0) {
+        } else if(section - 1 <= sectionNames.count && section != 0 && !filteredData.isEmpty) {
                 return filteredData[section - 1].count
         } else { return 0 }
     }
 
     
+    // MARK: Search Updater
+    
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searchText = searchController.searchBar.text
-        
-        sleep(1)
         
         for i in 0..<filteredData.count {
             filteredData[i].removeAll()
         }
         
-        if searchText?.isEmpty == false {
+        startSearchForMonument(searchText!)
+        
+        searchResultsTableView.tableView.reloadData()
+    }
+    
+    func updateLocalSearchHistory(){
+        searchHistory.removeAll()
+        DMBModel.sharedInstance.getHistory().forEach({entry in
+            searchHistory.append(entry.getSearchString()!)
+        })
+        searchHistory = searchHistory.reverse()
+    }
+    
+    // MARK: Multi-Threading - NSOperationQueue
+    
+    func startSearchForMonument(searchText: String){
+        
+        var threadNumber = 0
+        
+        // Wenn bereits existiert dann Canceln bis einer frei ist
+        while let searchOperation = pendingOperations.searchsInProgress[threadNumber] {
+            searchOperation.cancel()
             
-            var filteredMonuments: [String:[(Double,DMBMonument)]] = DMBModel.sharedInstance.searchMonuments(searchText!)
-            
-            
-            // Filter by Name
-            for var i = 0; i < filteredMonuments[DMBSearchKey.byName]!.count && i < 5; i++ {
-                filteredData.append([])
-                filteredData[0].append(filteredMonuments[DMBSearchKey.byName]![i].1)
+            if threadNumber == 10 {
+                threadNumber = 0
+                break;
+            } else { threadNumber++ }
+        }
+        
+        let search = SearchMonument(searchText: searchText)
+        
+        search.completionBlock = {
+            if search.cancelled {
+                self.pendingOperations.searchsInProgress.removeValueForKey(threadNumber)
+                return
             }
-            
-            for var i = 0; i < filteredMonuments[DMBSearchKey.byName]!.count && i < 5; i++ {
-                filteredData.append([])
-                filteredData[1].append(filteredMonuments[DMBSearchKey.byName]![i].1)
-            }
+            dispatch_async(dispatch_get_main_queue(), {
+                self.pendingOperations.searchsInProgress.removeValueForKey(threadNumber)
+                
+                self.filteredData = search.filteredData
+                self.searchResultsTableView.tableView.reloadData()
+            })
+        }
+        
+        pendingOperations.searchsInProgress[threadNumber] = search
+        
+        if searchText.isEmpty == false {
+            pendingOperations.searchQueue.addOperation(search)
             
             showHistory = false
-        } else {
-            // Displays Default Search History
-            //filteredData[0] = searchHistory
+        } else { // wenn Searchfield leer dann alle Threads killen z.b. wenn man mit Backspace löscht
+            pendingOperations.searchsInProgress.forEach({s in s.1.cancel() })
+            
             showHistory = true
         }
         
-        searchResultsTableView.tableView.reloadData()
     }
 }
 

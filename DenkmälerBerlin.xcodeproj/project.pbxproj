@@ -10,6 +10,7 @@
 		5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007DE081BFF34A300987901 /* DMBDummyData.swift */; };
 		5016DDE61BF1F5BE0041414B /* DMBDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */; };
 		50188DCF1C3EB8E4007137E2 /* DMBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5072AAA41C3E5366002ABE39 /* DMBHistory.swift */; };
+		50188DE11C3EED99007137E2 /* DMBSearchOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50188DE01C3EED99007137E2 /* DMBSearchOperations.swift */; };
 		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; };
 		502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */ = {isa = PBXBuildFile; fileRef = 502343C01BFCE1E7008794D4 /* DMBArchitecture.png */; };
 		502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */; };
@@ -186,6 +187,7 @@
 /* Begin PBXFileReference section */
 		5007DE081BFF34A300987901 /* DMBDummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDummyData.swift; path = Model/DMBDummyData.swift; sourceTree = "<group>"; };
 		5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDetailsTableViewController.swift; path = "DenkmälerBerlin/ViewController/DMBDetailsTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		50188DE01C3EED99007137E2 /* DMBSearchOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSearchOperations.swift; path = ViewController/SubViewController/DMBSearchOperations.swift; sourceTree = "<group>"; };
 		502343BA1BFCDEC0008794D4 /* DMBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBModel.swift; path = Model/DMBModel.swift; sourceTree = "<group>"; };
 		502343C01BFCE1E7008794D4 /* DMBArchitecture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DMBArchitecture.png; path = supporting_files/DMBArchitecture.png; sourceTree = "<group>"; };
 		502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = DMBDataConcept_0.3.pdf; path = supporting_files/DMBDataConcept_0.3.pdf; sourceTree = "<group>"; };
@@ -313,6 +315,7 @@
 				5034FF171BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift */,
 				5034FF151BE90B6C00A3C77F /* DMBArchitektTableViewCell.swift */,
 				502FDA111C3C0AEC0010E1FB /* DMBTableHeaderView.swift */,
+				50188DE01C3EED99007137E2 /* DMBSearchOperations.swift */,
 			);
 			name = Supporting;
 			sourceTree = "<group>";
@@ -708,6 +711,7 @@
 				50DBD35F1C1C829B0010F68E /* Array+groupBy.swift in Sources */,
 				5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */,
 				5034FF1E1BE90B6C00A3C77F /* DMBFilterViewController.swift in Sources */,
+				50188DE11C3EED99007137E2 /* DMBSearchOperations.swift in Sources */,
 				502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */,
 				502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */,
 				5034FF1D1BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift in Sources */,

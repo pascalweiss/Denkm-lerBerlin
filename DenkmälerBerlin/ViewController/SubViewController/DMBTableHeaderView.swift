@@ -24,7 +24,7 @@ class DMBTableHeaderView: UIView {
             self.addSubview(advancedSearchButton)
         }
         
-        if (mapViewSender.showHistory || (section != 0 && mapViewSender.filteredData[section - 1].isEmpty) || section == 0) {
+        if (mapViewSender.showHistory || (mapViewSender.filteredData.isEmpty || (section != 0 && mapViewSender.filteredData[section - 1].isEmpty && !mapViewSender.filteredData.isEmpty)) || section == 0) {
             return
         } else {
             
