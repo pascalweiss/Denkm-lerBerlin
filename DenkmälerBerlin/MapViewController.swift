@@ -17,12 +17,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     var internalData: String? // Passed Data from Advanced Search
     
-    
+    // SearchController
     var searchController: UISearchController!
     var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
+    var searchStillTyping = false
     
     // Categories for Searchfiltering
     let sectionNames = ["Name", "--Location", "--Paticipant", "--Notion"]
+    var showMoreEntries = [false, false, false, false]
     
     // Array for all Monuments
     var filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
@@ -64,7 +66,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func showMoreResultsButton(sender:UIButton!){
-        print(sender.tag)
+        showMoreEntries[sender.tag - 1] = !showMoreEntries[sender.tag - 1]
+        searchResultsTableView.tableView.reloadData()
     }
     
     // MARK: Gesture Handling
@@ -286,7 +289,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if showHistory && section == 1 {
             return searchHistory.count
         } else if(section - 1 <= sectionNames.count && section != 0 && !filteredData.isEmpty) {
-                return filteredData[section - 1].count
+            var numRows = 10
+            if !showMoreEntries[section - 1] {
+                numRows = filteredData[section - 1].count <= 5 ? filteredData[section - 1].count : 5
+            }
+            return numRows
         } else { return 0 }
     }
 
@@ -301,8 +308,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
         startSearchForMonument(searchText!)
-        
-        //searchResultsTableView.tableView.reloadData()
+
+        // Verlauf ausblenden wenn tippen beginnt
+        if searchStillTyping == false && searchText?.isEmpty == false {
+            searchResultsTableView.tableView.reloadData()
+            searchStillTyping = true
+        }
     }
     
     func updateLocalSearchHistory(){
@@ -341,6 +352,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 
                 self.filteredData = search.filteredData
                 self.searchResultsTableView.tableView.reloadData()
+                self.searchStillTyping = false
+                
             })
         }
         
@@ -348,12 +361,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         if searchText.isEmpty == false {
             pendingOperations.searchQueue.addOperation(search)
-            
             showHistory = false
         } else { // wenn Searchfield leer dann alle Threads killen z.b. wenn man mit Backspace löscht
             pendingOperations.searchsInProgress.forEach({s in s.1.cancel() })
             
             showHistory = true
+            searchStillTyping = false
+            searchResultsTableView.tableView.reloadData()
         }
         
     }

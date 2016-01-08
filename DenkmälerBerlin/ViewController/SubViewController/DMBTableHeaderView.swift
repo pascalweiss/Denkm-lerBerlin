@@ -41,7 +41,7 @@ class DMBTableHeaderView: UIView {
                 showMoreButton.setTitle("Mehr Anzeigen", forState: UIControlState.Normal)
                 showMoreButton.titleLabel?.adjustsFontSizeToFitWidth = true
                 showMoreButton.tag = section
-                showMoreButton.addTarget(self, action: "showMoreResultsButton:", forControlEvents: UIControlEvents.TouchUpInside)
+                showMoreButton.addTarget(mapViewSender, action: "showMoreResultsButton:", forControlEvents: UIControlEvents.TouchUpInside)
                 
                 self.addSubview(showMoreButton)
             }

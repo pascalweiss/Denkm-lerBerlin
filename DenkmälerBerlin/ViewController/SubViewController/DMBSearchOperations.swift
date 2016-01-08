@@ -26,7 +26,7 @@ class SearchMonument : NSOperation {
 
     init(searchText: String) {
         self.searchText = searchText
-        self.filteredData = []
+        self.filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
     }
     
     override func main() {
@@ -41,21 +41,6 @@ class SearchMonument : NSOperation {
             return
         }
         
-        /*// Filter by Name
-        for var i = 0; i < filteredMonuments[DMBSearchKey.byName]!.count && i < 5; i++ {
-            filteredData.append([])
-            filteredData[0].append(filteredMonuments[DMBSearchKey.byName]![i].1)
-        }
-        
-        if self.cancelled {
-            return
-        }
-        
-        for var i = 0; i < filteredMonuments[DMBSearchKey.byLocation]!.count && i < 5; i++ {
-            filteredData.append([])
-            filteredData[1].append(filteredMonuments[DMBSearchKey.byLocation]![i].1)
-        }*/
-        
         let searchKeys = [DMBSearchKey.byName, DMBSearchKey.byLocation, DMBSearchKey.byParticipant, DMBSearchKey.byNotion]
         
         for j in 0..<searchKeys.count {
@@ -63,9 +48,10 @@ class SearchMonument : NSOperation {
                 return
             }
             
-            for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && i < 5; i++ {
-                filteredData.append([])
-                filteredData[j].append(filteredMonuments[searchKeys[j]]![i].1)
+            for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && i < 15; i++ {
+                if filteredMonuments[searchKeys[j]]![i].0 > 0.2 {
+                    filteredData[j].append(filteredMonuments[searchKeys[j]]![i].1)
+                }
             }
         }
         
