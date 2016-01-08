@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ZeitraumTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class DMBZeitraumTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var lab_startDetail: UILabel!
     @IBOutlet weak var lab_endDetail: UILabel!
@@ -20,7 +20,7 @@ class ZeitraumTableViewController: UITableViewController, UIPickerViewDelegate, 
     var pickerDataSourceYears: [[Int]] = []
     var pickerChoosenDate: [Int] // 20 und 15 sind default werte
     
-    var filterView: FilterViewController?
+    var filterView: DMBFilterViewController?
     
     required init?(coder aDecoder: NSCoder) {
         pickerChoosenDate = [20, 1, 5]
@@ -104,7 +104,7 @@ class ZeitraumTableViewController: UITableViewController, UIPickerViewDelegate, 
 
         } else {
             let parentNavigationController = parent as! UINavigationController
-            filterView = parentNavigationController.viewControllers[parentNavigationController.viewControllers.count-2] as! FilterViewController
+            filterView = parentNavigationController.viewControllers[parentNavigationController.viewControllers.count-2] as! DMBFilterViewController
         }
         
         

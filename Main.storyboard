@@ -16,55 +16,83 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jf7-LD-yj9">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jf7-LD-yj9">
                                 <rect key="frame" x="0.0" y="20" width="320" height="499"/>
                                 <gestureRecognizers/>
                             </mapView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7DM-tw-nZ2">
-                                <rect key="frame" x="0.0" y="20" width="320" height="88"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <scopeButtonTitles>
-                                    <string>Alle</string>
-                                    <string>Name</string>
-                                    <string>Sachbegriff</string>
-                                    <string>Adresse</string>
-                                    <string>Architekt</string>
-                                </scopeButtonTitles>
-                                <connections>
-                                    <outlet property="delegate" destination="He8-m9-RtT" id="FiN-JL-W7F"/>
-                                </connections>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jf7-LD-yj9" firstAttribute="bottom" secondItem="pDw-La-yfL" secondAttribute="top" id="SFe-Kq-tmO"/>
+                            <constraint firstItem="jf7-LD-yj9" firstAttribute="leading" secondItem="gUe-Cs-a7S" secondAttribute="leading" id="SII-Wu-TAZ"/>
+                            <constraint firstItem="jf7-LD-yj9" firstAttribute="top" secondItem="gUe-Cs-a7S" secondAttribute="top" constant="20" symbolic="YES" id="Y2T-jH-5rx"/>
+                            <constraint firstItem="jf7-LD-yj9" firstAttribute="bottom" secondItem="pDw-La-yfL" secondAttribute="top" id="lWg-Ep-xyx"/>
+                            <constraint firstAttribute="trailing" secondItem="jf7-LD-yj9" secondAttribute="trailing" id="r1d-TO-NS4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Karte" id="SQI-tU-236"/>
                     <connections>
                         <outlet property="mapView" destination="jf7-LD-yj9" id="p3L-SD-40J"/>
-                        <outlet property="searchDisplayController" destination="Vr1-9Q-eBU" id="SJk-pe-XgD"/>
-                        <outlet property="searchMap" destination="7DM-tw-nZ2" id="pPU-kf-cC3"/>
                         <segue destination="591-Wd-Ids" kind="push" identifier="Detail" id="st8-uG-m2O"/>
+                        <segue destination="L54-b2-asp" kind="push" identifier="AdvancedSearchSegue" id="vk6-Ic-BJ3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kUv-Au-haG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="Vr1-9Q-eBU">
-                    <connections>
-                        <outlet property="delegate" destination="He8-m9-RtT" id="4Gk-Kt-cXv"/>
-                        <outlet property="searchBar" destination="7DM-tw-nZ2" id="11E-8p-eL3"/>
-                        <outlet property="searchContentsController" destination="He8-m9-RtT" id="S2W-to-jf7"/>
-                        <outlet property="searchResultsDataSource" destination="He8-m9-RtT" id="p3s-bQ-tcR"/>
-                        <outlet property="searchResultsDelegate" destination="He8-m9-RtT" id="bkW-Du-rf1"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="415" y="-352"/>
+        </scene>
+        <!--AdvancedSearchViewController-->
+        <scene sceneID="1Ay-KX-vK8">
+            <objects>
+                <tableViewController title="AdvancedSearchViewController" id="L54-b2-asp" customClass="DMBAdvancedSearchViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1dk-q2-oBx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="X9N-9W-J8e">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nCY-pW-rGc">
+                                        <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nCY-pW-rGc" id="tHk-TT-TBi">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="aNl-qP-Z9W">
+                                        <rect key="frame" x="0.0" y="108" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aNl-qP-Z9W" id="Bsf-JR-oyE">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="THZ-HV-rsk">
+                                        <rect key="frame" x="0.0" y="152" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="THZ-HV-rsk" id="UAb-9f-rK8">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="L54-b2-asp" id="7Q6-xj-kRH"/>
+                            <outlet property="delegate" destination="L54-b2-asp" id="iai-pe-Yg9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Erweiterte Suche" id="3zd-A9-ZnA"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iMc-MB-AKn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="834" y="-995"/>
         </scene>
         <!--Details-->
         <scene sceneID="JgM-mF-ofP">
             <objects>
-                <tableViewController id="591-Wd-Ids" customClass="DetailsTableViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="591-Wd-Ids" customClass="DMBDetailsTableViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Itr-as-4FT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

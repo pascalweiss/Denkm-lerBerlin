@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class DenkmalMapAnnotation: NSObject, MKAnnotation {
+class DMBDenkmalMapAnnotation: NSObject, MKAnnotation {
     var title: String?
     var subtitle: String?
     var latitude: Double
