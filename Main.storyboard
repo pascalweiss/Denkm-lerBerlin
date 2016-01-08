@@ -162,9 +162,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="eMa-eD-WEf" kind="push" id="YX3-gK-RLp"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tvcEpoche" textLabel="GUv-jt-Otq" detailTextLabel="2Fo-WI-896" rowHeight="43" style="IBUITableViewCellStyleValue1" id="Zas-by-iIB">
                                         <rect key="frame" x="0.0" y="143" width="320" height="43"/>
@@ -237,9 +234,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="wLi-kj-Xv6" kind="push" id="EEy-iF-e2f"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -318,160 +312,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mBm-gv-CYc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="415" y="301"/>
-        </scene>
-        <!--Architekt Table View Controller-->
-        <scene sceneID="Ves-0R-nAM">
-            <objects>
-                <tableViewController title="Architekt Table View Controller" id="wLi-kj-Xv6" customClass="ArchtektTableViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="fxb-dC-z0D">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" showsBookmarkButton="YES" id="LDw-hw-3WK">
-                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                            <connections>
-                                <outlet property="delegate" destination="wLi-kj-Xv6" id="YTL-Bm-M1i"/>
-                            </connections>
-                        </searchBar>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ArchitektTableViewCell" textLabel="tFP-gf-sGh" style="IBUITableViewCellStyleDefault" id="FEX-Hc-rm7" customClass="ArchitektTableViewCell" customModule="Denkma_lerBerlin" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="158" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FEX-Hc-rm7" id="3qF-nt-CTN">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tFP-gf-sGh">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="lab_name" destination="tFP-gf-sGh" id="b1o-Mi-saZ"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="wLi-kj-Xv6" id="cfd-VP-to0"/>
-                            <outlet property="delegate" destination="wLi-kj-Xv6" id="9ln-Gw-d6B"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Architekt" id="P4L-Py-3Xg">
-                        <barButtonItem key="backBarButtonItem" title="Filter" id="t43-Di-tYw"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="searchDisplayController" destination="M8u-SQ-48J" id="P0C-w0-EXl"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KnZ-FT-d9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="M8u-SQ-48J">
-                    <connections>
-                        <outlet property="delegate" destination="wLi-kj-Xv6" id="9wg-zM-89N"/>
-                        <outlet property="searchBar" destination="LDw-hw-3WK" id="gRE-Lc-bfg"/>
-                        <outlet property="searchContentsController" destination="wLi-kj-Xv6" id="ost-tN-a7Y"/>
-                        <outlet property="searchResultsDataSource" destination="wLi-kj-Xv6" id="IHZ-y3-j0T"/>
-                        <outlet property="searchResultsDelegate" destination="wLi-kj-Xv6" id="mHA-CK-Cd3"/>
-                    </connections>
-                </searchDisplayController>
-            </objects>
-            <point key="canvasLocation" x="834" y="744"/>
-        </scene>
-        <!--Zeitraum Table View Controller-->
-        <scene sceneID="iSF-l8-CjA">
-            <objects>
-                <tableViewController title="Zeitraum Table View Controller" id="eMa-eD-WEf" customClass="ZeitraumTableViewController" customModule="Denkma_lerBerlin" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="3zN-HQ-O8x">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                        <sections>
-                            <tableViewSection id="KON-5A-4tf">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" editingAccessoryType="detailButton" textLabel="aWt-JV-7Pj" detailTextLabel="hHV-RU-rII" style="IBUITableViewCellStyleValue1" id="dJk-eH-gtI">
-                                        <rect key="frame" x="0.0" y="99" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dJk-eH-gtI" id="AiT-N4-3iH">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Startzeit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aWt-JV-7Pj">
-                                                    <rect key="frame" x="15" y="12" width="62" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="2015" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hHV-RU-rII">
-                                                    <rect key="frame" x="269" y="12" width="36" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <gestureRecognizers/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="144" id="eiK-7N-Cax">
-                                        <rect key="frame" x="0.0" y="143" width="320" height="144"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eiK-7N-Cax" id="dwx-91-YB9">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="143"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BXX-cm-6u9">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="135"/>
-                                                </pickerView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Uih-jC-jrA">
-                                        <rect key="frame" x="0.0" y="287" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uih-jC-jrA" id="nEf-Zd-zfI">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" placeholder="2015" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5sg-lG-8Ga">
-                                                    <rect key="frame" x="15" y="0.0" width="292" height="43"/>
-                                                    <color key="textColor" red="0.4823529412" green="0.4823529412" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                                </textField>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Endzeit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdY-4Z-mgV">
-                                                    <rect key="frame" x="15" y="11" width="79" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="eMa-eD-WEf" id="lR7-Uj-TyC"/>
-                            <outlet property="delegate" destination="eMa-eD-WEf" id="3po-ZX-HSy"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Zeitraum" id="sel-ss-ysI">
-                        <barButtonItem key="backBarButtonItem" title="Filter" id="3V7-vq-j8D"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="lab_startDetail" destination="hHV-RU-rII" id="ANU-TB-wCr"/>
-                        <outlet property="pickerView" destination="BXX-cm-6u9" id="fVR-rO-YQv"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VKb-6E-1Wi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1245" y="271"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="qgS-xS-jcq">
