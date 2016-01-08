@@ -93,10 +93,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AdvancedSearchSegue" {
             //(segue.destinationViewController as! DMBAdvancedSearchViewController).delegate = self
+            
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Suche", style: .Plain, target: nil, action: nil)
         }
         
         if segue.identifier == "Detail" {
             // Data Passing for Annotations
+            
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Karte", style: .Plain, target: nil, action: nil)
         }
     }
     
