@@ -21,6 +21,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var searchController: UISearchController!
     var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
     var searchStillTyping = false
+    let maxRowNumberPerSection = (5,10)
     
     // Categories for Searchfiltering
     let sectionNames = ["Name", "--Location", "--Paticipant", "--Notion"]
@@ -67,7 +68,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func showMoreResultsButton(sender:UIButton!){
         showMoreEntries[sender.tag - 1] = !showMoreEntries[sender.tag - 1]
-        searchResultsTableView.tableView.reloadData()
+        
+        var indexPaths: [NSIndexPath] = []
+        for i in 0..<filteredData[sender.tag - 1].count - maxRowNumberPerSection.1 {
+            indexPaths.append(NSIndexPath(forRow: maxRowNumberPerSection.0 + i, inSection: sender.tag))
+        }
+            
+        if showMoreEntries[sender.tag - 1] {
+            searchResultsTableView.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        } else {
+            searchResultsTableView.tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
+        }
+        
     }
     
     // MARK: Gesture Handling
@@ -289,9 +301,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if showHistory && section == 1 {
             return searchHistory.count
         } else if(section - 1 <= sectionNames.count && section != 0 && !filteredData.isEmpty) {
-            var numRows = 10
+            var numRows = maxRowNumberPerSection.1
             if !showMoreEntries[section - 1] {
-                numRows = filteredData[section - 1].count <= 5 ? filteredData[section - 1].count : 5
+                numRows = filteredData[section - 1].count <= maxRowNumberPerSection.0 ? filteredData[section - 1].count : maxRowNumberPerSection.0
             }
             return numRows
         } else { return 0 }
