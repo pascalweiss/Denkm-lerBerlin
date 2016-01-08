@@ -54,7 +54,7 @@ class DMBModel {
     
     func getHistory() -> [DMBHistory] {
         let history = Table(DMBTable.history)
-        return dbConnection
+        return try! dbConnection
             .prepare(history)
             .map{row -> DMBHistory in
                 return DMBConverter.rowToHistory(row, connection: self.dbConnection)
@@ -84,7 +84,7 @@ class DMBModel {
     ///             Der Rückgabewert ist ein Array vom Typ DMBDistrict
     func getAllDistricts()->[DMBDistrict] {
         let districts = Table(DMBTable.district)
-        return dbConnection.prepare(districts).map{row -> DMBDistrict in
+        return try! dbConnection.prepare(districts).map{row -> DMBDistrict in
             return DMBConverter.rowToDistrict(row, connection: dbConnection)
         }
     }
@@ -103,7 +103,7 @@ class DMBModel {
     ///             Rückgabewert ist ein Array vom Typ DMBType.
     func getAllTypes()->[DMBType] {
         let types = Table(DMBTable.type)
-        return dbConnection.prepare(types).map{row -> DMBType in
+        return try! dbConnection.prepare(types).map{row -> DMBType in
             return DMBConverter.rowToType(row, connection: dbConnection)
         }
     }
@@ -112,7 +112,7 @@ class DMBModel {
     ///             Rückgabewert ist ein Array vom Typ DMBMonument.
     func getAllMonuments() -> [DMBMonument] {
         let monuments = Table(DMBTable.monument)
-        return dbConnection.prepare(monuments)
+        return try! dbConnection.prepare(monuments)
             .map({row -> DMBMonument in
                 return DMBConverter.rowToMonument(row, connection: dbConnection)
         })
@@ -127,7 +127,7 @@ class DMBModel {
             && DMBLocation.Expressions.long < area.center.longitude + area.span.longitudeDelta
         let inLatitude  = area.center.latitude - area.span.latitudeDelta < DMBLocation.Expressions.lat
             && DMBLocation.Expressions.lat < area.center.latitude + area.span.latitudeDelta
-        return dbConnection.prepare(monuments
+        return try! dbConnection.prepare(monuments
             .join(addressRel, on: monuments[DMBMonument.Expressions.id] == addressRel[DMBLocationRelation.Expressions.monumentId])
             .join(addresses, on: addressRel[DMBLocationRelation.Expressions.addressId] == addresses[DMBLocation.Expressions.id])
             .filter(inLongitude && inLatitude))
@@ -167,8 +167,8 @@ class DMBModel {
         let datings = DMBTable.dating
         let from = DMBTimePeriod.Expressions.from.template
         let to   = DMBTimePeriod.Expressions.to.template
-        let stmtFrom = dbConnection.prepare("SELECT min(\(from)) FROM \(datings)")
-        let stmtTo   = dbConnection.prepare("SELECT min(\(to)) FROM \(datings)")
+        let stmtFrom = try! dbConnection.prepare("SELECT min(\(from)) FROM \(datings)")
+        let stmtTo   = try! dbConnection.prepare("SELECT min(\(to)) FROM \(datings)")
         let maxFrom = DMBConverter.stringToDate(stmtFrom.scalar() as! String)
         let maxTo   = DMBConverter.stringToDate(stmtTo.scalar() as! String)
         if maxTo != nil && maxFrom != nil {
@@ -188,8 +188,8 @@ class DMBModel {
         let datings = DMBTable.dating
         let from = DMBTimePeriod.Expressions.from.template
         let to   = DMBTimePeriod.Expressions.to.template
-        let stmtFrom = dbConnection.prepare("SELECT max(\(from)) FROM \(datings)")
-        let stmtTo   = dbConnection.prepare("SELECT max(\(to)) FROM \(datings)")
+        let stmtFrom = try! dbConnection.prepare("SELECT max(\(from)) FROM \(datings)")
+        let stmtTo   = try! dbConnection.prepare("SELECT max(\(to)) FROM \(datings)")
         let maxFrom = DMBConverter.stringToDate(stmtFrom.scalar() as! String)
         let maxTo   = DMBConverter.stringToDate(stmtTo.scalar() as! String)
         if maxTo != nil && maxFrom != nil {
@@ -220,7 +220,7 @@ class DMBModel {
     private func rankedMonumentsByName(tokens: [String]) -> [(Double,DMBMonument)] {
         func searchMonumentsByName(token: String) -> [(Double,DMBMonument)] {
             let monuments = Table(DMBTable.monument)
-            return dbConnection.prepare(monuments
+            return try! dbConnection.prepare(monuments
                 .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(searchableString(token))))
                 .map({row -> (Double,DMBMonument) in
                     let monum = DMBConverter.rowToMonument(row, connection: dbConnection)
@@ -246,7 +246,7 @@ class DMBModel {
             let monuments   = Table(DMBTable.monument)
             let locationRel = Table(DMBTable.addressRel)
             let locations   = Table(DMBTable.address)
-            return dbConnection.prepare(monuments
+            return try! dbConnection.prepare(monuments
                 .join(locationRel, on: monuments[DMBMonument.Expressions.id] == locationRel[DMBLocationRelation.Expressions.monumentId])
                 .join(locations, on: locationRel[DMBLocationRelation.Expressions.addressId] == locations[DMBLocation.Expressions.id])
                 .filter(locations[DMBLocation.Expressions.street].lowercaseString.like(searchableString(token))))
@@ -274,7 +274,7 @@ class DMBModel {
             let monuments       = Table(DMBTable.monument)
             let participantsRel = Table(DMBTable.participantRel)
             let participants    = Table(DMBTable.participant)
-            return dbConnection.prepare(monuments
+            return try! dbConnection.prepare(monuments
                 .join(participantsRel, on: monuments[DMBMonument.Expressions.id] == participantsRel[DMBParticipantsRelation.Expressions.monumentId])
                 .join(participants, on: participantsRel[DMBParticipantsRelation.Expressions.participantId] == participants[DMBParticipant.Expressions.id])
                 .filter(participants[DMBParticipant.Expressions.name].lowercaseString.like(searchableString(token))))
@@ -302,7 +302,7 @@ class DMBModel {
             let monuments = Table(DMBTable.monument)
             let notionRel = Table(DMBTable.monumentNotionRel)
             let notions   = Table(DMBTable.monumentNotion)
-            return dbConnection.prepare(monuments
+            return try! dbConnection.prepare(monuments
                 .join(notionRel, on: monuments[DMBMonument.Expressions.id] == notionRel[DMBNotionsRelation.Expressions.monumentId])
                 .join(notions, on: notionRel[DMBNotionsRelation.Expressions.monumentNotionId] == notions[DMBNotion.Expressions.id])
                 .filter(notions[DMBNotion.Expressions.name].lowercaseString.like(searchableString(token))))

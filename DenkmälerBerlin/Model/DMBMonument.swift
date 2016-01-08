@@ -86,7 +86,7 @@ class DMBMonument: DMBEntity {
         let districts = Table(DMBTable.district)
         let monuments = Table(DMBTable.monument)
         let districtRel = Table(DMBTable.districtRel)
-        return dbConnection.prepare(districts
+        return try! dbConnection.prepare(districts
             .join(districtRel, on: districts[DMBDistrict.Expressions.id] == districtRel[DMBDistrictRelation.Expressions.districtId])
             .join(monuments, on: districtRel[DMBDistrictRelation.Expressions.monumentId] == monuments[DMBMonument.Expressions.id])
             .filter(monuments[DMBMonument.Expressions.id] == id))
@@ -104,7 +104,7 @@ class DMBMonument: DMBEntity {
         let subDistricts = Table(DMBTable.subDistrict)
         let monuments = Table(DMBTable.monument)
         let subDistrictRel = Table(DMBTable.subDistrictRel)
-        return dbConnection.prepare(subDistricts
+        return try! dbConnection.prepare(subDistricts
             .join(subDistrictRel, on: subDistricts[DMBSubDistrict.Expressions.id] == subDistrictRel[DMBSubDistrictRelation.Expressions.subDistrictId])
             .join(monuments, on: subDistrictRel[DMBSubDistrictRelation.Expressions.monumentId] == monuments[DMBMonument.Expressions.id])
             .filter(monuments[DMBMonument.Expressions.id] == id))
@@ -121,7 +121,7 @@ class DMBMonument: DMBEntity {
     func getType() -> DMBType? {
         let types = Table(DMBTable.type)
         let monuments = Table(DMBTable.monument)
-        let row = dbConnection.pluck(types
+        let row = try! dbConnection.pluck(types
             .join(monuments, on: monuments[DMBMonument.Expressions.typeId] == types[DMBType.Expressions.id])
             .filter(monuments[DMBMonument.Expressions.id] == id))
         if (row != nil) {
@@ -135,7 +135,7 @@ class DMBMonument: DMBEntity {
         let notions = Table(DMBTable.monumentNotion)
         let monuments = Table(DMBTable.monument)
         let notionsRels = Table(DMBTable.monumentNotionRel)
-        return dbConnection.prepare(notions
+        return try! dbConnection.prepare(notions
             .join(notionsRels, on: notions[DMBNotion.Expressions.id] == notionsRels[DMBNotionsRelation.Expressions.monumentNotionId])
             .join(monuments, on: notionsRels[DMBNotionsRelation.Expressions.monumentId] == notionsRels[DMBMonument.Expressions.id])
             .filter(id == monuments[DMBMonument.Expressions.id]))
@@ -149,7 +149,7 @@ class DMBMonument: DMBEntity {
     func getCreationPeriod()->DMBTimePeriod? {
         let monuments = Table(DMBTable.monument)
         let datings = Table(DMBTable.dating)
-        let row = dbConnection.pluck(monuments
+        let row = try! dbConnection.pluck(monuments
             .join(datings, on: self.datingId == datings[DMBTimePeriod.Expressions.id]))
         if row != nil {
             return DMBConverter.rowToTimePeriod(row!, connection: dbConnection, table: datings)
@@ -163,7 +163,7 @@ class DMBMonument: DMBEntity {
         let addresses   = Table(DMBTable.address)
         let addressRel  = Table(DMBTable.addressRel)
         let monuments = Table(DMBTable.monument)
-        let res =  dbConnection.pluck(addresses
+        let res =  try! dbConnection.pluck(addresses
             .join(addressRel, on: addresses[DMBLocation.Expressions.id] == addressRel[DMBLocationRelation.Expressions.addressId])
             .join(monuments, on: monuments[DMBMonument.Expressions.id] == addressRel[DMBLocationRelation.Expressions.monumentId])
             .filter(addressRel[DMBLocationRelation.Expressions.monumentId] == self.id))
