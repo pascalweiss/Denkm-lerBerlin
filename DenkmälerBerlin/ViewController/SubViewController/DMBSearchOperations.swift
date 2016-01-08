@@ -41,7 +41,7 @@ class SearchMonument : NSOperation {
             return
         }
         
-        // Filter by Name
+        /*// Filter by Name
         for var i = 0; i < filteredMonuments[DMBSearchKey.byName]!.count && i < 5; i++ {
             filteredData.append([])
             filteredData[0].append(filteredMonuments[DMBSearchKey.byName]![i].1)
@@ -51,10 +51,25 @@ class SearchMonument : NSOperation {
             return
         }
         
-        for var i = 0; i < filteredMonuments[DMBSearchKey.byName]!.count && i < 5; i++ {
+        for var i = 0; i < filteredMonuments[DMBSearchKey.byLocation]!.count && i < 5; i++ {
             filteredData.append([])
-            filteredData[1].append(filteredMonuments[DMBSearchKey.byName]![i].1)
+            filteredData[1].append(filteredMonuments[DMBSearchKey.byLocation]![i].1)
+        }*/
+        
+        let searchKeys = [DMBSearchKey.byName, DMBSearchKey.byLocation, DMBSearchKey.byParticipant, DMBSearchKey.byNotion]
+        
+        for j in 0..<searchKeys.count {
+            if self.cancelled {
+                return
+            }
+            
+            for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && i < 5; i++ {
+                filteredData.append([])
+                filteredData[j].append(filteredMonuments[searchKeys[j]]![i].1)
+            }
         }
+        
+        
 
     }
 }

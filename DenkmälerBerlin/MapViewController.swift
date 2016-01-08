@@ -22,7 +22,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
     
     // Categories for Searchfiltering
-    let sectionNames = ["Name", "Bezirk"]
+    let sectionNames = ["Name", "--Location", "--Paticipant", "--Notion"]
     
     // Array for all Monuments
     var filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
@@ -188,7 +188,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let x = self.navigationController?.navigationBar.frame.origin.x
         let y = (self.navigationController?.navigationBar.frame.origin.y)! + (self.navigationController?.navigationBar.frame.height)!
         let originPoint = CGPoint(x: x!, y: y)
-        let searchResultsTableViewRect = CGRect(origin: originPoint, size: viewFrame.size)
+        let size = CGSize(width: viewFrame.size.width, height: viewFrame.size.height - y - (self.tabBarController?.tabBar.frame.height)!)
+        let searchResultsTableViewRect = CGRect(origin: originPoint, size: size)
         searchResultsTableView.tableView.frame = searchResultsTableViewRect
         
         // Erlaub Scrollen
@@ -276,7 +277,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if showHistory {
             self.searchController.searchBar.text = searchHistory[indexPath.row]
         } else {
-            DMBModel.sharedInstance.setHistoryEntry(filteredData[indexPath.section][indexPath.row].getName()!)
+            DMBModel.sharedInstance.setHistoryEntry(filteredData[indexPath.section - 1][indexPath.row].getName()!)
             updateLocalSearchHistory()
         }
     }
