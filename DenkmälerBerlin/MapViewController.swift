@@ -302,7 +302,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         startSearchForMonument(searchText!)
         
-        searchResultsTableView.tableView.reloadData()
+        //searchResultsTableView.tableView.reloadData()
     }
     
     func updateLocalSearchHistory(){
