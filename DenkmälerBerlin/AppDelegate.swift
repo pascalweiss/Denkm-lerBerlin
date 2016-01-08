@@ -12,11 +12,14 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let debug = false
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        DMBModelEXAMPLES.run()
+        if debug {
+            DMBModelEXAMPLES.run()
+        }
         return true
     }
 

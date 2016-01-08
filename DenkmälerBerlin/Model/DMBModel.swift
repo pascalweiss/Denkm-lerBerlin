@@ -25,10 +25,12 @@ class DMBModel {
     static let sharedInstance = DMBModel()
     private let dbConnection: Connection
     private var filter: DMBFilter?
-    private let debug = true
+    private let debug = false
 
     private init() {
-        print(NSBundle.mainBundle().pathForResource("DMBsqlite_v7", ofType: "db"))
+        if debug {
+            print(NSBundle.mainBundle().pathForResource("DMBsqlite_v7", ofType: "db"))
+            }
         self.dbConnection = try! Connection(NSBundle.mainBundle().pathForResource("DMBsqlite_v7", ofType: "db")!, readonly: false)
     }
     
