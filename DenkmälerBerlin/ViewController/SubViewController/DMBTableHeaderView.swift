@@ -35,7 +35,7 @@ class DMBTableHeaderView: UIView {
             
             self.addSubview(titleLabel)
             
-            if (section != 0 && mapViewSender.filteredData[section - 1].count > 1) { // 1 ändern!! Value ab dem "Mehr Anzeigen" gezeigt wird
+            if (section != 0 && mapViewSender.filteredData[section - 1].count > mapViewSender.maxRowNumberPerSection.0) { // 1 ändern!! Value ab dem "Mehr Anzeigen" gezeigt wird
                 // Button
                 let showMoreButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 105, y: self.frame.size.height - 18, width: 100, height: 18))
                 showMoreButton.setTitle("Mehr Anzeigen", forState: UIControlState.Normal)
