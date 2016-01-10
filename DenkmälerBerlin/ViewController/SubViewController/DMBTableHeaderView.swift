@@ -27,13 +27,12 @@ class DMBTableHeaderView: UIView {
         if (mapViewSender.showHistory || (mapViewSender.filteredData.isEmpty || (section != 0 && mapViewSender.filteredData[section - 1].isEmpty && !mapViewSender.filteredData.isEmpty)) || section == 0) {
             return
         } else {
-            
-            print(section)
+
             // Label
             let titleLabel = UILabel(frame: CGRect(x: 10, y: self.frame.size.height - 18, width: tableView.frame.size.width, height: 18))
             titleLabel.text = mapViewSender.tableView(tableView, titleForHeaderInSection: section)
             titleLabel.font = UIFont.boldSystemFontOfSize(12)
-            
+
             self.addSubview(titleLabel)
             
             if (section != 0 && mapViewSender.filteredData[section - 1].count > mapViewSender.maxRowNumberPerSection.0) { // 1 ändern!! Value ab dem "Mehr Anzeigen" gezeigt wird
