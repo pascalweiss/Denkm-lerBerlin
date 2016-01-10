@@ -23,10 +23,12 @@ class SearchMonument : NSOperation {
     
     let searchText: String
     var filteredData: [[DMBMonument]]
+    var minMaxResultNumber: (Int, Int)
 
-    init(searchText: String) {
+    init(searchText: String, minMaxResultNumber: (Int, Int)) {
         self.searchText = searchText
         self.filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
+        self.minMaxResultNumber = minMaxResultNumber
     }
     
     override func main() {
@@ -48,7 +50,7 @@ class SearchMonument : NSOperation {
                 return
             }
             
-            for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && i < 15; i++ {
+            for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && i < minMaxResultNumber.1; i++ {
                 if filteredMonuments[searchKeys[j]]![i].0 > 0.2 {
                     filteredData[j].append(filteredMonuments[searchKeys[j]]![i].1)
                 }

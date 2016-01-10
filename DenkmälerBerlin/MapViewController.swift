@@ -21,6 +21,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var searchController: UISearchController!
     var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
     var searchStillTyping = false
+    var lastSearchString: String = ""
     let maxRowNumberPerSection = (5,10)
     
     // Categories for Searchfiltering
@@ -70,16 +71,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         showMoreEntries[sender.tag - 1] = !showMoreEntries[sender.tag - 1]
         
         var indexPaths: [NSIndexPath] = []
-        for i in 0..<filteredData[sender.tag - 1].count - maxRowNumberPerSection.1 {
+        for i in 0..<filteredData[sender.tag - 1].count - maxRowNumberPerSection.0 {
             indexPaths.append(NSIndexPath(forRow: maxRowNumberPerSection.0 + i, inSection: sender.tag))
         }
-            
+        
         if showMoreEntries[sender.tag - 1] {
             searchResultsTableView.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
         } else {
             searchResultsTableView.tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
         }
-        
     }
     
     // MARK: Gesture Handling
@@ -319,25 +319,38 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searchText = searchController.searchBar.text
         
-        for i in 0..<filteredData.count {
-            filteredData[i].removeAll()
-        }
-        
-        startSearchForMonument(searchText!)
-
-        // Verlauf ausblenden wenn tippen beginnt
-        if searchStillTyping == false && searchText?.isEmpty == false {
-            searchResultsTableView.tableView.reloadData()
-            searchStillTyping = true
+        if lastSearchString != searchText {
+            lastSearchString = searchText!
+            
+            for i in 0..<filteredData.count {
+                filteredData[i].removeAll()
+            }
+            
+            startSearchForMonument(searchText!)
+            
+            // Verlauf ausblenden wenn tippen beginnt
+            if searchStillTyping == false && searchText?.isEmpty == false {
+                resetShowMoreButton()
+                searchResultsTableView.tableView.reloadData()
+                searchStillTyping = true
+            }
         }
     }
     
+    /// Updated das Locale Array mit Suchverlauf mit der Datenbank
     func updateLocalSearchHistory(){
         searchHistory.removeAll()
         DMBModel.sharedInstance.getHistory().forEach({entry in
             searchHistory.append(entry.getSearchString()!)
         })
         searchHistory = searchHistory.reverse()
+    }
+    
+    /// Reset die Mehr Anzeigen Buttons bei neuladen der Suchergebnisse
+    func resetShowMoreButton(){
+        for i in 0..<showMoreEntries.count {
+            showMoreEntries[i] = false
+        }
     }
     
     // MARK: Multi-Threading - NSOperationQueue
@@ -356,7 +369,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             } else { threadNumber++ }
         }
         
-        let search = SearchMonument(searchText: searchText)
+        let search = SearchMonument(searchText: searchText, minMaxResultNumber: maxRowNumberPerSection)
         
         search.completionBlock = {
             if search.cancelled {
@@ -367,6 +380,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.pendingOperations.searchsInProgress.removeValueForKey(threadNumber)
                 
                 self.filteredData = search.filteredData
+                self.resetShowMoreButton()
                 self.searchResultsTableView.tableView.reloadData()
                 self.searchStillTyping = false
                 
@@ -383,6 +397,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             showHistory = true
             searchStillTyping = false
+            resetShowMoreButton()
             searchResultsTableView.tableView.reloadData()
         }
         

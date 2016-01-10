@@ -28,6 +28,7 @@ class DMBTableHeaderView: UIView {
             return
         } else {
             
+            print(section)
             // Label
             let titleLabel = UILabel(frame: CGRect(x: 10, y: self.frame.size.height - 18, width: tableView.frame.size.width, height: 18))
             titleLabel.text = mapViewSender.tableView(tableView, titleForHeaderInSection: section)
