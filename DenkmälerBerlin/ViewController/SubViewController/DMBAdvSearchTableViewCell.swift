@@ -25,6 +25,8 @@ class DMBAdvSearchTableViewCell: UITableViewCell {
         activateSwitch = UISwitch()
         activateSwitch.center.y = contentView.center.y
         activateSwitch.onTintColor = UIColor.blueColor()
+        activateSwitch.on = true
+        
         accessoryView = activateSwitch
         
         

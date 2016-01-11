@@ -16,7 +16,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
     
     var delegate: DMBAdvancedSearchDelegate?
     
-    var monumentType: [String] = ["Baudenkmal"]
+    var monumentType: [(type: String,on: Bool)] = [("Baudenkmal", true), ("Garten- /Parkdenkmal", true), ("Bodendenkmal", true)]
     
     // MARK: Life-Cycle
     override func viewDidLoad() {
@@ -28,6 +28,12 @@ class DMBAdvancedSearchViewController: UITableViewController {
 
     override func viewWillDisappear(animated: Bool) {
         navigationBackPassData(self)
+    }
+    
+    // MARK: Button / Switch Target
+    
+    func switchValueChange(sender: UISwitch!){
+        monumentType[sender.tag].on = sender.on
     }
     
     
@@ -46,7 +52,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return monumentType.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -55,7 +61,9 @@ class DMBAdvancedSearchViewController: UITableViewController {
         if (indexPath.section == 0){
             let advCell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(DMBAdvSearchTableViewCell), forIndexPath: indexPath) as! DMBAdvSearchTableViewCell
             
-            advCell.nameLabel.text = monumentType[indexPath.row]
+            advCell.nameLabel.text = monumentType[indexPath.row].type
+            advCell.activateSwitch.tag = indexPath.row
+            advCell.activateSwitch.addTarget(self, action: "switchValueChange:", forControlEvents: UIControlEvents.ValueChanged)
             
             cell = advCell
         }

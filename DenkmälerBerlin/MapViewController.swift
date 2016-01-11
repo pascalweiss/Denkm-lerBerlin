@@ -12,6 +12,7 @@ import MapKit
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate, UIGestureRecognizerDelegate{
     
+    // Map
     @IBOutlet weak var mapView: MKMapView!
     var clManager: CLLocationManager!
     
@@ -38,11 +39,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     // Active Threads
     let pendingOperations = PendingOperations()
 
-    
+    // MARK: Life-Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        searchResultsTableView.tableView.registerClass(DMBSearchResultsHeaderView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(DMBSearchResultsHeaderView))
         
         // Mapstuff
         clManager = initMapLocationManager()
@@ -187,6 +186,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     /// Erstellt den TableViewController für die Suchergebnisse und den Verlauf
     /// Und ruft Functionen zum Configureren auf
     func setupSearchResultsTable(){
+        searchResultsTableView.tableView.registerClass(DMBSearchResultsHeaderView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(DMBSearchResultsHeaderView))
         searchResultsTableView.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "SearchTabelCell")
         
         searchResultsTableView.tableView.dataSource = self
