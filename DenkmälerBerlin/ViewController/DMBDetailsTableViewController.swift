@@ -10,17 +10,86 @@ import UIKit
 import MapKit
 
 class DMBDetailsTableViewController: UITableViewController {
-
+    
+    // MARK: Properties
+    var monument: DMBMonument! = DMBModel.sharedInstance.getAllMonuments()[12];
+    var monumentData: Dictionary<String, String>! = Dictionary<String, String>();
+    var printOrder: [String] = ["Adresse", "Bauzeit", "Beschreibung"];
+    var descriptionPosition = 0;
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-//        navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == true, animated: false)
+        super.viewDidLoad();
+        // construct property array from monument properties
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        // set Description Position
+        if (printOrder.indexOf("Beschreibung") != nil) {
+            descriptionPosition = printOrder.indexOf("Beschreibung")!;
+        }
+    
+        // Name
+        if (monument.getName() != nil){
+            monumentData.updateValue(monument.getName()!, forKey: "Name");
+            
+        }
+        
+        // Description
+        if (monument.getDescription() != nil){
+            monumentData.updateValue(monument.getDescription()!, forKey: "Beschreibung");
+        }
+        
+        // Date
+        if (monument.getCreationPeriod() != nil){
+            var dateString: String = "";
+            let dateFormater = NSDateFormatter.init();
+            dateFormater.timeZone = NSTimeZone(name: "Europe/Berlin");
+            dateFormater.locale = NSLocale(localeIdentifier: "de-DE");
+            dateFormater.dateFormat = "MMMM yyyy";
+            if (monument.getCreationPeriod()?.getFrom() != nil){
+                dateString = dateFormater.stringFromDate(monument.getCreationPeriod()!.getFrom()!) + " - ";
+            }
+            if (monument.getCreationPeriod()?.getTo() != nil) {
+                dateString += dateFormater.stringFromDate(monument.getCreationPeriod()!.getTo()!);
+            }
+            monumentData.updateValue(dateString, forKey: "Bauzeit");
+        }
+        
+        // Address
+        var addressString: String = "";
+        if (monument.getAddress().getStreet() != nil){
+            addressString = monument.getAddress().getStreet()! + " ";
+        }
+        if (monument.getAddress().getNr() != nil) {
+            addressString += monument.getAddress().getNr()!;
+        }
+        if (addressString != ""){
+            monumentData.updateValue(addressString, forKey: "Adresse");
+        }
+        
+        
+        // Picture for Header
+        let picURL: NSURL?;
+        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg");
+        // currentMonument!.getPicUrl();
+        if (picURL != nil){
+            // get picture from URL
+            let imageData: NSData? = NSData.init(contentsOfURL: picURL!)!;
+            if (imageData != nil){
+                let image: UIImage? = UIImage.init(data: imageData!);
+                if (image != nil){
+                    // make image view
+                    var imageView: UIImageView;
+                    imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 320, height: 101));
+                    imageView.image = image;
+                    imageView.contentMode = .ScaleAspectFill;
+                    imageView.clipsToBounds = true;
+                    // add image view to superview
+                    self.view.addSubview(imageView);
+                    
+                }
+            }
+        }
+        // DONE
+        // navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == true, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,68 +100,75 @@ class DMBDetailsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return printOrder.count;
     }
-
-    /*
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return monumentData["Name"];
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if (indexPath.row != self.descriptionPosition){
+            return 44;
+        } else {
+            if (self.printOrder.count < 2){
+                return 352;
+            } else {
+                return 220;
+            }
+        }
+    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        if (indexPath.row != self.descriptionPosition){
+            let cell = tableView.dequeueReusableCellWithIdentifier("contentValueCell", forIndexPath: indexPath) as! DMBDetailsTableViewCell;
+            
+            let currentKey = printOrder[indexPath.row];
+            cell.labelPropertyHeading.text = currentKey;
+            let value = self.monumentData[currentKey];
+            
+            if (value != nil){
+                cell.labelPropertyValue.text = value;
+            }
+            
+            return cell;
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("descriptionTextCell", forIndexPath: indexPath) as! DMBDetailsTextTableViewCell;
+            cell.passControllerReference(self);
+            
+            let currentKey = printOrder[indexPath.row];
+            cell.labelDescriptionHeading.text = currentKey;
+            let fullText: String? = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."; //monumentData[currentKey];
+            
+            if (fullText != nil) {
+                // truncate text if neccessary
+                var charactersToDisplay: Int;
+                
+                if (self.printOrder.count < 2){
+                    charactersToDisplay = 900;
+                } else {
+                    charactersToDisplay = 600;
+                }
+                
+                if (charactersToDisplay > fullText!.characters.count){
+                    cell.fullText = fullText!;
+                    cell.tvDescriptionText.text = fullText!;
+                } else {
+                    let tempIndex = fullText!.startIndex.advancedBy(+charactersToDisplay);
+                    let shortText = fullText!.substringToIndex(tempIndex);
+                    let index = shortText.rangeOfString(".", options: .BackwardsSearch)!.endIndex;
+                    
+                    cell.fullText = fullText;
+                    cell.tvDescriptionText.text = shortText.substringToIndex(index) + " [...]";
+                    cell.btnMoreText.enabled = true;
+                }
+            }
+            
+            return cell;
+        }
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
