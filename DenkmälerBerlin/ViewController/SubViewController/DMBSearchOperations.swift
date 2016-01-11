@@ -23,7 +23,7 @@ class SearchMonument : NSOperation {
     
     let searchText: String
     var filteredData: [[DMBMonument]]
-    var minMaxResultNumber: (Int, Int)
+    var minMaxResultNumber: (min: Int, max: Int)
 
     init(searchText: String, minMaxResultNumber: (Int, Int)) {
         self.searchText = searchText
@@ -50,7 +50,7 @@ class SearchMonument : NSOperation {
                 return
             }
             
-            for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && i < minMaxResultNumber.1; i++ {
+            for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && i < minMaxResultNumber.max; i++ {
                 if filteredMonuments[searchKeys[j]]![i].0 > 0.2 {
                     filteredData[j].append(filteredMonuments[searchKeys[j]]![i].1)
                 }

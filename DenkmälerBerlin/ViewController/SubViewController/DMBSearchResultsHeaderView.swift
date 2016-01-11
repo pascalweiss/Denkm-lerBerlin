@@ -8,15 +8,22 @@
 
 import UIKit
 
-class DMBTableHeaderView: UIView {
-
-    init(tableView: UITableView, viewForHeaderInSection section: Int, mapViewSender: MapViewController){
-        super.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: mapViewSender.tableView(tableView, heightForHeaderInSection: section)))
+class DMBSearchResultsHeaderView: UITableViewHeaderFooterView {
+    
+    let mapViewSender: MapViewController
+    let section: Int
+    
+    init(reuseIdentifier: String?, forMapView mapViewSender: MapViewController, forSection section: Int) {
+        self.section = section
+        self.mapViewSender = mapViewSender
+        super.init(reuseIdentifier: reuseIdentifier)
+        
+        let tableView = mapViewSender.searchResultsTableView.tableView
+        
         
         if (section == 0){
             // Advanced Search Button
-            let tableViewFrame = self.frame
-            let advancedSearchButton = UIButton(frame: CGRect(x: tableViewFrame.width - 130, y: 0, width: 130, height: 18))
+            let advancedSearchButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 130, y: self.frame.size.height, width: 130, height: 18))
             advancedSearchButton.setTitle("Erweiterte Suche >", forState: UIControlState.Normal)
             advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
             advancedSearchButton.addTarget(mapViewSender, action: "segueToAdvancedSearchView:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -27,17 +34,10 @@ class DMBTableHeaderView: UIView {
         if (mapViewSender.showHistory || (mapViewSender.filteredData.isEmpty || (section != 0 && mapViewSender.filteredData[section - 1].isEmpty && !mapViewSender.filteredData.isEmpty)) || section == 0) {
             return
         } else {
-
-            // Label
-            let titleLabel = UILabel(frame: CGRect(x: 10, y: self.frame.size.height - 18, width: tableView.frame.size.width, height: 18))
-            titleLabel.text = mapViewSender.tableView(tableView, titleForHeaderInSection: section)
-            titleLabel.font = UIFont.boldSystemFontOfSize(12)
-
-            self.addSubview(titleLabel)
             
             if (section != 0 && mapViewSender.filteredData[section - 1].count > mapViewSender.maxRowNumberPerSection.0) { // 1 ändern!! Value ab dem "Mehr Anzeigen" gezeigt wird
                 // Button
-                let showMoreButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 105, y: self.frame.size.height - 18, width: 100, height: 18))
+                let showMoreButton = UIButton(frame: CGRect(x: tableView.frame.size.width - 105, y: self.frame.size.height, width: 100, height: 18))
                 showMoreButton.setTitle("Mehr Anzeigen", forState: UIControlState.Normal)
                 showMoreButton.titleLabel?.adjustsFontSizeToFitWidth = true
                 showMoreButton.tag = section
@@ -53,5 +53,5 @@ class DMBTableHeaderView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
 }

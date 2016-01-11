@@ -22,7 +22,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
     var searchStillTyping = false
     var lastSearchString: String = ""
-    let maxRowNumberPerSection = (5,10)
+    let maxRowNumberPerSection = (min: 5,max: 10)
     
     // Categories for Searchfiltering
     let sectionNames = ["Name", "--Location", "--Paticipant", "--Notion"]
@@ -41,6 +41,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchResultsTableView.tableView.registerClass(DMBSearchResultsHeaderView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(DMBSearchResultsHeaderView))
         
         // Mapstuff
         clManager = initMapLocationManager()
@@ -71,8 +73,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         showMoreEntries[sender.tag - 1] = !showMoreEntries[sender.tag - 1]
         
         var indexPaths: [NSIndexPath] = []
-        for i in 0..<filteredData[sender.tag - 1].count - maxRowNumberPerSection.0 {
-            indexPaths.append(NSIndexPath(forRow: maxRowNumberPerSection.0 + i, inSection: sender.tag))
+        for i in 0..<filteredData[sender.tag - 1].count - maxRowNumberPerSection.min {
+            indexPaths.append(NSIndexPath(forRow: maxRowNumberPerSection.min + i, inSection: sender.tag))
         }
         
         if showMoreEntries[sender.tag - 1] {
@@ -257,7 +259,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return DMBTableHeaderView(tableView: tableView, viewForHeaderInSection: section, mapViewSender: self)
+        return DMBSearchResultsHeaderView(reuseIdentifier: NSStringFromClass(DMBSearchResultsHeaderView), forMapView: self, forSection: section)
+        
+        //return DMBTableHeaderView(tableView: tableView, viewForHeaderInSection: section, mapViewSender: self)
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -305,9 +309,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if showHistory && section == 1 {
             return searchHistory.count
         } else if(section - 1 <= sectionNames.count && section != 0 && !filteredData.isEmpty) {
-            var numRows = maxRowNumberPerSection.1
+            var numRows = maxRowNumberPerSection.max
             if !showMoreEntries[section - 1] {
-                numRows = filteredData[section - 1].count <= maxRowNumberPerSection.0 ? filteredData[section - 1].count : maxRowNumberPerSection.0
+                numRows = filteredData[section - 1].count <= maxRowNumberPerSection.min ? filteredData[section - 1].count : maxRowNumberPerSection.min
             }
             return numRows
         } else { return 0 }

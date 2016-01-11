@@ -16,6 +16,8 @@ class DMBAdvancedSearchViewController: UITableViewController {
     
     var delegate: DMBAdvancedSearchDelegate?
     
+    var monumentType: [String] = ["Baudenkmal"]
+    
     // MARK: Life-Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +50,16 @@ class DMBAdvancedSearchViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(DMBAdvSearchTableViewCell), forIndexPath: indexPath) as! DMBAdvSearchTableViewCell
+        var cell: UITableViewCell = UITableViewCell()
         
-        cell.nameLabel.text = "Blau"
+        if (indexPath.section == 0){
+            let advCell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(DMBAdvSearchTableViewCell), forIndexPath: indexPath) as! DMBAdvSearchTableViewCell
+            
+            advCell.nameLabel.text = monumentType[indexPath.row]
+            
+            cell = advCell
+        }
+        
 
         return cell
     }
