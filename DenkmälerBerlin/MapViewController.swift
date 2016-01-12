@@ -85,9 +85,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     // MARK: Gesture Handling
     
-    func gestureEndSearchBarEditing(recognizer: UITapGestureRecognizer){
-        self.searchController.searchBar.endEditing(true)
-    }
     
     // MARK: Navigation
     
