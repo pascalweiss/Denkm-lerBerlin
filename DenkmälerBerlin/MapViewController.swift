@@ -189,7 +189,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     /// Und ruft Functionen zum Configureren auf
     func setupSearchResultsTable(){
         searchResultsTableView.tableView.registerClass(DMBSearchResultsHeaderView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(DMBSearchResultsHeaderView))
-        searchResultsTableView.tableView.registerClass(DMBSearchResultsTableViewCell.self, forCellReuseIdentifier: "SearchResultsCell")
         searchResultsTableView.tableView.registerNib(UINib(nibName: "DMBSearchResultCellProtoype", bundle: nil), forCellReuseIdentifier: "SearchResultsCell")
         
         searchResultsTableView.tableView.dataSource = self
