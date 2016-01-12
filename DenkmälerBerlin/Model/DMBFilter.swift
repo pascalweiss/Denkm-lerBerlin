@@ -6,11 +6,29 @@
 //  Copyright © 2015 HTWBerlin. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct DMBFilter {
-    let dummyFilter: Int
-    init(dummyFilter:Int) {
-        self.dummyFilter = dummyFilter
+    
+    // Monument Types
+    let Baudenkmal = true
+    let Parkdenkmal = true
+    
+    // Time period
+    let from:NSDate
+    let to = NSDate()
+    
+    // Districts
+    let prenzlauerBerg = true
+    // TODO
+    
+    init() {
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.FullStyle
+        formatter.dateFormat = "yyyyMMdd"
+        from = formatter.dateFromString("18000101")!
+    }
+    
+    func setStandardFrom() {
     }
 }

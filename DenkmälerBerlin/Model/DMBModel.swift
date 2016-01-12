@@ -350,7 +350,7 @@ class DMBModel {
     ///                         wobei der Match-Wert addiert wird, und somit zu einem höheren Ranking führt. 
     ///                         Das Ergebnis wird anhand der Rankingwerte sortiert.
     private func rankMonuments(monuments:[(Double,DMBMonument)]) -> [(Double, DMBMonument)]{
-        return monuments.groupBy({$0.1.getName()!}).map({groupedMon -> (Double,DMBMonument) in
+        return monuments.groupBy({$0.1.getObjNr()!}).map({groupedMon -> (Double,DMBMonument) in
             let m:DMBMonument = groupedMon.1[0].1
             return groupedMon.1.reduce((0,m), combine: {
                 (m1,m2) -> (Double, DMBMonument) in

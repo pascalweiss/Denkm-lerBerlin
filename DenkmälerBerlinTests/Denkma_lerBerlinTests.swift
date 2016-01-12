@@ -37,6 +37,14 @@ class Denkma_lerBerlinTests: XCTestCase {
         }
     }
     
+    func testSearch_Haus() {
+        print("\nHaus...\n" +
+                "=======")
+        self.measureBlock {
+            DMBModel.sharedInstance.searchMonuments("Haus")
+        }
+    }
+    
     func testSearch_Brandenburg_Schiller_Tor_Tor() {
         print("\nSearchstring: \'Brandenburg Schiller Tor Tor\'...\n" +
                 "===============================================")
