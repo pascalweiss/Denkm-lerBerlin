@@ -289,6 +289,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // Color and Transparency Settings
         //cell.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
         //cell.textLabel?.textColor = UIColor.whiteColor()
+        //BlaBLa
         return cell
     }
     
