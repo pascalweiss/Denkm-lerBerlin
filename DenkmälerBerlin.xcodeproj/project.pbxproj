@@ -45,6 +45,8 @@
 		50B3B67A1C0068840042B3F7 /* DMBGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B6791C0068840042B3F7 /* DMBGlobals.swift */; };
 		50CC2D5B1C15B7B200652D35 /* DMBPostgresDatabase_0.5.sql in Resources */ = {isa = PBXBuildFile; fileRef = 50CC2D5A1C15B7B200652D35 /* DMBPostgresDatabase_0.5.sql */; };
 		50CC2D631C16D33800652D35 /* DMBConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC2D621C16D33700652D35 /* DMBConverter.swift */; };
+		50CF730F1C4552CD00D17EF1 /* DMBSearchResultCellProtoype.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CF730E1C4552CD00D17EF1 /* DMBSearchResultCellProtoype.xib */; };
+		50CF73211C45538100D17EF1 /* DMBSearchResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CF73201C45538100D17EF1 /* DMBSearchResultsTableViewCell.swift */; };
 		50DBD35F1C1C829B0010F68E /* Array+groupBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBD35E1C1C829B0010F68E /* Array+groupBy.swift */; };
 		50DBD3771C1C8CA00010F68E /* DMBParticipantsRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBD3761C1C8CA00010F68E /* DMBParticipantsRelation.swift */; };
 		50DBD3891C1D942A0010F68E /* DMBsqlite_v7.db in Resources */ = {isa = PBXBuildFile; fileRef = 50DBD3881C1D942A0010F68E /* DMBsqlite_v7.db */; };
@@ -232,6 +234,8 @@
 		50CC2D5A1C15B7B200652D35 /* DMBPostgresDatabase_0.5.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = DMBPostgresDatabase_0.5.sql; path = Model/DMBPostgresDatabase_0.5.sql; sourceTree = "<group>"; };
 		50CC2D5E1C15BF3B00652D35 /* DMBLocationRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBLocationRelation.swift; path = Model/DMBLocationRelation.swift; sourceTree = "<group>"; };
 		50CC2D621C16D33700652D35 /* DMBConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBConverter.swift; path = Model/DMBConverter.swift; sourceTree = "<group>"; };
+		50CF730E1C4552CD00D17EF1 /* DMBSearchResultCellProtoype.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DMBSearchResultCellProtoype.xib; path = ViewController/SubViewController/DMBSearchResultCellProtoype.xib; sourceTree = "<group>"; };
+		50CF73201C45538100D17EF1 /* DMBSearchResultsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSearchResultsTableViewCell.swift; path = ViewController/SubViewController/DMBSearchResultsTableViewCell.swift; sourceTree = "<group>"; };
 		50DBD35E1C1C829B0010F68E /* Array+groupBy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+groupBy.swift"; path = "Model/Array+groupBy.swift"; sourceTree = "<group>"; };
 		50DBD3761C1C8CA00010F68E /* DMBParticipantsRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBParticipantsRelation.swift; path = Model/DMBParticipantsRelation.swift; sourceTree = "<group>"; };
 		50DBD3881C1D942A0010F68E /* DMBsqlite_v7.db */ = {isa = PBXFileReference; lastKnownFileType = file; name = DMBsqlite_v7.db; path = Model/DMBsqlite_v7.db; sourceTree = "<group>"; };
@@ -314,6 +318,8 @@
 			children = (
 				5034FF171BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift */,
 				50F1223A1C430418008C2CC9 /* DMBAdvSearchTableViewCell.swift */,
+				50CF730E1C4552CD00D17EF1 /* DMBSearchResultCellProtoype.xib */,
+				50CF73201C45538100D17EF1 /* DMBSearchResultsTableViewCell.swift */,
 			);
 			name = ViewCells;
 			sourceTree = "<group>";
@@ -679,6 +685,7 @@
 				50CC2D5B1C15B7B200652D35 /* DMBPostgresDatabase_0.5.sql in Resources */,
 				5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */,
 				50DBD3891C1D942A0010F68E /* DMBsqlite_v7.db in Resources */,
+				50CF730F1C4552CD00D17EF1 /* DMBSearchResultCellProtoype.xib in Resources */,
 				502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */,
 				50A28EDF1BCAB65000647D6B /* LaunchScreen.storyboard in Resources */,
 				50A28EDC1BCAB65000647D6B /* Assets.xcassets in Resources */,
@@ -714,6 +721,7 @@
 				50188DE11C3EED99007137E2 /* DMBSearchOperations.swift in Sources */,
 				502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */,
 				502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */,
+				50CF73211C45538100D17EF1 /* DMBSearchResultsTableViewCell.swift in Sources */,
 				5034FF1D1BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift in Sources */,
 				50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */,
 				502343EF1BFDC857008794D4 /* DMBTimePeriod.swift in Sources */,

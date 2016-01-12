@@ -24,6 +24,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var searchStillTyping = false
     var lastSearchString: String = ""
     let maxRowNumberPerSection = (min: 5,max: 10)
+    var blurEffectView: UIVisualEffectView?
     
     // Categories for Searchfiltering
     let sectionNames = ["Name", "--Location", "--Paticipant", "--Notion"]
@@ -50,6 +51,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         mapView.delegate = self
         mapView.addAnnotation(anno)
+        
+        // Setze Globale Color
+        UIButton.appearance().tintColor = self.view.tintColor
+        UISwitch.appearance().tintColor = self.view.tintColor
         
         // Setup Search Controller
         setupSearchController()
@@ -184,15 +189,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     /// Und ruft Functionen zum Configureren auf
     func setupSearchResultsTable(){
         searchResultsTableView.tableView.registerClass(DMBSearchResultsHeaderView.self, forHeaderFooterViewReuseIdentifier: NSStringFromClass(DMBSearchResultsHeaderView))
-        searchResultsTableView.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "SearchTabelCell")
+        searchResultsTableView.tableView.registerClass(DMBSearchResultsTableViewCell.self, forCellReuseIdentifier: "SearchResultsCell")
+        searchResultsTableView.tableView.registerNib(UINib(nibName: "DMBSearchResultCellProtoype", bundle: nil), forCellReuseIdentifier: "SearchResultsCell")
         
         searchResultsTableView.tableView.dataSource = self
         searchResultsTableView.tableView.delegate = self
 
         configSearchResultsTableView()
         addGestureRecognitionToTableView()
+        addBlurEffectToSearchResultTable()
         
-        self.view.addSubview(searchResultsTableView.tableView)
+        blurEffectView!.addSubview(searchResultsTableView.tableView)
     }
     
     /// Configuriert die Tabelle mit den Suchergebnissen
@@ -217,6 +224,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
     }
     
+    func addBlurEffectToSearchResultTable(){
+        searchResultsTableView.tableView.backgroundColor?.colorWithAlphaComponent(0.3)
+        searchResultsTableView.tableView.opaque = false
+        searchResultsTableView.tableView.backgroundColor = UIColor.clearColor()
+        
+        blurEffectView = UIVisualEffectView(frame: self.view.frame)
+        blurEffectView!.effect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        blurEffectView!.hidden = true
+        
+        self.view.addSubview(blurEffectView!)
+    }
+    
     /// Fügt Gesten zum TableView hinzu
     func addGestureRecognitionToTableView(){
         let gestureSwipeRecognizer = UISwipeGestureRecognizer(target: self, action: "segueToAdvancedSearchView:");
@@ -229,11 +248,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     /// Zeigt TableView an wenn Search beginnt
     func willPresentSearchController(searchController: UISearchController) {
         searchResultsTableView.tableView.hidden = false
+        blurEffectView?.hidden = false
     }
     
     /// Versteckt TableView an wenn Search gecancelt wird
     func willDismissSearchController(searchController: UISearchController) {
         searchResultsTableView.tableView.hidden = true
+        blurEffectView?.hidden = true
     }
     
     // MARK: Search Result Table
@@ -273,23 +294,32 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchTabelCell")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SearchResultsCell") as! DMBSearchResultsTableViewCell
         
         // Set Labels for Cells
         if(indexPath.section <= sectionNames.count && indexPath.section != 0) {
             if showHistory {
                 if (indexPath.section == 1) {
-                    cell.textLabel?.text = searchHistory[indexPath.row]
+                    cell.titleTextLabel?.text = searchHistory[indexPath.row]
+                    cell.subTitleLabel.hidden = true
                 }
             } else {
-                cell.textLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+
+                switch indexPath.section {
+                case 1:
+                    cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+                /*case 2: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getAddress().getStreet()! + " " + filteredData[indexPath.section - 1][indexPath.row].getAddress().getNr()!
+                    cell.subTitleLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+                case 3: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+                case 4: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()*/
+                default: break
+                }
+                
+                
+                
             }
         }
         
-        // Color and Transparency Settings
-        //cell.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
-        //cell.textLabel?.textColor = UIColor.whiteColor()
-        //BlaBLa
         return cell
     }
     
@@ -313,6 +343,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             }
             return numRows
         } else { return 0 }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return showHistory ? 38 : 50
     }
 
     

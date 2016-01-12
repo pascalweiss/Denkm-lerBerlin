@@ -71,6 +71,8 @@ class DMBAdvancedSearchViewController: UITableViewController {
 
         return cell
     }
+    
+
 
 
 }

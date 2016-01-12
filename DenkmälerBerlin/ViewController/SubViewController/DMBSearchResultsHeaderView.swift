@@ -13,6 +13,9 @@ class DMBSearchResultsHeaderView: UITableViewHeaderFooterView {
     let mapViewSender: MapViewController
     let section: Int
     
+    let colorAdvancedButton: UIColor! = UIButton.appearance().tintColor
+    let colorShowMoreButton: UIColor! = UIColor.lightGrayColor()
+    
     init(reuseIdentifier: String?, forMapView mapViewSender: MapViewController, forSection section: Int) {
         self.section = section
         self.mapViewSender = mapViewSender
@@ -28,6 +31,8 @@ class DMBSearchResultsHeaderView: UITableViewHeaderFooterView {
             advancedSearchButton.titleLabel?.adjustsFontSizeToFitWidth = true
             advancedSearchButton.addTarget(mapViewSender, action: "segueToAdvancedSearchView:", forControlEvents: UIControlEvents.TouchUpInside)
             
+            advancedSearchButton.setTitleColor(colorAdvancedButton, forState: UIControlState.Normal)
+            
             self.addSubview(advancedSearchButton)
         }
         
@@ -42,6 +47,8 @@ class DMBSearchResultsHeaderView: UITableViewHeaderFooterView {
                 showMoreButton.titleLabel?.adjustsFontSizeToFitWidth = true
                 showMoreButton.tag = section
                 showMoreButton.addTarget(mapViewSender, action: "showMoreResultsButton:", forControlEvents: UIControlEvents.TouchUpInside)
+                
+                showMoreButton.setTitleColor(colorShowMoreButton, forState: UIControlState.Normal)
                 
                 self.addSubview(showMoreButton)
             }
