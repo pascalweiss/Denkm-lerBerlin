@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArchitektTableViewCell: UITableViewCell {
+class DMBArchitektTableViewCell: UITableViewCell {
     @IBOutlet weak var lab_name: UILabel!
 
     override func awakeFromNib() {
