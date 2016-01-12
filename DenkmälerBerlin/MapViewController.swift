@@ -309,7 +309,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if showHistory && section == 1 {
             return searchHistory.count
         } else if(section - 1 <= sectionNames.count && section != 0 && !filteredData.isEmpty) {
-            var numRows = maxRowNumberPerSection.max
+            var numRows = filteredData[section - 1].count
             if !showMoreEntries[section - 1] {
                 numRows = filteredData[section - 1].count <= maxRowNumberPerSection.min ? filteredData[section - 1].count : maxRowNumberPerSection.min
             }
