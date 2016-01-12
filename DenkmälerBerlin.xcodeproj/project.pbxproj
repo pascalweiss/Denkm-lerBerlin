@@ -12,6 +12,7 @@
 		50188DCF1C3EB8E4007137E2 /* DMBHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5072AAA41C3E5366002ABE39 /* DMBHistory.swift */; };
 		50188DE11C3EED99007137E2 /* DMBSearchOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50188DE01C3EED99007137E2 /* DMBSearchOperations.swift */; };
 		501DB41A1C459C8B00646163 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50E4539A1C03E8AD0004CF71 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		501DB42D1C45A58B00646163 /* DMBPictureURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501DB42C1C45A58B00646163 /* DMBPictureURL.swift */; };
 		502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502343BA1BFCDEC0008794D4 /* DMBModel.swift */; };
 		502343C11BFCE1E7008794D4 /* DMBArchitecture.png in Resources */ = {isa = PBXBuildFile; fileRef = 502343C01BFCE1E7008794D4 /* DMBArchitecture.png */; };
 		502343C31BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */; };
@@ -209,6 +210,7 @@
 		5007DE081BFF34A300987901 /* DMBDummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDummyData.swift; path = Model/DMBDummyData.swift; sourceTree = "<group>"; };
 		5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDetailsTableViewController.swift; path = "DenkmälerBerlin/ViewController/DMBDetailsTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		50188DE01C3EED99007137E2 /* DMBSearchOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSearchOperations.swift; path = ViewController/SubViewController/DMBSearchOperations.swift; sourceTree = "<group>"; };
+		501DB42C1C45A58B00646163 /* DMBPictureURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBPictureURL.swift; path = Model/DMBPictureURL.swift; sourceTree = "<group>"; };
 		502343BA1BFCDEC0008794D4 /* DMBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBModel.swift; path = Model/DMBModel.swift; sourceTree = "<group>"; };
 		502343C01BFCE1E7008794D4 /* DMBArchitecture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DMBArchitecture.png; path = supporting_files/DMBArchitecture.png; sourceTree = "<group>"; };
 		502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = DMBDataConcept_0.3.pdf; path = supporting_files/DMBDataConcept_0.3.pdf; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				502343F01BFDCCF5008794D4 /* DMBLocation.swift */,
+				501DB42C1C45A58B00646163 /* DMBPictureURL.swift */,
 				50CC2D5E1C15BF3B00652D35 /* DMBLocationRelation.swift */,
 				5072AAA41C3E5366002ABE39 /* DMBHistory.swift */,
 				502343F41BFDD8B3008794D4 /* DMBDistrict.swift */,
@@ -761,6 +764,7 @@
 				50B3B67A1C0068840042B3F7 /* DMBGlobals.swift in Sources */,
 				50DBD3771C1C8CA00010F68E /* DMBParticipantsRelation.swift in Sources */,
 				50CC2D631C16D33800652D35 /* DMBConverter.swift in Sources */,
+				501DB42D1C45A58B00646163 /* DMBPictureURL.swift in Sources */,
 				502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */,
 				50B3B6761C00618E0042B3F7 /* DMBNotionsRelation.swift in Sources */,
 				5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */,

@@ -65,7 +65,9 @@ class SearchMonument : NSOperation {
             
             for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && i < 5; i++ {
                 filteredData.append([])
-                filteredData[j].append(filteredMonuments[searchKeys[j]]![i].1)
+                if filteredMonuments[searchKeys[j]] != nil {
+                    filteredData[j].append(filteredMonuments[searchKeys[j]]![i].1)
+                }
             }
         }
         

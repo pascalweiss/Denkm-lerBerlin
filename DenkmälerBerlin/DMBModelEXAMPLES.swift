@@ -32,11 +32,21 @@ struct DMBModelEXAMPLES {
         let t = DMBModel.sharedInstance.getAllTypes()
         t.forEach{t in t.printIt()}
         
-        // Every subclass of DMBEntity can query die database on itself.
+        // Every subclass of DMBEntity can query the database on itself.
         // For example you can query the addresses of a monument
         let mon_1:DMBMonument = monuments_1[0]
         let address:DMBLocation = mon_1.getAddress()
         address.printIt()
+        
+        // Or you can query for the participants
+        let participants:[DMBParticipant] = mon_1.getParticipants()
+        participants.forEach({p in p.printIt()})
+        
+        for mon in monuments_1[0...20] {
+            let pictureURLs: [DMBPictureURL] = mon.getPicUrl()
+            pictureURLs.forEach({p in p.printIt()})
+        }
+        
         
         // get type of a specific monument
         mon_1.getType()
