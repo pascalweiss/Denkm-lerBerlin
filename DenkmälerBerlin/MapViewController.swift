@@ -27,7 +27,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var blurEffectView: UIVisualEffectView?
     
     // Categories for Searchfiltering
-    let sectionNames = ["Name", "--Location", "--Paticipant", "--Notion"]
+    let sectionNames = ["Name", "Adresse", "--Paticipant", "--Notion"]
     var showMoreEntries = [false, false, false, false]
     
     // Array for all Monuments
@@ -307,10 +307,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 switch indexPath.section {
                 case 1:
                     cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
-                /*case 2: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getAddress().getStreet()! + " " + filteredData[indexPath.section - 1][indexPath.row].getAddress().getNr()!
+                    cell.subTitleLabel.text = ""
+                case 2:
+                    let street = filteredData[indexPath.section - 1][indexPath.row].getAddress().getStreet() != nil ? filteredData[indexPath.section - 1][indexPath.row].getAddress().getStreet() : ""
+                    let number = filteredData[indexPath.section - 1][indexPath.row].getAddress().getNr() != nil ? filteredData[indexPath.section - 1][indexPath.row].getAddress().getNr() : ""
+                    cell.titleTextLabel?.text = street! + " " + number!
+                
                     cell.subTitleLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
                 case 3: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
-                case 4: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()*/
+                case 4: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
                 default: break
                 }
                 
