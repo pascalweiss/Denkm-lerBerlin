@@ -55,6 +55,12 @@
 		50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */; };
 		50F2E0951C0080CA00CE633B /* DMBDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */; };
 		50F2E0971C0083CE00CE633B /* DMBSubDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0961C0083CE00CE633B /* DMBSubDistrictRelation.swift */; };
+		57EB18EC1C4585EF007F6149 /* DenkmalAnnotationCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18E61C4585EF007F6149 /* DenkmalAnnotationCluster.swift */; };
+		57EB18ED1C4585EF007F6149 /* DenkmalAnnotationClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18E71C4585EF007F6149 /* DenkmalAnnotationClusterView.swift */; };
+		57EB18EE1C4585EF007F6149 /* FBBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18E81C4585EF007F6149 /* FBBoundingBox.swift */; };
+		57EB18EF1C4585EF007F6149 /* FBClusteringManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18E91C4585EF007F6149 /* FBClusteringManager.swift */; };
+		57EB18F01C4585EF007F6149 /* FBQuadTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18EA1C4585EF007F6149 /* FBQuadTree.swift */; };
+		57EB18F11C4585EF007F6149 /* FBQuadTreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18EB1C4585EF007F6149 /* FBQuadTreeNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +250,12 @@
 		50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSubDistrict.swift; path = Model/DMBSubDistrict.swift; sourceTree = "<group>"; };
 		50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDistrictRelation.swift; path = Model/DMBDistrictRelation.swift; sourceTree = "<group>"; };
 		50F2E0961C0083CE00CE633B /* DMBSubDistrictRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSubDistrictRelation.swift; path = Model/DMBSubDistrictRelation.swift; sourceTree = "<group>"; };
+		57EB18E61C4585EF007F6149 /* DenkmalAnnotationCluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DenkmalAnnotationCluster.swift; sourceTree = "<group>"; };
+		57EB18E71C4585EF007F6149 /* DenkmalAnnotationClusterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DenkmalAnnotationClusterView.swift; sourceTree = "<group>"; };
+		57EB18E81C4585EF007F6149 /* FBBoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBBoundingBox.swift; sourceTree = "<group>"; };
+		57EB18E91C4585EF007F6149 /* FBClusteringManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBClusteringManager.swift; sourceTree = "<group>"; };
+		57EB18EA1C4585EF007F6149 /* FBQuadTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBQuadTree.swift; sourceTree = "<group>"; };
+		57EB18EB1C4585EF007F6149 /* FBQuadTreeNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBQuadTreeNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +313,7 @@
 		5034FF231BE90BCD00A3C77F /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				57EB18D51C4585E0007F6149 /* Clusterer */,
 				50AC10531C451F1D0070851B /* DMBDetailsTableViewCell.swift */,
 				50AC10541C451F1D0070851B /* DMBDetailsTextTableViewCell.swift */,
 				50A3F8701C3C26A00065B335 /* SearchController */,
@@ -451,6 +464,19 @@
 				50E453A81C03E8AD0004CF71 /* SQLiteCipher Mac Tests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		57EB18D51C4585E0007F6149 /* Clusterer */ = {
+			isa = PBXGroup;
+			children = (
+				57EB18E61C4585EF007F6149 /* DenkmalAnnotationCluster.swift */,
+				57EB18E71C4585EF007F6149 /* DenkmalAnnotationClusterView.swift */,
+				57EB18E81C4585EF007F6149 /* FBBoundingBox.swift */,
+				57EB18E91C4585EF007F6149 /* FBClusteringManager.swift */,
+				57EB18EA1C4585EF007F6149 /* FBQuadTree.swift */,
+				57EB18EB1C4585EF007F6149 /* FBQuadTreeNode.swift */,
+			);
+			name = Clusterer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -723,16 +749,20 @@
 				502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */,
 				50CF73211C45538100D17EF1 /* DMBSearchResultsTableViewCell.swift in Sources */,
 				5034FF1D1BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift in Sources */,
+				57EB18F11C4585EF007F6149 /* FBQuadTreeNode.swift in Sources */,
 				50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */,
 				502343EF1BFDC857008794D4 /* DMBTimePeriod.swift in Sources */,
 				502FDA121C3C0AEC0010E1FB /* DMBSearchResultsHeaderView.swift in Sources */,
 				50B3B6781C0063CB0042B3F7 /* DMBModelEXAMPLES.swift in Sources */,
+				57EB18EF1C4585EF007F6149 /* FBClusteringManager.swift in Sources */,
 				502343F51BFDD8B3008794D4 /* DMBDistrict.swift in Sources */,
 				502343E91BFDADE4008794D4 /* DMBEntity.swift in Sources */,
 				50F2E0951C0080CA00CE633B /* DMBDistrictRelation.swift in Sources */,
 				50B3B66C1C0060600042B3F7 /* DMBNotion.swift in Sources */,
+				57EB18ED1C4585EF007F6149 /* DenkmalAnnotationClusterView.swift in Sources */,
 				502FDA001C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift in Sources */,
 				502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */,
+				57EB18EC1C4585EF007F6149 /* DenkmalAnnotationCluster.swift in Sources */,
 				50F1223B1C430418008C2CC9 /* DMBAdvSearchTableViewCell.swift in Sources */,
 				5016DDE61BF1F5BE0041414B /* DMBDetailsTableViewController.swift in Sources */,
 				502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */,
@@ -740,6 +770,7 @@
 				502343EB1BFDB563008794D4 /* DMBRoute.swift in Sources */,
 				50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */,
 				50F2E0971C0083CE00CE633B /* DMBSubDistrictRelation.swift in Sources */,
+				57EB18EE1C4585EF007F6149 /* FBBoundingBox.swift in Sources */,
 				50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */,
 				50AC10551C451F1D0070851B /* DMBDetailsTableViewCell.swift in Sources */,
 				506B82621BFFCDC2001B971A /* DMBType.swift in Sources */,
@@ -747,6 +778,7 @@
 				50DBD3771C1C8CA00010F68E /* DMBParticipantsRelation.swift in Sources */,
 				50AC10561C451F1D0070851B /* DMBDetailsTextTableViewCell.swift in Sources */,
 				50CC2D631C16D33800652D35 /* DMBConverter.swift in Sources */,
+				57EB18F01C4585EF007F6149 /* FBQuadTree.swift in Sources */,
 				502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */,
 				50B3B6761C00618E0042B3F7 /* DMBNotionsRelation.swift in Sources */,
 				5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */,
