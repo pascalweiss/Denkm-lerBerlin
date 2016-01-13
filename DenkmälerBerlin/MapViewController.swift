@@ -31,7 +31,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var showMoreEntries = [false, false, false, false]
     
     // Array for all Monuments
-    var filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
+    //var filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
+    var filteredData: [ [(key: String, array: [DMBMonument])] ] = Array(count: 4, repeatedValue: Array<(key: String, array: [DMBMonument])>())
     
     // Values for search History
     var searchHistory: [String] = []
@@ -306,16 +307,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
                 switch indexPath.section {
                 case 1:
-                    cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+                    cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
                     cell.subTitleLabel.text = ""
                 case 2:
-                    let street = filteredData[indexPath.section - 1][indexPath.row].getAddress().getStreet() != nil ? filteredData[indexPath.section - 1][indexPath.row].getAddress().getStreet() : ""
-                    let number = filteredData[indexPath.section - 1][indexPath.row].getAddress().getNr() != nil ? filteredData[indexPath.section - 1][indexPath.row].getAddress().getNr() : ""
+                    var street = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress().getStreet()
+                        street = street != nil ? street : ""
+                    var number = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress().getNr()
+                        number = number != nil ? number : ""
                     cell.titleTextLabel?.text = street! + " " + number!
                 
-                    cell.subTitleLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
-                case 3: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
-                case 4: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+                    cell.subTitleLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
+                case 3:
+                    cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
+//                case 4: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
                 default: break
                 }
                 
@@ -332,7 +336,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if showHistory {
             self.searchController.searchBar.text = searchHistory[indexPath.row]
         } else {
-            DMBModel.sharedInstance.setHistoryEntry(filteredData[indexPath.section - 1][indexPath.row].getName()!)
+            DMBModel.sharedInstance.setHistoryEntry(filteredData[indexPath.section - 1][indexPath.row].key)
             updateLocalSearchHistory()
         }
     }
