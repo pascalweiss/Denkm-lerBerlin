@@ -22,27 +22,34 @@ class Denkma_lerBerlinTests: XCTestCase {
     }
     
     func testSearch_B() {
-        let searchS = "\'B\'"
-        print("\nSearching for " + searchS + "...\n")
+        print("\nSearchstring: \'B\'...\n" +
+                "====================")
         self.measureBlock {
-            DMBModel.sharedInstance.searchMonuments(searchS)
+            DMBModel.sharedInstance.searchMonuments("B")
         }
     }
     
     func testSearch_Brandenburg() {
-        let searchS = "\'Brandenburg\'"
-        print("\nSearching for " + searchS + "...\n")
+        print("\nSearchstring: \'Brandenburg\'...\n" +
+                "==============================")
         self.measureBlock {
-            DMBModel.sharedInstance.searchMonuments(searchS)
+            DMBModel.sharedInstance.searchMonuments("Brandenburg")
+        }
+    }
+    
+    func testSearch_Haus() {
+        print("\nHaus...\n" +
+                "=======")
+        self.measureBlock {
+            DMBModel.sharedInstance.searchMonuments("Haus")
         }
     }
     
     func testSearch_Brandenburg_Schiller_Tor_Tor() {
-        let searchS = "\'Brandenburg Schiller Tor Tor\'"
-        print("\nSearching for " + searchS + "...\n")
+        print("\nSearchstring: \'Brandenburg Schiller Tor Tor\'...\n" +
+                "===============================================")
         self.measureBlock {
-            DMBModel.sharedInstance.searchMonuments(searchS)
+            DMBModel.sharedInstance.searchMonuments("Brandenburg Schiller Tor Tor")
         }
     }
-    
 }
