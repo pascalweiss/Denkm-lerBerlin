@@ -308,11 +308,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 switch indexPath.section {
                 case 1:
                     cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
-                    cell.subTitleLabel.text = ""
+                    let address = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress()
+                    var street = address.getStreet()
+                    street = street != nil ? street : ""
+                    var number = address.getNr()
+                    number = number != nil ? number : ""
+                    cell.subTitleLabel?.text = street! + " " + number!
                 case 2:
-                    var street = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress().getStreet()
+                    let address = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress()
+                    var street = address.getStreet()
                         street = street != nil ? street : ""
-                    var number = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress().getNr()
+                    var number = address.getNr()
                         number = number != nil ? number : ""
                     cell.titleTextLabel?.text = street! + " " + number!
                 

@@ -26,12 +26,35 @@ class DMBModel {
     private let dbConnection: Connection
     private var filter: DMBFilter?
     private let debug = false
+    
+    private let recopyDatabase = false // true Setzt Datenbank zurück
+    private let sqliteFileName = "DMBsqlite_v7"
 
     private init() {
         if debug {
-            print(NSBundle.mainBundle().pathForResource("DMBsqlite_v7", ofType: "db"))
+            print(NSBundle.mainBundle().pathForResource(sqliteFileName, ofType: "db"))
         }
-        self.dbConnection = try! Connection(NSBundle.mainBundle().pathForResource("DMBsqlite_v7", ofType: "db")!, readonly: false)
+        
+        let fileManager = NSFileManager.defaultManager()
+        let documentsPath: NSString = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
+        let filePath = documentsPath.stringByAppendingPathComponent("/" + sqliteFileName + ".db")
+        
+        
+        if recopyDatabase {
+            while fileManager.fileExistsAtPath(filePath) {
+                print("File exists")
+                try! fileManager.removeItemAtPath(filePath)
+            }
+        }
+        
+        if !fileManager.fileExistsAtPath(filePath) {
+            let srcPath = NSBundle.mainBundle().pathForResource(sqliteFileName, ofType: "db")
+            
+            try! fileManager.copyItemAtPath(srcPath!, toPath: filePath)
+        }
+        
+        
+        self.dbConnection = try! Connection(filePath, readonly: false)
     }
     
     func setFilter(filter:DMBFilter) {
