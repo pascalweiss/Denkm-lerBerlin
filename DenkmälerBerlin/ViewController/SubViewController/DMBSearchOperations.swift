@@ -19,39 +19,6 @@ class PendingOperations {
     }()
 }
 
-struct DMBFilteredObjects {
-    var byName: [(key: String, array: [DMBMonument])]
-    var byAdress: [(key: String, array: [DMBMonument])]
-    var byParticipant: [(key: String, array: [DMBMonument])]
-    var byNotion: [(key: String, array: [DMBMonument])]
-
-    init() {
-        self.byName = []
-        self.byAdress = []
-        self.byNotion = []
-        self.byParticipant = []
-    }
-    
-    func getDictionary(index: Int) -> [(key: String, array: [DMBMonument])] {
-        switch index {
-        case 0: return self.byName
-        case 1: return self.byAdress
-        case 2: return self.byParticipant
-        case 3: return self.byNotion
-        default: return []
-        }
-    }
-    
-    func isEmpty() -> Bool {
-        var returnVal = false
-        for i in 0..<4 {
-            returnVal = getDictionary(i).isEmpty || returnVal
-        }
-        return returnVal
-    }
-    
-}
-
 class SearchMonument : NSOperation {
     
     let searchText: String
@@ -78,9 +45,6 @@ class SearchMonument : NSOperation {
         }
         
         
-        
-        
-        
         for j in 0..<searchKeys.count {
             if self.cancelled {
                 return
@@ -88,7 +52,7 @@ class SearchMonument : NSOperation {
             
             for var i = 0; i < filteredMonuments[searchKeys[j]]!.count && filteredMonuments[searchKeys[j]]![i].0 > 0.2 && i < 50; i++ {
                 
-                if i <= minMaxResultNumber.max {
+                if i <= minMaxResultNumber.max && j < 2 {
                     let monument = filteredMonuments[searchKeys[j]]![i].1
                     filteredData[j].append((monument.getName()!, [monument]))
                 }
