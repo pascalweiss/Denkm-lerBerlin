@@ -215,7 +215,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let x = self.navigationController?.navigationBar.frame.origin.x
         let y = (self.navigationController?.navigationBar.frame.origin.y)! + (self.navigationController?.navigationBar.frame.height)!
         let originPoint = CGPoint(x: x!, y: y)
-        let size = CGSize(width: viewFrame.size.width, height: viewFrame.size.height - y - (self.tabBarController?.tabBar.frame.height)!)
+        let size = CGSize(width: viewFrame.size.width, height: viewFrame.size.height - y /*- (self.tabBarController?.tabBar.frame.height)!*/)
         let searchResultsTableViewRect = CGRect(origin: originPoint, size: size)
         searchResultsTableView.tableView.frame = searchResultsTableViewRect
         
