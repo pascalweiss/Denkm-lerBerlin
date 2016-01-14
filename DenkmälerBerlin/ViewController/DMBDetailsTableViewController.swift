@@ -12,6 +12,9 @@ import MapKit
 class DMBDetailsTableViewController: UITableViewController {
     
     // MARK: Properties
+    
+    @IBOutlet weak var mapView: MKMapView!
+    
     var monument: DMBMonument! = DMBModel.sharedInstance.getAllMonuments()[12];
     var monumentData: Dictionary<String, String>! = Dictionary<String, String>();
     var printOrder: [String] = ["Adresse", "Bauzeit", "Beschreibung"];
@@ -19,6 +22,9 @@ class DMBDetailsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        //mapView.userInteractionEnabled = false;
+        mapView.zoomEnabled = false;
+        tableView.bounces = false;
         // construct property array from monument properties
         
         // set Description Position
@@ -68,8 +74,7 @@ class DMBDetailsTableViewController: UITableViewController {
         
         // Picture for Header
         let picURL: NSURL?;
-        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg");
-        // currentMonument!.getPicUrl();
+        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg"); //monument!.getPicUrl();
         if (picURL != nil){
             // get picture from URL
             let imageData: NSData? = NSData.init(contentsOfURL: picURL!)!;
@@ -77,15 +82,29 @@ class DMBDetailsTableViewController: UITableViewController {
                 let image: UIImage? = UIImage.init(data: imageData!);
                 if (image != nil){
                     // make image view
-                    var imageView: UIImageView;
-                    imageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 320, height: 101));
+                    let imageView = UIImageView.init(frame: CGRect(x: mapView.frame.origin.x, y: mapView.frame.origin.y, width: UIScreen.mainScreen().bounds.width, height: mapView.frame.height));
                     imageView.image = image;
                     imageView.contentMode = .ScaleAspectFill;
                     imageView.clipsToBounds = true;
                     // add image view to superview
                     self.view.addSubview(imageView);
-                    
                 }
+            }
+        } else {
+            // show object on map
+            if (monument.getAddress().getLat() != nil && monument.getAddress().getLong() != nil) {
+                // center map on monument coordinates
+                let lat = monument.getAddress().getLat()!;
+                let long = monument.getAddress().getLong()!;
+                let monumentCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long);
+                
+                // add Annotation
+                let anno = DMBDenkmalMapAnnotation.init(latitude: lat, longitude:long);
+                anno.title = monument.getName();
+                mapView.addAnnotation(anno);
+                
+                mapView.centerCoordinate = monumentCoordinate;
+                mapView.showAnnotations([anno], animated: true);
             }
         }
         // DONE
