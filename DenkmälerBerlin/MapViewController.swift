@@ -45,6 +45,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.tabBar.hidden = true
+        
         // Mapstuff
         clManager = initMapLocationManager()
         let anno = DMBDenkmalMapAnnotation(latitude: 53.800337, longitude: 12.178451)
