@@ -227,7 +227,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func addBlurEffectToSearchResultTable(){
-        searchResultsTableView.tableView.backgroundColor?.colorWithAlphaComponent(0.3)
+        searchResultsTableView.tableView.backgroundColor?.colorWithAlphaComponent(0.0)
         searchResultsTableView.tableView.opaque = false
         searchResultsTableView.tableView.backgroundColor = UIColor.clearColor()
         
