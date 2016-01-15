@@ -104,6 +104,20 @@ struct DMBConverter {
             name:           row[DMBDistrict.Expressions.name])
     }
     
+    static func rowToParticipant(row: SQLite.Row, connection: Connection, table: Table) -> DMBParticipant {
+        return DMBParticipant(
+            connection: connection,
+            id: 		row[table[DMBParticipant.Expressions.id]],
+            name: 		row[table[DMBParticipant.Expressions.name]])
+    }
+    
+    static func rowToPictureURL(row: SQLite.Row,table: Table) -> DMBPictureURL {
+        return DMBPictureURL(
+            id: row[table[DMBPictureURL.Expressions.id]],
+            monumentId: row[table[DMBPictureURL.Expressions.monumentId]],
+            url: row[table[DMBPictureURL.Expressions.url]])
+    }
+    
     static func stringToDate(s:String) -> NSDate? {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"

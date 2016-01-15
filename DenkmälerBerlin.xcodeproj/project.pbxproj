@@ -213,6 +213,7 @@
 		5007DE081BFF34A300987901 /* DMBDummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDummyData.swift; path = Model/DMBDummyData.swift; sourceTree = "<group>"; };
 		5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDetailsTableViewController.swift; path = "DenkmälerBerlin/ViewController/DMBDetailsTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		50188DE01C3EED99007137E2 /* DMBSearchOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSearchOperations.swift; path = ViewController/SubViewController/DMBSearchOperations.swift; sourceTree = "<group>"; };
+		501DB42C1C45A58B00646163 /* DMBPictureURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBPictureURL.swift; path = Model/DMBPictureURL.swift; sourceTree = "<group>"; };
 		502343BA1BFCDEC0008794D4 /* DMBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBModel.swift; path = Model/DMBModel.swift; sourceTree = "<group>"; };
 		502343C01BFCE1E7008794D4 /* DMBArchitecture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DMBArchitecture.png; path = supporting_files/DMBArchitecture.png; sourceTree = "<group>"; };
 		502343C21BFCE1EE008794D4 /* DMBDataConcept_0.3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = DMBDataConcept_0.3.pdf; path = supporting_files/DMBDataConcept_0.3.pdf; sourceTree = "<group>"; };
@@ -352,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				502343F01BFDCCF5008794D4 /* DMBLocation.swift */,
+				501DB42C1C45A58B00646163 /* DMBPictureURL.swift */,
 				50CC2D5E1C15BF3B00652D35 /* DMBLocationRelation.swift */,
 				5072AAA41C3E5366002ABE39 /* DMBHistory.swift */,
 				502343F41BFDD8B3008794D4 /* DMBDistrict.swift */,
@@ -774,6 +776,7 @@
 				50DBD3771C1C8CA00010F68E /* DMBParticipantsRelation.swift in Sources */,
 				50AC10561C451F1D0070851B /* DMBDetailsTextTableViewCell.swift in Sources */,
 				50CC2D631C16D33800652D35 /* DMBConverter.swift in Sources */,
+				501DB42D1C45A58B00646163 /* DMBPictureURL.swift in Sources */,
 				502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */,
 				50B3B6761C00618E0042B3F7 /* DMBNotionsRelation.swift in Sources */,
 				5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */,
