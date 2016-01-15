@@ -83,6 +83,13 @@ struct DMBConverter {
             name:           row[DMBNotion.Expressions.name])
     }
     
+    static func rowToNotion(row: SQLite.Row, connection: Connection, table: Table) -> DMBNotion {
+        return DMBNotion(
+            dbConnection:   connection,
+            id:             row[table[DMBNotion.Expressions.id]],
+            name:           row[table[DMBNotion.Expressions.name]])
+    }
+    
     static func rowToDistrict(row: SQLite.Row, connection: Connection, table: Table) -> DMBDistrict {
         return DMBDistrict(
             dbConnection:   connection,
@@ -102,6 +109,20 @@ struct DMBConverter {
             dbConnection:   connection,
             id:             row[DMBDistrict.Expressions.id],
             name:           row[DMBDistrict.Expressions.name])
+    }
+    
+    static func rowToParticipant(row: SQLite.Row, connection: Connection, table: Table) -> DMBParticipant {
+        return DMBParticipant(
+            connection: connection,
+            id: 		row[table[DMBParticipant.Expressions.id]],
+            name: 		row[table[DMBParticipant.Expressions.name]])
+    }
+    
+    static func rowToPictureURL(row: SQLite.Row,table: Table) -> DMBPictureURL {
+        return DMBPictureURL(
+            id: row[table[DMBPictureURL.Expressions.id]],
+            monumentId: row[table[DMBPictureURL.Expressions.monumentId]],
+            url: row[table[DMBPictureURL.Expressions.url]])
     }
     
     static func stringToDate(s:String) -> NSDate? {
