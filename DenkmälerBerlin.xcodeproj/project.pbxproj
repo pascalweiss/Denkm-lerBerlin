@@ -34,6 +34,7 @@
 		5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF191BE90B6C00A3C77F /* MapViewController.swift */; };
 		5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5034FF211BE90BAB00A3C77F /* Main.storyboard */; };
 		506B82621BFFCDC2001B971A /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B82611BFFCDC2001B971A /* DMBType.swift */; };
+		507C94A71C4934730022A6E7 /* DMBPictureURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501DB42C1C45A58B00646163 /* DMBPictureURL.swift */; };
 		50A28ED21BCAB65000647D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED11BCAB65000647D6B /* AppDelegate.swift */; };
 		50A28EDA1BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50A28ED81BCAB65000647D6B /* Denkma_lerBerlin.xcdatamodeld */; };
 		50A28EDC1BCAB65000647D6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50A28EDB1BCAB65000647D6B /* Assets.xcassets */; };
@@ -748,6 +749,7 @@
 				5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */,
 				5034FF1E1BE90B6C00A3C77F /* DMBFilterViewController.swift in Sources */,
 				50188DE11C3EED99007137E2 /* DMBSearchOperations.swift in Sources */,
+				507C94A71C4934730022A6E7 /* DMBPictureURL.swift in Sources */,
 				502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */,
 				502343ED1BFDC6C8008794D4 /* DMBParticipant.swift in Sources */,
 				502603C81C45BAF10080EA77 /* DMBSearchResultsTableViewCell.swift in Sources */,
@@ -776,7 +778,6 @@
 				50DBD3771C1C8CA00010F68E /* DMBParticipantsRelation.swift in Sources */,
 				50AC10561C451F1D0070851B /* DMBDetailsTextTableViewCell.swift in Sources */,
 				50CC2D631C16D33800652D35 /* DMBConverter.swift in Sources */,
-				501DB42D1C45A58B00646163 /* DMBPictureURL.swift in Sources */,
 				502343E71BFDADC1008794D4 /* DMBMonument.swift in Sources */,
 				50B3B6761C00618E0042B3F7 /* DMBNotionsRelation.swift in Sources */,
 				5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */,
