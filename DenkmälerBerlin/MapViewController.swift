@@ -31,7 +31,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var showMoreEntries = [false, false, false, false]
     
     // Array for all Monuments
-    //var filteredData = Array(count: 5, repeatedValue: Array<DMBMonument>())
     var filteredData: [ [(key: String, array: [DMBMonument])] ] = Array(count: 4, repeatedValue: Array<(key: String, array: [DMBMonument])>())
     
     // Values for search History
@@ -306,16 +305,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                     cell.subTitleLabel.hidden = true
                 }
             } else {
-
+                cell.subTitleLabel.hidden = false
                 switch indexPath.section {
                 case 1:
                     cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
                     let address = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress()
                     var street = address.getStreet()
-                    street = street != nil ? street : ""
+                        street = street != nil ? street : ""
                     var number = address.getNr()
-                    number = number != nil ? number : ""
-                    cell.subTitleLabel?.text = street! + " " + number!
+                        number = number != nil ? number : ""
+                    cell.subTitleLabel?.text = (street! + " " + number!)
                 case 2:
                     let address = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress()
                     var street = address.getStreet()
@@ -331,8 +330,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 default: break
                 }
                 
-                
-                
             }
         }
         
@@ -344,7 +341,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         if showHistory {
             self.searchController.searchBar.text = searchHistory[indexPath.row]
         } else {
-            DMBModel.sharedInstance.setHistoryEntry(filteredData[indexPath.section - 1][indexPath.row].key)
+            let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as! DMBSearchResultsTableViewCell
+            DMBModel.sharedInstance.setHistoryEntry(cell.titleTextLabel.text!)
             updateLocalSearchHistory()
         }
     }
