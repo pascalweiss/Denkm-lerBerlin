@@ -47,6 +47,10 @@ struct DMBModelEXAMPLES {
             pictureURLs.forEach({p in p.printIt()})
         }
         
+        let notions: [DMBNotion] = monuments_1[0].getNotions()
+        notions.forEach({p in p.printIt()})
+        notions.forEach({p in print(p.getName())})
+        
         
         // get type of a specific monument
         mon_1.getType()

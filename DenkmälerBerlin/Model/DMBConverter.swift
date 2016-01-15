@@ -83,6 +83,13 @@ struct DMBConverter {
             name:           row[DMBNotion.Expressions.name])
     }
     
+    static func rowToNotion(row: SQLite.Row, connection: Connection, table: Table) -> DMBNotion {
+        return DMBNotion(
+            dbConnection:   connection,
+            id:             row[table[DMBNotion.Expressions.id]],
+            name:           row[table[DMBNotion.Expressions.name]])
+    }
+    
     static func rowToDistrict(row: SQLite.Row, connection: Connection, table: Table) -> DMBDistrict {
         return DMBDistrict(
             dbConnection:   connection,

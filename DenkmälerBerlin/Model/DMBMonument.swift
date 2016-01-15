@@ -147,7 +147,7 @@ class DMBMonument: DMBEntity {
             .join(monuments, on: notionsRels[DMBNotionsRelation.Expressions.monumentId] == notionsRels[DMBMonument.Expressions.id])
             .filter(id == monuments[DMBMonument.Expressions.id]))
             .map({row -> DMBNotion in
-                return DMBConverter.rowToNotion(row,connection: dbConnection)
+                return DMBConverter.rowToNotion(row, connection: dbConnection, table: notions)
             })
     }
     
