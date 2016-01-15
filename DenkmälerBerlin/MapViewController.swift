@@ -10,34 +10,41 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchControllerDelegate, UIGestureRecognizerDelegate{
+class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     
-    // Map
-    @IBOutlet weak var mapView: MKMapView!
-    var clManager: CLLocationManager!
-    
-    var internalData: String? // Passed Data from Advanced Search
-    
-    // SearchController
-    var searchController: UISearchController!
+    // MARK: Table
     var searchResultsTableView = UITableViewController(style: UITableViewStyle.Grouped)
-    var searchStillTyping = false
-    var lastSearchString: String = ""
     let maxRowNumberPerSection = (min: 5,max: 10)
-    var blurEffectView: UIVisualEffectView?
     
     // Categories for Searchfiltering
     let sectionNames = ["Name", "Adresse", "--Paticipant", "--Notion"]
     var showMoreEntries = [false, false, false, false]
     
-    // Array for all Monuments
-    var filteredData: [ [(key: String, array: [DMBMonument])] ] = Array(count: 4, repeatedValue: Array<(key: String, array: [DMBMonument])>())
-    
     // Values for search History
     var searchHistory: [String] = []
     var showHistory: Bool = true
     
-    // Active Threads
+    // MARK: Blur Effect
+    var blurEffectView: UIVisualEffectView?
+    
+    // MARK: SearchController
+    var searchController: UISearchController!
+    var searchStillTyping = false
+    var lastSearchString: String = ""
+    
+    // Array for all Monuments
+    var filteredData: [ [(key: String, array: [DMBMonument])] ] = Array(count: 4, repeatedValue: Array<(key: String, array: [DMBMonument])>())
+
+    
+    // MARK: Map
+    @IBOutlet weak var mapView: MKMapView!
+    var clManager: CLLocationManager!
+    
+    
+    // MARK: Data Passing
+    var internalData: String? // Passed Data from Advanced Search
+    
+    // MARK: Active Threads
     let pendingOperations = PendingOperations()
 
     // MARK: Life-Cycle
@@ -90,8 +97,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
-    // MARK: Gesture Handling
-    
+    /// Reset die Mehr Anzeigen Buttons bei neuladen der Suchergebnisse
+    func resetShowMoreButton(){
+        for i in 0..<showMoreEntries.count {
+            showMoreEntries[i] = false
+        }
+    }
     
     // MARK: Navigation
     
@@ -109,84 +120,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
-    // MARK: Map
     
-    func initMapLocationManager() -> CLLocationManager {
-        
-        let manager = CLLocationManager()
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        
-//      Update User Position
-        manager.requestAlwaysAuthorization()
-        manager.startUpdatingLocation()
-        
-        return manager
+}
+
+// MARK: - Data Passing
+extension MapViewController: DMBAdvancedSearchDelegate {
+    func sendDataBack(data: String) {
+        self.internalData = data
     }
+}
+
+// MARK: - TableView Controller
+extension MapViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location = locations.last! as CLLocation
-        
-        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        
-        self.mapView.setRegion(region, animated: true)
-        manager.stopUpdatingLocation()
-    }
-    
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        let identifier = "DenkmalAnnotation"
-        
-        if annotation.isKindOfClass(DMBDenkmalMapAnnotation.self) {
-            var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
-            
-            if annotationView == nil {
-                
-                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView!.canShowCallout = true
-                
-                
-                let btn = UIButton(type: .DetailDisclosure)
-                annotationView!.rightCalloutAccessoryView = btn
-            } else {
-                
-                annotationView!.annotation = annotation
-            }
-            
-            return annotationView
-        }
-        return nil
-    }
-    
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
-        // Segue for Annotaion
-        if control == view.rightCalloutAccessoryView {
-            performSegueWithIdentifier("Detail", sender: self)
-        }
-    }
-    
-    // MARK: Search Setup & Config
-    
-    /// Initialisiert und Configuriert den Search Controller
-    func setupSearchController(){
-        
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.delegate = self
-        
-        searchController.dimsBackgroundDuringPresentation = false
-        
-        // Serach Bar in Navigation
-        searchController.searchBar.sizeToFit()
-        navigationItem.titleView = searchController.searchBar
-        searchController.hidesNavigationBarDuringPresentation = false
-        
-        // Sets this view controller as presenting view controller for the search interface
-        definesPresentationContext = true
-        
-    }
-    
+    // MARK: Setup
     /// Erstellt den TableViewController für die Suchergebnisse und den Verlauf
     /// Und ruft Functionen zum Configureren auf
     func setupSearchResultsTable(){
@@ -195,7 +142,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         searchResultsTableView.tableView.dataSource = self
         searchResultsTableView.tableView.delegate = self
-
+        
         configSearchResultsTableView()
         addGestureRecognitionToTableView()
         addBlurEffectToSearchResultTable()
@@ -203,6 +150,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         blurEffectView!.addSubview(searchResultsTableView.tableView)
     }
     
+    // MARK: Config
     /// Configuriert die Tabelle mit den Suchergebnissen
     /// Setzt vor allem die Position der TableView unter die Navbar
     func configSearchResultsTableView(){
@@ -225,6 +173,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
     }
     
+    // MARK: Background Effect
     func addBlurEffectToSearchResultTable(){
         searchResultsTableView.tableView.backgroundColor?.colorWithAlphaComponent(0.0)
         searchResultsTableView.tableView.opaque = false
@@ -237,6 +186,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.view.addSubview(blurEffectView!)
     }
     
+    // MARK: Gestures
     /// Fügt Gesten zum TableView hinzu
     func addGestureRecognitionToTableView(){
         let gestureSwipeRecognizer = UISwipeGestureRecognizer(target: self, action: "segueToAdvancedSearchView:");
@@ -246,20 +196,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         searchResultsTableView.tableView.addGestureRecognizer(gestureSwipeRecognizer)
     }
     
-    /// Zeigt TableView an wenn Search beginnt
-    func willPresentSearchController(searchController: UISearchController) {
-        searchResultsTableView.tableView.hidden = false
-        blurEffectView?.hidden = false
+    // MARK: Table General
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return sectionNames.count + 1
     }
     
-    /// Versteckt TableView an wenn Search gecancelt wird
-    func willDismissSearchController(searchController: UISearchController) {
-        searchResultsTableView.tableView.hidden = true
-        blurEffectView?.hidden = true
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if showHistory && section == 1 {
+            return searchHistory.count
+        } else if(section - 1 <= sectionNames.count && section != 0 && !filteredData.isEmpty) {
+            var numRows = filteredData[section - 1].count
+            if !showMoreEntries[section - 1] {
+                numRows = filteredData[section - 1].count <= maxRowNumberPerSection.min ? filteredData[section - 1].count : maxRowNumberPerSection.min
+            }
+            return numRows
+        } else { return 0 }
     }
     
-    // MARK: Search Result Table
-    
+    // MARK: Table Header
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if (section != 0) {
             if (showHistory || filteredData[section - 1].isEmpty) {
@@ -283,6 +237,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //return DMBTableHeaderView(tableView: tableView, viewForHeaderInSection: section, mapViewSender: self)
     }
     
+    // MARK: Table Footer
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if (filteredData.isEmpty || (section == 0 || (section != 0 && filteredData[section - 1].isEmpty) && !filteredData.isEmpty)) {
             return section == 0 ? 4 : 0.01
@@ -290,10 +245,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         return 18
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sectionNames.count + 1
+    // MARK: Table Cells / Rows
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return showHistory ? 38 : 50
     }
-
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SearchResultsCell") as! DMBSearchResultsTableViewCell
         
@@ -311,22 +267,22 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                     cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
                     let address = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress()
                     var street = address.getStreet()
-                        street = street != nil ? street : ""
+                    street = street != nil ? street : ""
                     var number = address.getNr()
-                        number = number != nil ? number : ""
+                    number = number != nil ? number : ""
                     cell.subTitleLabel?.text = (street! + " " + number!)
                 case 2:
                     let address = filteredData[indexPath.section - 1][indexPath.row].array[0].getAddress()
                     var street = address.getStreet()
-                        street = street != nil ? street : ""
+                    street = street != nil ? street : ""
                     var number = address.getNr()
-                        number = number != nil ? number : ""
+                    number = number != nil ? number : ""
                     cell.titleTextLabel?.text = street! + " " + number!
-                
+                    
                     cell.subTitleLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
                 case 3:
                     cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
-//                case 4: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+                    //                case 4: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
                 default: break
                 }
                 
@@ -346,26 +302,47 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             updateLocalSearchHistory()
         }
     }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if showHistory && section == 1 {
-            return searchHistory.count
-        } else if(section - 1 <= sectionNames.count && section != 0 && !filteredData.isEmpty) {
-            var numRows = filteredData[section - 1].count
-            if !showMoreEntries[section - 1] {
-                numRows = filteredData[section - 1].count <= maxRowNumberPerSection.min ? filteredData[section - 1].count : maxRowNumberPerSection.min
-            }
-            return numRows
-        } else { return 0 }
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return showHistory ? 38 : 50
-    }
 
+}
+
+// MARK: - Search Controller
+extension MapViewController: UISearchResultsUpdating, UISearchControllerDelegate {
+    
+    // MARK: Init & Config
+    /// Initialisiert und Configuriert den Search Controller
+    func setupSearchController(){
+        
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
+        
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        // Serach Bar in Navigation
+        searchController.searchBar.sizeToFit()
+        navigationItem.titleView = searchController.searchBar
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        // Sets this view controller as presenting view controller for the search interface
+        definesPresentationContext = true
+        
+    }
+    
+    
+    // MARK: SC Life-Cycle
+    /// Zeigt TableView an wenn Search beginnt
+    func willPresentSearchController(searchController: UISearchController) {
+        searchResultsTableView.tableView.hidden = false
+        blurEffectView?.hidden = false
+    }
+    
+    /// Versteckt TableView an wenn Search gecancelt wird
+    func willDismissSearchController(searchController: UISearchController) {
+        searchResultsTableView.tableView.hidden = true
+        blurEffectView?.hidden = true
+    }
     
     // MARK: Search Updater
-    
     func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searchText = searchController.searchBar.text
         
@@ -396,15 +373,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         searchHistory = searchHistory.reverse()
     }
     
-    /// Reset die Mehr Anzeigen Buttons bei neuladen der Suchergebnisse
-    func resetShowMoreButton(){
-        for i in 0..<showMoreEntries.count {
-            showMoreEntries[i] = false
-        }
-    }
+    
     
     // MARK: Multi-Threading - NSOperationQueue
-    
     func startSearchForMonument(searchText: String){
         
         var threadNumber = 0
@@ -452,10 +423,65 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
     }
+    
 }
 
-extension MapViewController: DMBAdvancedSearchDelegate {
-    func sendDataBack(data: String) {
-        self.internalData = data
+// MARK: - Map
+extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
+    
+    // MARK: Init
+    func initMapLocationManager() -> CLLocationManager {
+        
+        let manager = CLLocationManager()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        //      Update User Position
+        manager.requestAlwaysAuthorization()
+        manager.startUpdatingLocation()
+        
+        return manager
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last! as CLLocation
+        
+        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        
+        self.mapView.setRegion(region, animated: true)
+        manager.stopUpdatingLocation()
+    }
+    
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        let identifier = "DenkmalAnnotation"
+        
+        if annotation.isKindOfClass(DMBDenkmalMapAnnotation.self) {
+            var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
+            
+            if annotationView == nil {
+                
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                annotationView!.canShowCallout = true
+                
+                
+                let btn = UIButton(type: .DetailDisclosure)
+                annotationView!.rightCalloutAccessoryView = btn
+            } else {
+                
+                annotationView!.annotation = annotation
+            }
+            
+            return annotationView
+        }
+        return nil
+    }
+    
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        // Segue for Annotaion
+        if control == view.rightCalloutAccessoryView {
+            performSegueWithIdentifier("Detail", sender: self)
+        }
     }
 }
