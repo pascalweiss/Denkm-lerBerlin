@@ -18,7 +18,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     let maxRowNumberPerSection = (min: 5,max: 10)
     
     // Categories for Searchfiltering
-    let sectionNames = ["Name", "Adresse", "--Paticipant", "--Notion"]
+    let sectionNames = ["Name", "Adresse", "Beteiligte", "Gebäudetyp"]
     var showMoreEntries = [false, false, false, false]
     
     // Values for search History
@@ -280,9 +280,15 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.titleTextLabel?.text = street! + " " + number!
                     
                     cell.subTitleLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
-                case 3:
+                case 3...4:
                     cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].key
-                    //                case 4: cell.titleTextLabel?.text = filteredData[indexPath.section - 1][indexPath.row].getName()
+                    var subText: String = ""
+                    for var i = 0; i < filteredData[indexPath.section - 1][indexPath.row].array.count && i < 5; i++ {
+                        subText.appendContentsOf(filteredData[indexPath.section - 1][indexPath.row].array[i].getName()! + ", ")
+                    }
+                    
+                    cell.subTitleLabel.text = subText
+                    
                 default: break
                 }
                 

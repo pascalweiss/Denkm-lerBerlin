@@ -65,15 +65,23 @@ class SearchMonument : NSOperation {
                 if searchKeys[j] == DMBSearchKey.byParticipant {
                     filteredMonuments[DMBSearchKey.byParticipant]![i].1.getParticipants().forEach { p in
                         let name = p.getName()
+                        var foundAmmount = -1
+                        
                         
                         for index in 0..<filteredData[j].count {
                             if filteredData[j][index].key == name {
-                                filteredData[j][index].array.append(filteredMonuments[DMBSearchKey.byParticipant]![i].1)
-                            } else {
-                                if name != nil {
-                                    filteredData[j].append((name!, [filteredMonuments[DMBSearchKey.byParticipant]![i].1]))
-                                }
+                                foundAmmount = index
+                                break;
                             }
+                        }
+                        
+                        if foundAmmount > -1 {
+                            filteredData[j][foundAmmount].array.append(filteredMonuments[DMBSearchKey.byParticipant]![i].1)
+                        } else {
+                            if filteredData[j].count <= minMaxResultNumber.max {
+                                filteredData[j].append((name!, [filteredMonuments[DMBSearchKey.byParticipant]![i].1]))
+                            }
+                            
                         }
                     }
                 }
@@ -82,22 +90,30 @@ class SearchMonument : NSOperation {
                     return
                 }
                 
+                
+                
                 if searchKeys[j] == DMBSearchKey.byNotion {
                     filteredMonuments[DMBSearchKey.byNotion]![i].1.getNotions().forEach { p in
                         let name = p.getName()
+                        var foundAmmount = -1
+                        
                         
                         for index in 0..<filteredData[j].count {
                             if filteredData[j][index].key == name {
-                                filteredData[j][index].array.append(filteredMonuments[DMBSearchKey.byNotion]![i].1)
-                            } else {
-                                filteredData[j].append((name!, [filteredMonuments[DMBSearchKey.byNotion]![i].1]))
+                                foundAmmount = index
+                                break;
                             }
                         }
                         
+                        if foundAmmount > -1 {
+                            filteredData[j][foundAmmount].array.append(filteredMonuments[DMBSearchKey.byNotion]![i].1)
+                        } else {
+                            if filteredData[j].count <= minMaxResultNumber.max {
+                                filteredData[j].append((name!, [filteredMonuments[DMBSearchKey.byNotion]![i].1]))
+                            }
+                            
+                        }
                         
-                        /* if name != nil {
-                            filteredData.byNotion[name!]?.append(filteredMonuments[DMBSearchKey.byNotion]![i].1)
-                        }*/
                     }
                 }
             }
