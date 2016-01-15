@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
+// MARK: - Main MapViewController Class
 class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     
     // MARK: Table
@@ -53,7 +54,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         
         self.tabBarController?.tabBar.hidden = true
         
-        // Mapstuff
         clManager = initMapLocationManager()
         let anno = DMBDenkmalMapAnnotation(latitude: 53.800337, longitude: 12.178451)
         anno.title = "Denkmal"
