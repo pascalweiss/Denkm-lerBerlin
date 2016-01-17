@@ -34,6 +34,7 @@ class RangeSliderTrackLayer: CALayer {
     }
 }
 
+//
 class RangeSliderThumbLayer: CALayer {
     var highlighted: Bool = false {
         didSet {
