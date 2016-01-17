@@ -8,6 +8,7 @@
 
 import UIKit
 import QuartzCore
+import Foundation
 
 class RangeSliderTrackLayer: CALayer {
     weak var rangeSlider: RangeSlider?
@@ -72,7 +73,8 @@ class RangeSliderThumbLayer: CALayer {
 
 @IBDesignable
 class RangeSlider: UIControl {
-    @IBInspectable var minimumValue: Double = 0.0 {
+    
+    @IBInspectable var minimumValue: Double = Double(NSCalendar.currentCalendar().components([.Year], fromDate: DMBModel.sharedInstance.getMinDate()!).year) {
         willSet(newValue) {
             assert(newValue < maximumValue, "RangeSlider: minimumValue should be lower than maximumValue")
         }
@@ -81,7 +83,7 @@ class RangeSlider: UIControl {
         }
     }
     
-    @IBInspectable var maximumValue: Double = 2000.0 {
+    @IBInspectable var maximumValue: Double = Double(NSCalendar.currentCalendar().components([.Year], fromDate: DMBModel.sharedInstance.getMaxDate()!).year) {
         willSet(newValue) {
             assert(newValue > minimumValue, "RangeSlider: maximumValue should be greater than minimumValue")
         }
@@ -90,7 +92,7 @@ class RangeSlider: UIControl {
         }
     }
     
-    @IBInspectable var lowerValue: Double = 0.0 {
+    @IBInspectable var lowerValue: Double = Double(NSCalendar.currentCalendar().components([.Year], fromDate: DMBModel.sharedInstance.getMinDate()!).year) {
         didSet {
             if lowerValue < minimumValue {
                 lowerValue = minimumValue
@@ -99,7 +101,7 @@ class RangeSlider: UIControl {
         }
     }
     
-    @IBInspectable var upperValue: Double = 2000.0 {
+    @IBInspectable var upperValue: Double = Double(NSCalendar.currentCalendar().components([.Year], fromDate: DMBModel.sharedInstance.getMaxDate()!).year) {
         didSet {
             if upperValue > maximumValue {
                 upperValue = maximumValue

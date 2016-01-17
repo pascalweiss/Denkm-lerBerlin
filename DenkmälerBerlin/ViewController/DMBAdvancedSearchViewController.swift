@@ -20,6 +20,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
     
     // MARK: Elemente fuer Range Slider
     let customRangeSlider = RangeSlider(frame: CGRectZero)
+    
     let labelLowerValue = UILabel()
     let labelUpperValue = UILabel()
     
@@ -112,6 +113,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
 
     // MARK: Veraenderte Position Schieberegler des Range Sliders holen
     func rangeSliderValueChanged(rangeSlider: RangeSlider) {
+        
         print("Range slider value changed: (\(rangeSlider.lowerValue) , \(rangeSlider.upperValue))")
         
         labelLowerValue.text = "\(Int(rangeSlider.lowerValue))"
