@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 protocol DMBAdvancedSearchDelegate {
     func sendDataBack(data: String)
@@ -16,11 +17,15 @@ class DMBAdvancedSearchViewController: UITableViewController {
     
     var delegate: DMBAdvancedSearchDelegate?
     
-    var monumentType: [(type: String,on: Bool)] = [("Baudenkmal", true), ("Garten- /Parkdenkmal", true), ("Bodendenkmal", true)]
+    // Arrays fuer die TableView
+    var allMonuTypes  = [(type: String, on: Bool)]()
+    var allDistricts  = [(type: String, on: Bool)]()
+    var allTimeLimits = [(type: String, on: Bool)]()
+    var allSections   = [[(type: String, on: Bool)]]()
+    let headerTitles  = ["Denkmaltypen", "Bezirke", "Zeitraum"]
     
     // MARK: Elemente fuer Range Slider
     let customRangeSlider = RangeSlider(frame: CGRectZero)
-    
     let labelLowerValue = UILabel()
     let labelUpperValue = UILabel()
     
@@ -28,8 +33,35 @@ class DMBAdvancedSearchViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerClass(DMBAdvSearchTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(DMBAdvSearchTableViewCell))
+        for district in DMBModel.sharedInstance.getAllDistricts() {
+            
+            if district.getName() != nil  && district.getName()?.isEmpty != true {
+                allDistricts.append((type: district.getName()!, on: true))
+            }
+        }
         
+        // Test-Ausgabe auf der Konsole
+//        for district in allDistricts {
+//            print("District: \(district.type)")
+//        }
+        
+        for monuType in DMBModel.sharedInstance.getAllTypes() {
+            if monuType.getName() != nil && monuType.getName()?.isEmpty != true {
+                allMonuTypes.append((type: monuType.getName()!, on: true))
+            }
+        }
+        
+        // Test-Ausgabe auf der Konsole
+//        for monuType in allMonuTypes {
+//            print("MonuType: \(monuType.type)")
+//        }
+        
+        // Leere Zeile fuer Range Slider erzeugen
+        allTimeLimits.append((type: "", on: true))
+        
+        allSections = [allMonuTypes, allDistricts, allTimeLimits]
+        
+        tableView.registerClass(DMBAdvSearchTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(DMBAdvSearchTableViewCell))
         // Range Slider inklusive Wertanzeige in View einbinden
         // Do any additional setup after loading the view, typically from a nib.
         view.addSubview(customRangeSlider)
@@ -40,7 +72,6 @@ class DMBAdvancedSearchViewController: UITableViewController {
         
         labelUpperValue.text = "\(Int(customRangeSlider.upperValue))"
         view.addSubview(labelUpperValue)
-        
     }
     
     // MARK: Range Slider positionieren
@@ -56,7 +87,6 @@ class DMBAdvancedSearchViewController: UITableViewController {
         
         labelUpperValue.frame = CGRect(x: view.frame.size.width - margin - 200, y: margin + topLayoutGuide.length + 100 + height, width: 200, height: height)
         labelUpperValue.textAlignment = NSTextAlignment.Right;
-        
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -64,11 +94,10 @@ class DMBAdvancedSearchViewController: UITableViewController {
     }
     
     // MARK: Button / Switch Target
-    
     func switchValueChange(sender: UISwitch!){
-        monumentType[sender.tag].on = sender.on
+//        allSections[indexPath.section][indexPath.row]
+//        allSections[sender.tag].on = sender.on
     }
-    
     
     // MARK: Navigation
     func navigationBackPassData(sender: AnyObject) {
@@ -77,32 +106,38 @@ class DMBAdvancedSearchViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
+    // Anzahl Sections zaehlen und zurueckliefern
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        return allSections.count
     }
 
+    // Anzahl Zeilen je Section zaehlen
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return monumentType.count
+        return allSections[section].count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell = UITableViewCell()
         
-        if (indexPath.section == 0){
+        if indexPath.section == 0 || indexPath.section == 1 {
             let advCell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(DMBAdvSearchTableViewCell), forIndexPath: indexPath) as! DMBAdvSearchTableViewCell
-            
-            advCell.nameLabel.text = monumentType[indexPath.row].type
+            advCell.nameLabel.text = allSections[indexPath.section][indexPath.row].type
             advCell.activateSwitch.tag = indexPath.row
             advCell.activateSwitch.addTarget(self, action: "switchValueChange:", forControlEvents: UIControlEvents.ValueChanged)
-            
             cell = advCell
+        } else if indexPath.section == 2 {
+            //cell
         }
         
-
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section < headerTitles.count {
+            return headerTitles[section]
+        }
+        
+        return nil
     }
     
     // MARK: Kann die raus???
@@ -113,9 +148,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
 
     // MARK: Veraenderte Position Schieberegler des Range Sliders holen
     func rangeSliderValueChanged(rangeSlider: RangeSlider) {
-        
-        print("Range slider value changed: (\(rangeSlider.lowerValue) , \(rangeSlider.upperValue))")
-        
+        //print("Range slider value changed: (\(rangeSlider.lowerValue) , \(rangeSlider.upperValue))") // Test-Ausgabe auf der Konsole
         labelLowerValue.text = "\(Int(rangeSlider.lowerValue))"
         labelUpperValue.text = "\(Int(rangeSlider.upperValue))"
     }
