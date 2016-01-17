@@ -62,8 +62,8 @@ class DMBAdvancedSearchViewController: UITableViewController {
         allSections = [allMonuTypes, allDistricts, allTimeLimits]
         
         tableView.registerClass(DMBAdvSearchTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(DMBAdvSearchTableViewCell))
+        
         // Range Slider inklusive Wertanzeige in View einbinden
-        // Do any additional setup after loading the view, typically from a nib.
         view.addSubview(customRangeSlider)
         customRangeSlider.addTarget(self, action: "rangeSliderValueChanged:", forControlEvents: .ValueChanged)
         
@@ -77,15 +77,15 @@ class DMBAdvancedSearchViewController: UITableViewController {
     // MARK: Range Slider positionieren
     override func viewDidLayoutSubviews() {
         let margin: CGFloat = 20.0
-        let width = view.bounds.width - 2.0 * margin
-        let height: CGFloat = 31.0;
+        let height: CGFloat = 30.0;
+        let shift:  CGFloat = 75.0;
+        let label:  CGFloat = 100.0;
+        let width = view.bounds.width - 2.0 * margin - 1.0 * label
         
-        customRangeSlider.frame = CGRect(x: margin, y: margin + topLayoutGuide.length + 100, width: width, height: height)
-        
-        labelLowerValue.frame = CGRect(x: margin, y: margin + topLayoutGuide.length + 100 + height, width: 200, height: height)
+        customRangeSlider.frame = CGRect(x: margin + (label / 2), y: self.tableView.contentSize.height - shift, width: width, height: height)
+        labelLowerValue.frame = CGRect(x: margin, y: self.tableView.contentSize.height - shift, width: label, height: height)
         labelLowerValue.textAlignment = NSTextAlignment.Left;
-        
-        labelUpperValue.frame = CGRect(x: view.frame.size.width - margin - 200, y: margin + topLayoutGuide.length + 100 + height, width: 200, height: height)
+        labelUpperValue.frame = CGRect(x: view.frame.size.width - margin - label, y: self.tableView.contentSize.height - shift, width: label, height: height)
         labelUpperValue.textAlignment = NSTextAlignment.Right;
     }
 
@@ -95,7 +95,6 @@ class DMBAdvancedSearchViewController: UITableViewController {
     
     // MARK: Button / Switch Target
     func switchValueChange(sender: UISwitch!){
-//        allSections[indexPath.section][indexPath.row]
 //        allSections[sender.tag].on = sender.on
     }
     
@@ -125,8 +124,6 @@ class DMBAdvancedSearchViewController: UITableViewController {
             advCell.activateSwitch.tag = indexPath.row
             advCell.activateSwitch.addTarget(self, action: "switchValueChange:", forControlEvents: UIControlEvents.ValueChanged)
             cell = advCell
-        } else if indexPath.section == 2 {
-            //cell
         }
         
         return cell
@@ -140,7 +137,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
         return nil
     }
     
-    // MARK: Kann die raus???
+    // MARK: Kann die Methode raus???
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
