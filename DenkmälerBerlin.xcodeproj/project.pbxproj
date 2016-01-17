@@ -58,6 +58,7 @@
 		50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */; };
 		50F2E0951C0080CA00CE633B /* DMBDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */; };
 		50F2E0971C0083CE00CE633B /* DMBSubDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0961C0083CE00CE633B /* DMBSubDistrictRelation.swift */; };
+		9EE6864D1C4BC9C400A5DE8A /* DMBRangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE6864C1C4BC9C400A5DE8A /* DMBRangeSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,6 +270,7 @@
 		50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSubDistrict.swift; path = Model/DMBSubDistrict.swift; sourceTree = "<group>"; };
 		50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDistrictRelation.swift; path = Model/DMBDistrictRelation.swift; sourceTree = "<group>"; };
 		50F2E0961C0083CE00CE633B /* DMBSubDistrictRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSubDistrictRelation.swift; path = Model/DMBSubDistrictRelation.swift; sourceTree = "<group>"; };
+		9EE6864C1C4BC9C400A5DE8A /* DMBRangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBRangeSlider.swift; path = ViewController/DMBRangeSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +337,7 @@
 				5034FF191BE90B6C00A3C77F /* MapViewController.swift */,
 				5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */,
 				502FD9FF1C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift */,
+				9EE6864C1C4BC9C400A5DE8A /* DMBRangeSlider.swift */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -549,7 +552,7 @@
 				TargetAttributes = {
 					50A28ECD1BCAB64F00647D6B = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = G8Y6P58KPJ;
+						DevelopmentTeam = W9927JJP96;
 					};
 					50A28EE41BCAB65000647D6B = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -764,6 +767,7 @@
 				50B3B66C1C0060600042B3F7 /* DMBNotion.swift in Sources */,
 				502FDA001C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift in Sources */,
 				502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */,
+				9EE6864D1C4BC9C400A5DE8A /* DMBRangeSlider.swift in Sources */,
 				50F1223B1C430418008C2CC9 /* DMBAdvSearchTableViewCell.swift in Sources */,
 				5016DDE61BF1F5BE0041414B /* DMBDetailsTableViewController.swift in Sources */,
 				502343BB1BFCDEC0008794D4 /* DMBModel.swift in Sources */,
