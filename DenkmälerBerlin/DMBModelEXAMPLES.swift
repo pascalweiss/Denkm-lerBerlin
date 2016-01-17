@@ -108,7 +108,8 @@ struct DMBModelEXAMPLES {
         print("\nMost recent date:\n" +
                 "=================\n"+String(DMBModel.sharedInstance.getMaxDate()))
         
-        
+        print("\nHistory:\n" +
+                "========\n")
         // Add entries to the history
         DMBModel.sharedInstance.setHistoryEntry("HTWBerlin")
         DMBModel.sharedInstance.setHistoryEntry("Pascals Schloss")
@@ -116,5 +117,17 @@ struct DMBModelEXAMPLES {
         
         // Get History Entries
         DMBModel.sharedInstance.getHistory().forEach({h in h.printIt()})
+        
+
+        print("\nSearch with filter:\n" +
+            "===================\n")
+        
+        // filtered search: set the filter to whatever you like
+        DMBModel.sharedInstance.filter.baudenkmal               = false
+        DMBModel.sharedInstance.filter.friedrichshainKreuzberg  = false
+        
+        // ... and call the searchMonumentsWithFilter function, by passing the query string
+        let mon_filter = DMBModel.sharedInstance.searchMonumentsWithFilter("Brandenburg")
+        mon_filter[DMBSearchKey.byName]?[0...1].forEach({m in m.1.printIt()})
     }
 }
