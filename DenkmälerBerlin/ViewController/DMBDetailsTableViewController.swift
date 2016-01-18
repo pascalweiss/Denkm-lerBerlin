@@ -99,8 +99,8 @@ class DMBDetailsTableViewController: UITableViewController {
                 let monumentCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long);
                 
                 // add Annotation
-                let anno = DMBDenkmalMapAnnotation.init(latitude: lat, longitude:long);
-                anno.title = monument.getName();
+                let anno = DMBDenkmalMapAnnotation.init(title: monument.getName()!, type: (monument.getType()?.getName()!)!, coordinate: CLLocationCoordinate2D(latitude: long, longitude: lat))
+                //anno.title = monument.getName();
                 mapView.addAnnotation(anno);
                 
                 mapView.centerCoordinate = monumentCoordinate;
