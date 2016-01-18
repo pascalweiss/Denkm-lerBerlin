@@ -129,5 +129,10 @@ struct DMBModelEXAMPLES {
         // ... and call the searchMonumentsWithFilter function, by passing the query string
         let mon_filter = DMBModel.sharedInstance.searchMonumentsWithFilter("Brandenburg")
         mon_filter[DMBSearchKey.byName]?[0...1].forEach({m in m.1.printIt()})
+        
+        
+        print("\nGet Notions of monument" +
+                "=======================\n")
+        monuments_1[0...10].forEach({m in m.printIt();m.getNotions().forEach({n in n.printIt()})})
     }
 }
