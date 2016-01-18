@@ -10,12 +10,15 @@ import UIKit
 import Foundation
 
 protocol DMBAdvancedSearchDelegate {
-    func sendDataBack(data: String)
+    func sendDataBack(data: DMBFilter)
 }
 
 class DMBAdvancedSearchViewController: UITableViewController {
     
     var delegate: DMBAdvancedSearchDelegate?
+    
+    // Filter
+    var filter: DMBFilter?
     
     // Arrays fuer die TableView
     var allMonuTypes  = [(type: String, on: Bool)]()
@@ -33,10 +36,16 @@ class DMBAdvancedSearchViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if filter == nil {
+            filter = DMBFilter()
+        }
+        
         for district in DMBModel.sharedInstance.getAllDistricts() {
+            let distrName = district.getName()
             
-            if district.getName() != nil  && district.getName()?.isEmpty != true {
-                allDistricts.append((type: district.getName()!, on: true))
+            if distrName != nil  && distrName?.isEmpty != true {
+                let on = getFilterAttributeFromString(distrName!)
+                allDistricts.append((type: distrName!, on: on))
             }
         }
         
@@ -46,8 +55,10 @@ class DMBAdvancedSearchViewController: UITableViewController {
 //        }
         
         for monuType in DMBModel.sharedInstance.getAllTypes() {
-            if monuType.getName() != nil && monuType.getName()?.isEmpty != true {
-                allMonuTypes.append((type: monuType.getName()!, on: true))
+            let monTypeName = monuType.getName()
+            if monTypeName != nil && monTypeName?.isEmpty != true {
+                let on = getFilterAttributeFromString(monTypeName!)
+                allMonuTypes.append((type: monTypeName!, on: on))
             }
         }
         
@@ -67,9 +78,16 @@ class DMBAdvancedSearchViewController: UITableViewController {
         view.addSubview(customRangeSlider)
         customRangeSlider.addTarget(self, action: "rangeSliderValueChanged:", forControlEvents: .ValueChanged)
         
+        let fomatter = NSDateFormatter()
+        fomatter.dateFormat = "yyyy"
+        
+        if filter != nil {
+            customRangeSlider.lowerValue = Double(fomatter.stringFromDate((filter?.from)!))!
+            customRangeSlider.upperValue = Double(fomatter.stringFromDate((filter?.to)!))!
+        }
         labelLowerValue.text = "\(Int(customRangeSlider.lowerValue))"
         view.addSubview(labelLowerValue)
-        
+
         labelUpperValue.text = "\(Int(customRangeSlider.upperValue))"
         view.addSubview(labelUpperValue)
     }
@@ -94,14 +112,26 @@ class DMBAdvancedSearchViewController: UITableViewController {
     }
     
     // MARK: Button / Switch Target
-    func switchValueChange(sender: UISwitch!){
-//        allSections[sender.tag].on = sender.on
+    func switchMonTypesValueChange(sender: UISwitch!){
+        allMonuTypes[sender.tag].on = sender.on
+        allSections[0][sender.tag].on = sender.on
+        
+        setFilterAttributeFromString(allMonuTypes[sender.tag].type, on: sender.on)
+        
+    }
+    
+    func switchDistrictsValueChange(sender: UISwitch!){
+        allDistricts[sender.tag].on = sender.on
+        allSections[1][sender.tag].on = sender.on
+        
+        setFilterAttributeFromString(allDistricts[sender.tag].type, on: sender.on)
+
     }
     
     // MARK: Navigation
     func navigationBackPassData(sender: AnyObject) {
         // do the things
-        self.delegate?.sendDataBack("Text")
+        self.delegate?.sendDataBack(filter!)
     }
 
     // MARK: - Table view data source
@@ -122,7 +152,9 @@ class DMBAdvancedSearchViewController: UITableViewController {
             let advCell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(DMBAdvSearchTableViewCell), forIndexPath: indexPath) as! DMBAdvSearchTableViewCell
             advCell.nameLabel.text = allSections[indexPath.section][indexPath.row].type
             advCell.activateSwitch.tag = indexPath.row
-            advCell.activateSwitch.addTarget(self, action: "switchValueChange:", forControlEvents: UIControlEvents.ValueChanged)
+            advCell.activateSwitch.on = allSections[indexPath.section][indexPath.row].on
+            let action = indexPath.section == 0 ? "switchMonTypesValueChange:" : "switchDistrictsValueChange:"
+            advCell.activateSwitch.addTarget(self, action: Selector.init(action), forControlEvents: UIControlEvents.ValueChanged)
             cell = advCell
         }
         
@@ -148,6 +180,64 @@ class DMBAdvancedSearchViewController: UITableViewController {
         //print("Range slider value changed: (\(rangeSlider.lowerValue) , \(rangeSlider.upperValue))") // Test-Ausgabe auf der Konsole
         labelLowerValue.text = "\(Int(rangeSlider.lowerValue))"
         labelUpperValue.text = "\(Int(rangeSlider.upperValue))"
+        
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.FullStyle
+        formatter.dateFormat = "yyyy"
+        filter?.from = formatter.dateFromString(labelLowerValue.text!)!
+        filter?.to = formatter.dateFromString(labelUpperValue.text!)!
+        
+    }
+    
+    func getFilterAttributeFromString(string: String) -> Bool {
+        var re = false
+        switch string {
+        case "Ensemble":  re = filter!.ensemble
+        case "Ensembleteil":  re = filter!.ensembleteil
+        case "Gesamtanlage":  re = filter!.gesamtanlage
+        case "Baudenkmal":  re = filter!.baudenkmal
+        case "Gartendenkmal":  re = filter!.gartendenkmal
+        case "Bodendenkmal":  re = filter!.bodendenkmal
+            case "Charlottenburg-Wilmersdorf": re = filter!.charlottenburgWilmersdorf
+            case "Steglitz-Zehlendorf": re = filter!.steglitzZehlendorf
+            case "Spandau": re = filter!.spandau
+            case "Friedrichshain-Kreuzberg": re = filter!.friedrichshainKreuzberg
+            case "Tempelhof-Schöneberg": re = filter!.tempelhofSchöneberg
+            case "Mitte": re = filter!.mitte
+            case "Neukölln": re = filter!.neukölln
+            case "Lichtenberg": re = filter!.lichtenberg
+            case "Marzahn-Hellersdorf": re = filter!.marzahnHellersdorf
+            case "Pankow": re = filter!.pankow
+            case "Reinickendorf":  re = filter!.reinickendorf
+            case "Treptow-Köpenick": re = filter!.treptowKöpenick
+            
+        default: break
+        }
+        return re
+    }
+    
+    func setFilterAttributeFromString(string: String, on: Bool) {
+        switch string {
+        case "Ensemble": filter?.ensemble = on
+        case "Ensembleteil": filter?.ensembleteil = on
+        case "Gesamtanlage": filter?.gesamtanlage = on
+        case "Baudenkmal": filter?.baudenkmal = on
+        case "Gartendenkmal": filter?.gartendenkmal = on
+        case "Bodendenkmal": filter?.bodendenkmal = on
+        case "Charlottenburg-Wilmersdorf": filter!.charlottenburgWilmersdorf = on
+        case "Steglitz-Zehlendorf": filter!.steglitzZehlendorf = on
+        case "Spandau": filter!.spandau = on
+        case "Friedrichshain-Kreuzberg": filter!.friedrichshainKreuzberg = on
+        case "Tempelhof-Schöneberg": filter!.tempelhofSchöneberg = on
+        case "Mitte": filter!.mitte = on
+        case "Neukölln": filter!.neukölln = on
+        case "Lichtenberg": filter!.lichtenberg = on
+        case "Marzahn-Hellersdorf": filter!.marzahnHellersdorf = on
+        case "Pankow": filter!.pankow = on
+        case "Reinickendorf":  filter!.reinickendorf = on
+        case "Treptow-Köpenick": filter!.treptowKöpenick = on
+        default: break
+        }
     }
 
 }

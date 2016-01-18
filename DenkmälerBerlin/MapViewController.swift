@@ -43,7 +43,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     
     
     // MARK: Data Passing
-    var internalData: String? // Passed Data from Advanced Search
+    var internalFilter: DMBFilter? // Passed Data from Advanced Search
     
     // MARK: Active Threads
     let pendingOperations = PendingOperations()
@@ -74,7 +74,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     }
     
     override func viewWillAppear(animated: Bool) {
-        print(self.internalData)
+        let search = self.searchController.searchBar.text
+        self.searchController.searchBar.text = ""
+        self.searchController.searchBar.text = search
     }
     
     // MARK: Button Action
@@ -108,7 +110,14 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AdvancedSearchSegue" {
-            //(segue.destinationViewController as! DMBAdvancedSearchViewController).delegate = self
+            (segue.destinationViewController as! DMBAdvancedSearchViewController).delegate = self
+            
+            let destinationVC = segue.destinationViewController as! DMBAdvancedSearchViewController
+            
+            if internalFilter != nil {
+                destinationVC.filter = internalFilter!
+            }
+            
             
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Suche", style: .Plain, target: nil, action: nil)
         }
@@ -125,8 +134,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
 
 // MARK: - Data Passing
 extension MapViewController: DMBAdvancedSearchDelegate {
-    func sendDataBack(data: String) {
-        self.internalData = data
+    func sendDataBack(data: DMBFilter) {
+        self.internalFilter = data
     }
 }
 
@@ -396,7 +405,7 @@ extension MapViewController: UISearchResultsUpdating, UISearchControllerDelegate
             } else { threadNumber++ }
         }
         
-        let search = SearchMonument(searchText: searchText, minMaxResultNumber: maxRowNumberPerSection)
+        let search = SearchMonument(searchText: searchText, minMaxResultNumber: maxRowNumberPerSection, filterSearch: internalFilter)
         
         search.completionBlock = {
             if search.cancelled {

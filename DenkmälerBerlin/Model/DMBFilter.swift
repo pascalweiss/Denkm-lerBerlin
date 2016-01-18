@@ -42,6 +42,6 @@ struct DMBFilter {
         let formatter = NSDateFormatter()
         formatter.dateStyle = NSDateFormatterStyle.FullStyle
         formatter.dateFormat = "yyyyMMdd"
-        from = formatter.dateFromString("18000101")!
+        from = formatter.dateFromString("10010101")!
     }
 }

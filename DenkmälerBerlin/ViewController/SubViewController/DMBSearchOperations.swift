@@ -25,11 +25,13 @@ class SearchMonument : NSOperation {
     let searchKeys = [DMBSearchKey.byName, DMBSearchKey.byLocation, DMBSearchKey.byParticipant, DMBSearchKey.byNotion]
     var filteredData: [ [(key: String, array: [DMBMonument])] ] = []
     var minMaxResultNumber: (min: Int, max: Int)
+    let setFilter: DMBFilter?
 
-    init(searchText: String, minMaxResultNumber: (Int, Int)) {
+    init(searchText: String, minMaxResultNumber: (Int, Int), filterSearch: DMBFilter?) {
         self.searchText = searchText
         self.filteredData = Array(count: 4, repeatedValue: Array<(key: String, array: [DMBMonument])>())
         self.minMaxResultNumber = minMaxResultNumber
+        self.setFilter = filterSearch
     }
     
     override func main() {
@@ -38,7 +40,14 @@ class SearchMonument : NSOperation {
             return
         }
         
-        var filteredMonuments: [String:[(Double,DMBMonument)]] = DMBModel.sharedInstance.searchMonuments(searchText)
+        var filteredMonuments: [String:[(Double,DMBMonument)]]
+        
+        if setFilter == nil {
+            filteredMonuments = DMBModel.sharedInstance.searchMonuments(searchText)
+        } else {
+            DMBModel.sharedInstance.setFilter(setFilter!)
+            filteredMonuments = DMBModel.sharedInstance.searchMonumentsWithFilter(searchText)
+        }
         
         if self.cancelled {
             return
