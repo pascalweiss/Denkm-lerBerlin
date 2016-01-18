@@ -32,11 +32,25 @@ struct DMBModelEXAMPLES {
         let t = DMBModel.sharedInstance.getAllTypes()
         t.forEach{t in t.printIt()}
         
-        // Every subclass of DMBEntity can query die database on itself.
+        // Every subclass of DMBEntity can query the database on itself.
         // For example you can query the addresses of a monument
         let mon_1:DMBMonument = monuments_1[0]
         let address:DMBLocation = mon_1.getAddress()
         address.printIt()
+        
+        // Or you can query for the participants
+        let participants:[DMBParticipant] = mon_1.getParticipants()
+        participants.forEach({p in p.printIt()})
+        
+        for mon in monuments_1[0...20] {
+            let pictureURLs: [DMBPictureURL] = mon.getPicUrl()
+            pictureURLs.forEach({p in p.printIt()})
+        }
+        
+        let notions: [DMBNotion] = monuments_1[0].getNotions()
+        notions.forEach({p in p.printIt()})
+        notions.forEach({p in print(p.getName())})
+        
         
         // get type of a specific monument
         mon_1.getType()
@@ -94,7 +108,8 @@ struct DMBModelEXAMPLES {
         print("\nMost recent date:\n" +
                 "=================\n"+String(DMBModel.sharedInstance.getMaxDate()))
         
-        
+        print("\nHistory:\n" +
+                "========\n")
         // Add entries to the history
         DMBModel.sharedInstance.setHistoryEntry("HTWBerlin")
         DMBModel.sharedInstance.setHistoryEntry("Pascals Schloss")
@@ -102,5 +117,22 @@ struct DMBModelEXAMPLES {
         
         // Get History Entries
         DMBModel.sharedInstance.getHistory().forEach({h in h.printIt()})
+        
+
+        print("\nSearch with filter:\n" +
+            "===================\n")
+        
+        // filtered search: set the filter to whatever you like
+        DMBModel.sharedInstance.filter.baudenkmal               = false
+        DMBModel.sharedInstance.filter.friedrichshainKreuzberg  = false
+        
+        // ... and call the searchMonumentsWithFilter function, by passing the query string
+        let mon_filter = DMBModel.sharedInstance.searchMonumentsWithFilter("Brandenburg")
+        mon_filter[DMBSearchKey.byName]?[0...1].forEach({m in m.1.printIt()})
+        
+        
+        print("\nGet Notions of monument" +
+                "=======================\n")
+        monuments_1[0...10].forEach({m in m.printIt();m.getNotions().forEach({n in n.printIt()})})
     }
 }

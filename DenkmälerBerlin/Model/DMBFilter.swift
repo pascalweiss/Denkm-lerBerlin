@@ -6,29 +6,42 @@
 //  Copyright © 2015 HTWBerlin. All rights reserved.
 //
 
+
 import UIKit
 
 struct DMBFilter {
     
     // Monument Types
-    let Baudenkmal = true
-    let Parkdenkmal = true
-    
-    // Time period
-    let from:NSDate
-    let to = NSDate()
+    var ensemble                    = true
+    var ensembleteil                = true
+    var gesamtanlage                = true
+    var baudenkmal                  = true
+    var gartendenkmal               = true
+    var bodendenkmal                = true
     
     // Districts
-    let prenzlauerBerg = true
-    // TODO
+    var charlottenburgWilmersdorf   = true
+    var steglitzZehlendorf          = true
+    var spandau                     = true
+    var friedrichshainKreuzberg     = true
+    var tempelhofSchöneberg         = true
+    var mitte                       = true
+    var neukölln                    = true
+    var lichtenberg                 = true
+    var marzahnHellersdorf          = true
+    var pankow                      = true
+    var reinickendorf               = true
+    var treptowKöpenick             = true
+    
+    // Time period
+    var dateEnabled                 = true
+    var from:NSDate
+    var to = NSDate()
     
     init() {
         let formatter = NSDateFormatter()
         formatter.dateStyle = NSDateFormatterStyle.FullStyle
         formatter.dateFormat = "yyyyMMdd"
-        from = formatter.dateFromString("18000101")!
-    }
-    
-    func setStandardFrom() {
+        from = formatter.dateFromString("10010101")!
     }
 }

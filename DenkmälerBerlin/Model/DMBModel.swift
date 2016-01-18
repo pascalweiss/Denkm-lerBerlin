@@ -23,8 +23,8 @@ import MapKit
 class DMBModel {
     
     static let sharedInstance = DMBModel()
+    public var filter = DMBFilter()
     private let dbConnection: Connection
-    private var filter: DMBFilter?
     private let debug = false
     
     private let recopyDatabase = false // true Setzt Datenbank zurück
@@ -34,28 +34,20 @@ class DMBModel {
         if debug {
             print(NSBundle.mainBundle().pathForResource(sqliteFileName, ofType: "db"))
         }
-        
         let fileManager = NSFileManager.defaultManager()
         let documentsPath: NSString = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!
         let filePath = documentsPath.stringByAppendingPathComponent("/" + sqliteFileName + ".db")
-        
-        
         if recopyDatabase {
             while fileManager.fileExistsAtPath(filePath) {
                 print("File exists")
-                try! fileManager.removeItemAtPath(filePath)
-            }
-        }
-        
+                try! fileManager.removeItemAtPath(filePath)}}
         if !fileManager.fileExistsAtPath(filePath) {
             let srcPath = NSBundle.mainBundle().pathForResource(sqliteFileName, ofType: "db")
-            
             try! fileManager.copyItemAtPath(srcPath!, toPath: filePath)
         }
-        
-        
         self.dbConnection = try! Connection(filePath, readonly: false)
     }
+    
     
     func setFilter(filter:DMBFilter) {
         self.filter=filter
@@ -173,10 +165,19 @@ class DMBModel {
     func searchMonuments(searchString: String) -> [String:[(Double,DMBMonument)]] {
         let tokens = createTokens(searchString)
         return [
-            DMBSearchKey.byName:        rankedMonumentsByName(tokens),
-            DMBSearchKey.byLocation:    rankedMonumentsByLocation(tokens),
-            DMBSearchKey.byParticipant: rankedMonumentsByParticipant(tokens),
-            DMBSearchKey.byNotion:      rankedMonumentsByNotion(tokens)]
+            DMBSearchKey.byName:        rankedMonumentsByName(tokens,filtered:false),
+            DMBSearchKey.byLocation:    rankedMonumentsByLocation(tokens,filtered:false),
+            DMBSearchKey.byParticipant: rankedMonumentsByParticipant(tokens,filtered:false),
+            DMBSearchKey.byNotion:      rankedMonumentsByNotion(tokens,filtered:false)]
+    }
+    
+    func searchMonumentsWithFilter(searchString: String) -> [String:[(Double,DMBMonument)]] {
+        let tokens = createTokens(searchString)
+        return [
+            DMBSearchKey.byName:        rankedMonumentsByName(tokens,filtered:true),
+            DMBSearchKey.byLocation:    rankedMonumentsByLocation(tokens,filtered:true),
+            DMBSearchKey.byParticipant: rankedMonumentsByParticipant(tokens,filtered:true),
+            DMBSearchKey.byNotion:      rankedMonumentsByNotion(tokens,filtered:true)]
     }
     
 /*
@@ -242,13 +243,34 @@ class DMBModel {
      /// - returns: Array aus Tupel. Jedes Tupel besteht aus einem gefundenen Monument, 
      ///            und dessen Ranking. Die Tupel wurden bereits anhand der
      ///            Rankings absteigend sortiert.
-    private func rankedMonumentsByName(tokens: [String]) -> [(Double,DMBMonument)] {
+    private func rankedMonumentsByName(tokens: [String],filtered:Bool) -> [(Double,DMBMonument)] {
         func searchMonumentsByName(token: String) -> [(Double,DMBMonument)] {
             let monuments = Table(DMBTable.monument)
-            return dbConnection.prepare(monuments
+            return dbConnection.prepare(getBasicQuery(filtered)
                 .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(searchableString(token))))
                 .map({row -> (Double,DMBMonument) in
-                    let monum = DMBConverter.rowToMonument(row, connection: dbConnection)
+                    var monum: DMBMonument
+                    if filtered {monum = DMBConverter.rowToMonument(row, connection: dbConnection,table: monuments)}
+                    else {monum = DMBConverter.rowToMonument(row, connection: dbConnection)}
+                    let match = getMatch(monum.getName()!, searchString: token)     // Da das query ein Ergebnis ergeben hat,
+                    // darf hier ein promise gemacht werden
+                    return (match,monum)
+                })
+        }
+        return rankMonuments(tokens.flatMap({word -> [(Double,DMBMonument)] in
+            return searchMonumentsByName(word)
+        }))
+    }
+    
+    private func rankedMonumentsWithFilterByName(tokens: [String],filtered:Bool) -> [(Double,DMBMonument)] {
+        func searchMonumentsByName(token: String) -> [(Double,DMBMonument)] {
+            let monuments = Table(DMBTable.monument)
+            return dbConnection.prepare(getBasicQuery(filtered)
+                .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(searchableString(token))))
+                .map({row -> (Double,DMBMonument) in
+                    var monum:DMBMonument
+                    if filtered {monum = DMBConverter.rowToMonument(row, connection: dbConnection,table: monuments)}
+                    else {monum = DMBConverter.rowToMonument(row, connection: dbConnection)}
                     let match = getMatch(monum.getName()!, searchString: token)     // Da das query ein Ergebnis ergeben hat,
                     // darf hier ein promise gemacht werden
                     return (match,monum)
@@ -266,12 +288,12 @@ class DMBModel {
     /// - returns: Array aus Tupel. Jedes Tupel besteht aus einem gefundenen Monument,
     ///            und dessen Ranking. Die Tupel wurden bereits anhand der
     ///            Rankings absteigend sortiert.
-    private func rankedMonumentsByLocation(tokens: [String]) -> [(Double,DMBMonument)] {
+    private func rankedMonumentsByLocation(tokens: [String],filtered:Bool) -> [(Double,DMBMonument)] {
         func searchMonumentsByLocation(token: String) -> [(Double,DMBMonument)] {
             let monuments   = Table(DMBTable.monument)
             let locationRel = Table(DMBTable.addressRel)
             let locations   = Table(DMBTable.address)
-            return dbConnection.prepare(monuments
+            return dbConnection.prepare(getBasicQuery(filtered)
                 .join(locationRel, on: monuments[DMBMonument.Expressions.id] == locationRel[DMBLocationRelation.Expressions.monumentId])
                 .join(locations, on: locationRel[DMBLocationRelation.Expressions.addressId] == locations[DMBLocation.Expressions.id])
                 .filter(locations[DMBLocation.Expressions.street].lowercaseString.like(searchableString(token))))
@@ -294,12 +316,12 @@ class DMBModel {
     /// - returns: Array aus Tupel. Jedes Tupel besteht aus einem gefundenen Monument,
     ///            und dessen Ranking. Die Tupel wurden bereits anhand der
     ///            Rankings absteigend sortiert.
-    private func rankedMonumentsByParticipant(tokens: [String]) -> [(Double, DMBMonument)] {
+    private func rankedMonumentsByParticipant(tokens: [String],filtered:Bool) -> [(Double, DMBMonument)] {
         func searchMonumentsByParticipant(token: String) -> [(Double, DMBMonument)] {
             let monuments       = Table(DMBTable.monument)
             let participantsRel = Table(DMBTable.participantRel)
             let participants    = Table(DMBTable.participant)
-            return dbConnection.prepare(monuments
+            return dbConnection.prepare(getBasicQuery(filtered)
                 .join(participantsRel, on: monuments[DMBMonument.Expressions.id] == participantsRel[DMBParticipantsRelation.Expressions.monumentId])
                 .join(participants, on: participantsRel[DMBParticipantsRelation.Expressions.participantId] == participants[DMBParticipant.Expressions.id])
                 .filter(participants[DMBParticipant.Expressions.name].lowercaseString.like(searchableString(token))))
@@ -322,12 +344,12 @@ class DMBModel {
     /// - returns: Array aus Tupel. Jedes Tupel besteht aus einem gefundenen Monument,
     ///            und dessen Ranking. Die Tupel wurden bereits anhand der
     ///            Rankings absteigend sortiert.
-    private func rankedMonumentsByNotion(tokens: [String]) -> [(Double, DMBMonument)] {
+    private func rankedMonumentsByNotion(tokens: [String],filtered:Bool) -> [(Double, DMBMonument)] {
         func searchMonumentsByNotion(token: String) -> [(Double, DMBMonument)] {
             let monuments = Table(DMBTable.monument)
             let notionRel = Table(DMBTable.monumentNotionRel)
             let notions   = Table(DMBTable.monumentNotion)
-            return dbConnection.prepare(monuments
+            return dbConnection.prepare(getBasicQuery(filtered)
                 .join(notionRel, on: monuments[DMBMonument.Expressions.id] == notionRel[DMBNotionsRelation.Expressions.monumentId])
                 .join(notions, on: notionRel[DMBNotionsRelation.Expressions.monumentNotionId] == notions[DMBNotion.Expressions.id])
                 .filter(notions[DMBNotion.Expressions.name].lowercaseString.like(searchableString(token))))
@@ -381,17 +403,95 @@ class DMBModel {
                 })
             }).sort({$0.0 > $1.0})
     }
-
 /*
-     ____                                _           _
-    |  _ \  ___ _ __  _ __ ___  ___ __ _| |_ ___  __| |
-    | | | |/ _ \ '_ \| '__/ _ \/ __/ _` | __/ _ \/ _` |
-    | |_| |  __/ |_) | | |  __/ (_| (_| | ||  __/ (_| |
-    |____/ \___| .__/|_|  \___|\___\__,_|\__\___|\__,_|
-               |_|
+      ___
+     / _ \ _   _  ___ _ __ _   _
+    | | | | | | |/ _ \ '__| | | |
+    | |_| | |_| |  __/ |  | |_| |
+     \__\_\\__,_|\___|_|   \__, |
+                           |___/
+     __  __             _             _       _   _
+    |  \/  | __ _ _ __ (_)_ __  _   _| | __ _| |_(_) ___  _ __
+    | |\/| |/ _` | '_ \| | '_ \| | | | |/ _` | __| |/ _ \| '_ \
+    | |  | | (_| | | | | | |_) | |_| | | (_| | |_| | (_) | | | |
+    |_|  |_|\__,_|_| |_|_| .__/ \__,_|_|\__,_|\__|_|\___/|_| |_|
+                         |_|
     */
-
-
+    
+    
+    
+//    private func rankedMonumentsByNameWithFilter(tokens:[String]) -> [(Double,DMBMonument)] {
+//        func searchMonumentsByName(token: String) -> [(Double,DMBMonument)] {
+//            let monuments = Table(DMBTable.monument)
+//            return dbConnection.prepare(DMBModel.appendFilter(DMBModel.getQu(), filter: filter)
+//                .filter(monuments[DMBMonument.Expressions.name].lowercaseString.like(searchableString(token))))
+//                .map({row -> (Double,DMBMonument) in
+//                    let monum = DMBConverter.rowToMonument(row, connection: dbConnection,table: monuments)
+//                    let match = getMatch(monum.getName()!, searchString: token)     // Da das query ein Ergebnis ergeben hat,
+//                    // darf hier ein promise gemacht werden
+//                    return (match,monum)
+//                })
+//        }
+//        return rankMonuments(tokens.flatMap({word -> [(Double,DMBMonument)] in
+//            return searchMonumentsByName(word)
+//        }))
+//
+//    }
+    
+    private static func appendFilter(var statement: Table, filter:DMBFilter) -> Table {
+        let SQLDateFormatter: NSDateFormatter = {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter
+        }()
+        let monuments = Table(DMBTable.monument)
+        let district = Table(DMBTable.district)
+        let districtRel = Table(DMBTable.districtRel)
+        let date = Table(DMBTable.dating)
+        let type = Table(DMBTable.type)
+        statement = statement
+            .join(type, on: type[DMBType.Expressions.id] == monuments[DMBMonument.Expressions.typeId])
+            .join(date, on: date[DMBTimePeriod.Expressions.id] == monuments[DMBMonument.Expressions.datingId])
+            .join(districtRel, on: districtRel[DMBDistrictRelation.Expressions.monumentId] == monuments[DMBMonument.Expressions.id])
+            .join(district, on: district[DMBDistrict.Expressions.id] == districtRel[DMBDistrictRelation.Expressions.districtId])
+        
+        // Filter types
+        if !filter.ensemble {statement = statement.filter(type[DMBDistrict.Expressions.name]                        != "Ensemble")}
+        if !filter.ensembleteil {statement = statement.filter(type[DMBDistrict.Expressions.name]                    != "Ensembleteil")}
+        if !filter.gesamtanlage {statement = statement.filter(type[DMBDistrict.Expressions.name]                    != "Gesamtanlage")}
+        if !filter.baudenkmal {statement = statement.filter(type[DMBDistrict.Expressions.name]                      != "Baudenkmal")}
+        if !filter.gartendenkmal {statement = statement.filter(type[DMBDistrict.Expressions.name]                   != "Gartendenkmal")}
+        if !filter.bodendenkmal {statement = statement.filter(type[DMBDistrict.Expressions.name]                    != "Bodendenkmal")}
+        
+        // Filter District
+        if !filter.charlottenburgWilmersdorf {statement = statement.filter(district[DMBDistrict.Expressions.name]   != "Charlottenburg-Wilmersdorf")}
+        if !filter.steglitzZehlendorf {statement = statement.filter(district[DMBDistrict.Expressions.name]          != "Steglitz-Zehlendorf")}
+        if !filter.spandau {statement = statement.filter(district[DMBDistrict.Expressions.name]                     != "Spandau")}
+        if !filter.friedrichshainKreuzberg {statement = statement.filter(district[DMBDistrict.Expressions.name]     != "Friedrichshain-Kreuzberg")}
+        if !filter.tempelhofSchöneberg {statement = statement.filter(district[DMBDistrict.Expressions.name]         != "Tempelhof-Schöneberg")}
+        if !filter.mitte {statement = statement.filter(district[DMBDistrict.Expressions.name]                       != "Mitte")}
+        if !filter.neukölln {statement = statement.filter(district[DMBDistrict.Expressions.name]                    != "Neukölln")}
+        if !filter.lichtenberg {statement = statement.filter(district[DMBDistrict.Expressions.name]                 != "Lichtenberg")}
+        if !filter.marzahnHellersdorf {statement = statement.filter(district[DMBDistrict.Expressions.name]          != "Marzahn-Hellersdorf")}
+        if !filter.pankow {statement = statement.filter(district[DMBDistrict.Expressions.name]                      != "Pankow")}
+        if !filter.reinickendorf {statement = statement.filter(district[DMBDistrict.Expressions.name]               != "Reinickendorf")}
+        if !filter.treptowKöpenick {statement = statement.filter(district[DMBDistrict.Expressions.name]             != "Treptow-Köpenick")}
+        
+        // Filter timePeriod
+        if filter.dateEnabled {
+            let from = SQLDateFormatter.stringFromDate(filter.from)
+            let to   = SQLDateFormatter.stringFromDate(filter.to)
+            statement = statement.filter(date[DMBTimePeriod.Expressions.from] >= from)
+            statement = statement.filter(date[DMBTimePeriod.Expressions.to] <= to)
+        }
+        return statement
+    }
+    
+    private func getBasicQuery(filtered:Bool) -> Table {
+        let monuments   = Table(DMBTable.monument)
+        if filtered {return DMBModel.appendFilter(monuments, filter: filter)}
+        else {return monuments}
+    }
 }
 
 

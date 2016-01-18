@@ -69,8 +69,15 @@ class DMBMonument: DMBEntity {
     }
     
     /// Die URLs sämtlicher Bilder des Denkmals
-    func getPicUrl()->NSURL? {  //TODO -> schöner währe ein DMBPicture
-        return NSURL(string: "http://dummy.url.com")
+    func getPicUrl()->[DMBPictureURL] {
+        let pictureURLs = Table(DMBTable.picture)
+        let monuments = Table(DMBTable.monument)
+        return dbConnection.prepare(monuments
+            .join(pictureURLs, on: monuments[DMBMonument.Expressions.id] == pictureURLs[DMBPictureURL.Expressions.monumentId])
+            .filter(monuments[DMBMonument.Expressions.id] == self.id))
+            .map({row -> DMBPictureURL in
+                return DMBConverter.rowToPictureURL(row,table: pictureURLs)
+            })
     }
     
     /// Liefert die textuelle Beschreibung des Denkmals
@@ -137,10 +144,10 @@ class DMBMonument: DMBEntity {
         let notionsRels = Table(DMBTable.monumentNotionRel)
         return dbConnection.prepare(notions
             .join(notionsRels, on: notions[DMBNotion.Expressions.id] == notionsRels[DMBNotionsRelation.Expressions.monumentNotionId])
-            .join(monuments, on: notionsRels[DMBNotionsRelation.Expressions.monumentId] == notionsRels[DMBMonument.Expressions.id])
+            .join(monuments, on: notionsRels[DMBNotionsRelation.Expressions.monumentId] == self.id)
             .filter(id == monuments[DMBMonument.Expressions.id]))
             .map({row -> DMBNotion in
-                return DMBConverter.rowToNotion(row,connection: dbConnection)
+                return DMBConverter.rowToNotion(row, connection: dbConnection, table: notions)
             })
     }
     
@@ -163,18 +170,26 @@ class DMBMonument: DMBEntity {
         let addresses   = Table(DMBTable.address)
         let addressRel  = Table(DMBTable.addressRel)
         let monuments = Table(DMBTable.monument)
-        let res =  dbConnection.pluck(addresses
+        return dbConnection.pluck(addresses
             .join(addressRel, on: addresses[DMBLocation.Expressions.id] == addressRel[DMBLocationRelation.Expressions.addressId])
             .join(monuments, on: monuments[DMBMonument.Expressions.id] == addressRel[DMBLocationRelation.Expressions.monumentId])
             .filter(addressRel[DMBLocationRelation.Expressions.monumentId] == self.id))
             .map({row -> DMBLocation in
                 return DMBConverter.rowToAddress(row, connection: dbConnection, table: addresses)
-            })
-        return res!
+            })!
     }
     
-    func getParticipants()->[DMBParticipant] {  //TODO
-        return []
+    func getParticipants()->[DMBParticipant] {
+        let participants = Table(DMBTable.participant)
+        let particpantRel = Table(DMBTable.participantRel)
+        let monuments = Table(DMBTable.monument)
+        return dbConnection.prepare(monuments
+            .join(particpantRel, on: monuments[DMBMonument.Expressions.id] == particpantRel[DMBParticipantsRelation.Expressions.monumentId])
+            .join(participants, on: particpantRel[DMBParticipantsRelation.Expressions.participantId] == participants[DMBParticipant.Expressions.id])
+            .filter(monuments[DMBMonument.Expressions.id] == self.id))
+            .map({row -> DMBParticipant in
+                return DMBConverter.rowToParticipant(row, connection: dbConnection, table: participants)
+            })
     }
     
     func getLinkedMonuments()->[DMBMonument] {  //TODO
