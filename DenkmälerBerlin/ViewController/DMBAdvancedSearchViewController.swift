@@ -70,7 +70,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
         // Leere Zeile fuer Range Slider erzeugen
         allTimeLimits.append((type: "", on: true))
         
-        allSections = [allMonuTypes, allDistricts, allTimeLimits]
+        allSections = [allTimeLimits, allMonuTypes, allDistricts]
         
         tableView.registerClass(DMBAdvSearchTableViewCell.self, forCellReuseIdentifier: NSStringFromClass(DMBAdvSearchTableViewCell))
         
@@ -96,14 +96,14 @@ class DMBAdvancedSearchViewController: UITableViewController {
     override func viewDidLayoutSubviews() {
         let margin: CGFloat = 20.0
         let height: CGFloat = 30.0;
-        let shift:  CGFloat = 75.0;
+        let shift:  CGFloat = 62.0;
         let label:  CGFloat = 100.0;
         let width = view.bounds.width - 2.0 * margin - 1.0 * label
         
-        customRangeSlider.frame = CGRect(x: margin + (label / 2), y: self.tableView.contentSize.height - shift, width: width, height: height)
-        labelLowerValue.frame = CGRect(x: margin, y: self.tableView.contentSize.height - shift, width: label, height: height)
+        customRangeSlider.frame = CGRect(x: margin + (label / 2), y: shift, width: width, height: height)
+        labelLowerValue.frame = CGRect(x: margin, y: shift, width: label, height: height)
         labelLowerValue.textAlignment = NSTextAlignment.Left;
-        labelUpperValue.frame = CGRect(x: view.frame.size.width - margin - label, y: self.tableView.contentSize.height - shift, width: label, height: height)
+        labelUpperValue.frame = CGRect(x: view.frame.size.width - margin - label, y: shift, width: label, height: height)
         labelUpperValue.textAlignment = NSTextAlignment.Right;
     }
 
@@ -122,7 +122,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
         }
         
         allMonuTypes[sender.tag].on = sender.on
-        allSections[0][sender.tag].on = sender.on
+        allSections[1][sender.tag].on = sender.on
         
         setFilterAttributeFromString(allMonuTypes[sender.tag].type, on: sender.on)
         
@@ -131,7 +131,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
     func switchDistrictsValueChange(sender: UISwitch!){
         
         allDistricts[sender.tag].on = sender.on
-        allSections[1][sender.tag].on = sender.on
+        allSections[2][sender.tag].on = sender.on
         
         setFilterAttributeFromString(allDistricts[sender.tag].type, on: sender.on)
 
@@ -157,12 +157,12 @@ class DMBAdvancedSearchViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell: UITableViewCell = UITableViewCell()
         
-        if indexPath.section == 0 || indexPath.section == 1 {
+        if indexPath.section == 1 || indexPath.section == 2 {
             let advCell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(DMBAdvSearchTableViewCell), forIndexPath: indexPath) as! DMBAdvSearchTableViewCell
             advCell.nameLabel.text = allSections[indexPath.section][indexPath.row].type
             advCell.activateSwitch.tag = indexPath.row
             advCell.activateSwitch.on = allSections[indexPath.section][indexPath.row].on
-            let action = indexPath.section == 0 ? "switchMonTypesValueChange:" : "switchDistrictsValueChange:"
+            let action = indexPath.section == 1 ? "switchMonTypesValueChange:" : "switchDistrictsValueChange:"
             advCell.activateSwitch.addTarget(self, action: Selector.init(action), forControlEvents: UIControlEvents.ValueChanged)
             cell = advCell
         }
