@@ -145,61 +145,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         }
     }
     
-    
-    /** Funktionalitaet fuer den calloutAccessorys
-     **/
-    
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
-        if let _ = view.annotation as? DMBDenkmalMapAnnotation {
-            if control == view.rightCalloutAccessoryView {
-                performSegueWithIdentifier("Detail", sender: self)
-            }
-            if control == view.leftCalloutAccessoryView {
-                let location = view.annotation as! DMBDenkmalMapAnnotation
-                let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-                location.landmarkToMKMapItem().openInMapsWithLaunchOptions(launchOptions)
-            }
-        }
-        
-    }
-    
-    func zoominOnCluster(gesture: UIGestureRecognizer) {
-        if let clusterView = gesture.view as? DenkmalAnnotationClusterView {
-            if let cluster = clusterView.annotation as? DenkmalAnnotationCluster {
-                mapView.setRegion(cluster.getMKCoordinateRegionForCluster(), animated: true)
-            }
-            
-        }
-        
-    }
-
-    //Helpermethods
-    
-    func setUpVisibleMapRegionParams() {
-        visibleMapRect = mapView.visibleMapRect
-        centerCoord = MKCoordinateForMapPoint(MKMapPointMake(MKMapRectGetMidX(visibleMapRect!), MKMapRectGetMidY(visibleMapRect!)))
-        neCoord = MKCoordinateForMapPoint(MKMapPointMake(MKMapRectGetMaxX(visibleMapRect!), visibleMapRect!.origin.y))
-        swCoord = MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect!.origin.x, MKMapRectGetMaxY(visibleMapRect!)))
-        latitudeDelta = abs((neCoord?.latitude)! - (swCoord?.latitude)!) / 2.0
-        longitudeDelta = abs((neCoord?.longitude)! - (swCoord?.longitude)!) / 2.0
-    }
-    
-    func drawClusters() {
-        
-        NSOperationQueue().addOperationWithBlock({
-            self.clusterManager.tree = nil
-            self.clusterManager.addAnnotations(self.annotationsToDraw)
-            print("Annos to draw: \(self.annotationsToDraw.count)")
-            let mapBoundsWidth = Double(self.mapView.bounds.size.width)
-            let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
-            let scale:Double = mapBoundsWidth / mapRectWidth
-            let annotationArray = self.clusterManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
-            self.clusterManager.displayAnnotations(annotationArray, onMapView:self.mapView)
-        })
-    }
-    
-    
 }
 
 // MARK: - Data Passing
@@ -557,6 +502,7 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
         return manager
     }
     
+    // MARK: CoreLocation
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last! as CLLocation
         
@@ -567,40 +513,24 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
         manager.stopUpdatingLocation()
     }
     
-//    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-//        let identifier = "DenkmalAnnotation"
-//        
-//        if annotation.isKindOfClass(DMBDenkmalMapAnnotation.self) {
-//            var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
-//            
-//            if annotationView == nil {
-//                
-//                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                annotationView!.canShowCallout = true
-//                
-//                
-//                let btn = UIButton(type: .DetailDisclosure)
-//                annotationView!.rightCalloutAccessoryView = btn
-//            } else {
-//                
-//                annotationView!.annotation = annotation
-//            }
-//            
-//            return annotationView
-//        }
-//        return nil
-//    }
+    /** Funktionalitaet fuer den calloutAccessorys
+     **/
     
-//    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        
-//        // Segue for Annotaion
-//        if control == view.rightCalloutAccessoryView {
-//            performSegueWithIdentifier("Detail", sender: self)
-//        }
-//    }
-}
-
-extension MapViewController  {
+    // MARK: MapView
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if let _ = view.annotation as? DMBDenkmalMapAnnotation {
+            if control == view.rightCalloutAccessoryView {
+                performSegueWithIdentifier("Detail", sender: self)
+            }
+            if control == view.leftCalloutAccessoryView {
+                let location = view.annotation as! DMBDenkmalMapAnnotation
+                let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+                location.landmarkToMKMapItem().openInMapsWithLaunchOptions(launchOptions)
+            }
+        }
+        
+    }
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool){
         getMonumentsForVisibleMapArea()
@@ -662,4 +592,38 @@ extension MapViewController  {
         }
     }
     
+    func zoominOnCluster(gesture: UIGestureRecognizer) {
+        if let clusterView = gesture.view as? DenkmalAnnotationClusterView {
+            if let cluster = clusterView.annotation as? DenkmalAnnotationCluster {
+                mapView.setRegion(cluster.getMKCoordinateRegionForCluster(), animated: true)
+            }
+            
+        }
+        
+    }
+    
+    // MARK: Helpermethods
+    
+    func setUpVisibleMapRegionParams() {
+        visibleMapRect = mapView.visibleMapRect
+        centerCoord = MKCoordinateForMapPoint(MKMapPointMake(MKMapRectGetMidX(visibleMapRect!), MKMapRectGetMidY(visibleMapRect!)))
+        neCoord = MKCoordinateForMapPoint(MKMapPointMake(MKMapRectGetMaxX(visibleMapRect!), visibleMapRect!.origin.y))
+        swCoord = MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect!.origin.x, MKMapRectGetMaxY(visibleMapRect!)))
+        latitudeDelta = abs((neCoord?.latitude)! - (swCoord?.latitude)!) / 2.0
+        longitudeDelta = abs((neCoord?.longitude)! - (swCoord?.longitude)!) / 2.0
+    }
+    
+    func drawClusters() {
+        
+        NSOperationQueue().addOperationWithBlock({
+            self.clusterManager.tree = nil
+            self.clusterManager.addAnnotations(self.annotationsToDraw)
+            print("Annos to draw: \(self.annotationsToDraw.count)")
+            let mapBoundsWidth = Double(self.mapView.bounds.size.width)
+            let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
+            let scale:Double = mapBoundsWidth / mapRectWidth
+            let annotationArray = self.clusterManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
+            self.clusterManager.displayAnnotations(annotationArray, onMapView:self.mapView)
+        })
+    }
 }
