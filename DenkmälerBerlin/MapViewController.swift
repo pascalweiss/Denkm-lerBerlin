@@ -237,7 +237,7 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
         if (filteredData.isEmpty || (section != 0 && filteredData[section - 1].isEmpty && !filteredData.isEmpty)) {
             return 0.01
         }
-        return 18
+        return 22
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
