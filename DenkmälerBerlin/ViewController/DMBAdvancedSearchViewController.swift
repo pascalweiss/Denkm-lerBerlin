@@ -113,6 +113,14 @@ class DMBAdvancedSearchViewController: UITableViewController {
     
     // MARK: Button / Switch Target
     func switchMonTypesValueChange(sender: UISwitch!){
+        
+        // Eigenartiger bug -- Das hier fixed ihn - ist aber dirty
+        // Wenn der Switch von Treptow gedrückt dann wurde fascher Selector aufgerufen
+        if sender.tag > allMonuTypes.count {
+            switchDistrictsValueChange(sender)
+            return
+        }
+        
         allMonuTypes[sender.tag].on = sender.on
         allSections[0][sender.tag].on = sender.on
         
@@ -121,6 +129,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
     }
     
     func switchDistrictsValueChange(sender: UISwitch!){
+        
         allDistricts[sender.tag].on = sender.on
         allSections[1][sender.tag].on = sender.on
         
