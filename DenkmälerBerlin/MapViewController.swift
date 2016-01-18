@@ -39,11 +39,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     // Active Threads
     let pendingOperations = PendingOperations()
+    let pendingDrawOps = PendingDrawOperations()
     
     
     // Annotations variables
     let clusterManager = FBClusteringManager()
-    
+    var annotationsToDraw: [DMBDenkmalMapAnnotation] = [] {
+        didSet {
+            print("annotationsToDraw was changed")
+            print("actual size: \(annotationsToDraw.count)")
+            drawClusters()
+        }
+    }
     var visibleMapRect: MKMapRect?
     var centerCoord: CLLocationCoordinate2D?
     var neCoord: CLLocationCoordinate2D?
@@ -58,20 +65,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         clManager = initMapLocationManager()
         DMBModel.sharedInstance
         
-        // Setup Annotations
-        setUpVisibleMapRegionParams()
-        let area = MKCoordinateRegion.init(
-            center: CLLocationCoordinate2D.init(latitude: centerCoord!.latitude, longitude: centerCoord!.longitude),
-            span: MKCoordinateSpan.init(latitudeDelta: latitudeDelta!, longitudeDelta: longitudeDelta!))
-        
-        let monuments:[DMBMonument] = DMBModel.sharedInstance.getMonuments(area)
-        var annotations:[DMBDenkmalMapAnnotation] = []
-        for monument in monuments {
-            let address = monument.getAddress()
-            annotations.append(DMBDenkmalMapAnnotation(title: monument.getName()!, type: (monument.getType()?.getName())!, coordinate: CLLocationCoordinate2D(latitude: address.getLat()!, longitude: address.getLong()!)))
-            
-        }
-        clusterManager.addAnnotations(annotations)
         
         // Setup Search Controller
         setupSearchController()
@@ -149,6 +142,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     
+
     
     /** Funktionalitaet fuer den calloutAccessorys
      **/
@@ -187,6 +181,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         swCoord = MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect!.origin.x, MKMapRectGetMaxY(visibleMapRect!)))
         latitudeDelta = abs((neCoord?.latitude)! - (swCoord?.latitude)!) / 2.0
         longitudeDelta = abs((neCoord?.longitude)! - (swCoord?.longitude)!) / 2.0
+    }
+    
+    func zoominOnCluster(gesture: UIGestureRecognizer) {
+        if let clusterView = gesture.view as? DenkmalAnnotationClusterView {
+            if let cluster = clusterView.annotation as? DenkmalAnnotationCluster {
+                mapView.setRegion(cluster.getMKCoordinateRegionForCluster(), animated: true)
+            }
+            
+        }
+        
+    }
+    
+    func drawClusters() {
+        
+        NSOperationQueue().addOperationWithBlock({
+            self.clusterManager.tree = nil
+            self.clusterManager.addAnnotations(self.annotationsToDraw)
+            print("Annos to draw: \(self.annotationsToDraw.count)")
+            let mapBoundsWidth = Double(self.mapView.bounds.size.width)
+            let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
+            let scale:Double = mapBoundsWidth / mapRectWidth
+            let annotationArray = self.clusterManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
+            self.clusterManager.displayAnnotations(annotationArray, onMapView:self.mapView)
+        })
     }
     
     // MARK: Search Setup & Config
@@ -463,6 +481,36 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
     }
+    
+    func getMonumentsForVisibleMapArea(){
+        
+        if pendingDrawOps.drawsInProgress.count > 0 {
+            pendingDrawOps.drawQueue.cancelAllOperations()
+            print("Pending operation was cancelled")
+        }
+        setUpVisibleMapRegionParams()
+        let area = MKCoordinateRegion.init(
+            center: CLLocationCoordinate2D.init(latitude: centerCoord!.latitude, longitude: centerCoord!.longitude),
+            span: MKCoordinateSpan.init(latitudeDelta: latitudeDelta!, longitudeDelta: longitudeDelta!))
+        
+        let getOperation = GetMonumentsForArea(mapArea: area)
+        
+        getOperation.completionBlock = {
+            if getOperation.cancelled {
+                self.pendingDrawOps.drawsInProgress.removeAll()
+                //print("2Pending operation was cancelled")
+                return
+            }
+            self.pendingDrawOps.drawsInProgress.removeAll()
+            //print("found annos: \(getOperation.annotationsFromDb.count)")
+            self.annotationsToDraw = getOperation.annotationsFromDb
+            
+        }
+        
+        pendingDrawOps.drawsInProgress.append(getOperation)
+        pendingDrawOps.drawQueue.addOperation(getOperation)
+    }
+
 }
 
 extension MapViewController: DMBAdvancedSearchDelegate {
@@ -473,22 +521,8 @@ extension MapViewController: DMBAdvancedSearchDelegate {
 
 extension MapViewController  {
     
-    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        NSOperationQueue().addOperationWithBlock({
-            self.setUpVisibleMapRegionParams()
-        })
-    }
-    
-    
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool){
-        NSOperationQueue().addOperationWithBlock({
-            self.setUpVisibleMapRegionParams()
-            let mapBoundsWidth = Double(self.mapView.bounds.size.width)
-            let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
-            let scale:Double = mapBoundsWidth / mapRectWidth
-            let annotationArray = self.clusterManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
-            self.clusterManager.displayAnnotations(annotationArray, onMapView:self.mapView)
-        })
+        getMonumentsForVisibleMapArea()
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -506,46 +540,41 @@ extension MapViewController  {
             if let annotation = annotation as? DMBDenkmalMapAnnotation {
                 let reuseId = "DenkmalAnnotation"
                 let annotationView: MKAnnotationView
-                if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) {
-                    dequeuedView.annotation = annotation
-                    annotationView = dequeuedView
-                } else {
-                    annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-                    annotationView.canShowCallout = true
-                    annotationView.calloutOffset = CGPoint(x: -5, y: -5)
-                    annotationView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
-                    
-                    let button = UIButton(type: .System) as UIButton
-                    button.setTitle("↪︎", forState: .Normal)
-                    button.frame = CGRect(x: 30,y: 30,width: 30,height: 30)
-                    
-                    annotationView.leftCalloutAccessoryView = button
-                    
-                    
-                    switch annotation.type! {
-                    case "Gesamtanlage" :
-                        annotationView.image = UIImage(named: "redMarker.png")
-                        break
-                    case "Bodendenkmal":
-                        annotationView.image = UIImage(named: "oliveMarker.png")
-                        break
-                    case "Baudenkmal":
-                        annotationView.image = UIImage(named: "blueMarker.png")
-                        break
-                    case "Gartendenkmal":
-                        annotationView.image = UIImage(named: "lightgreenMarker.png")
-                        break
-                    case "Ensemble":
-                        annotationView.image = UIImage(named: "orangeMarker.png")
-                        break
-                    case "Ensembleteil":
-                        annotationView.image = UIImage(named: "yellowMarker.png")
-                        break
-                    default:
-                        break
-                    }
-                    annotationView.frame = CGRectMake(0, 0, 25, 25)
+                
+                annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+                annotationView.canShowCallout = true
+                annotationView.calloutOffset = CGPoint(x: -5, y: -5)
+                annotationView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
+                
+                let button = UIButton(type: .System) as UIButton
+                button.setTitle("↪︎", forState: .Normal)
+                button.frame = CGRect(x: 30,y: 30,width: 30,height: 30)
+                
+                annotationView.leftCalloutAccessoryView = button
+                
+                switch annotation.type! {
+                case "Gesamtanlage" :
+                    annotationView.image = UIImage(named: "redMarker.png")
+                    break
+                case "Bodendenkmal":
+                    annotationView.image = UIImage(named: "oliveMarker.png")
+                    break
+                case "Baudenkmal":
+                    annotationView.image = UIImage(named: "blueMarker.png")
+                    break
+                case "Gartendenkmal":
+                    annotationView.image = UIImage(named: "lightgreenMarker.png")
+                    break
+                case "Ensemble":
+                    annotationView.image = UIImage(named: "orangeMarker.png")
+                    break
+                case "Ensembleteil":
+                    annotationView.image = UIImage(named: "yellowMarker.png")
+                    break
+                default:
+                    break
                 }
+                annotationView.frame = CGRectMake(0, 0, 25, 25)
                 return annotationView
             }
             return nil
