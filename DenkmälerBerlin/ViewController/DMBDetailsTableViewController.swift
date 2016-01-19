@@ -113,15 +113,10 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
             self.mapView.addAnnotation(anno);
             
             //mapView.centerCoordinate = monumentCoordinate;
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                self.mapView.showAnnotations([anno], animated: true);
-            });
+            self.mapView.showAnnotations([anno], animated: true);
         }
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            
-            
             // Picture for Header
             let picURL: NSURL?;
             //        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg");

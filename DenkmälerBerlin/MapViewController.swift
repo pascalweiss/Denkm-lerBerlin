@@ -396,6 +396,7 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
             searchItemDisplayOnMap = true
             searchController.active = false
             
+            self.mapView.showAnnotations(annotationsToDraw, animated: true)
         }
     }
 
