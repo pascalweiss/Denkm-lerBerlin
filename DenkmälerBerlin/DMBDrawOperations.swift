@@ -42,6 +42,10 @@ class GetMonumentsForArea : NSOperation {
         }
         
         for monument in monuments {
+            if self.cancelled {
+                return
+            }
+            
             let address = monument.getAddress()
             let annotation = DMBDenkmalMapAnnotation(title: monument.getName()!, type: (monument.getType()?.getName())!, coordinate: CLLocationCoordinate2D(latitude: address.getLat()!, longitude: address.getLong()!), monument: monument)
             

@@ -182,6 +182,19 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         self.view.addSubview(toolbar)
     }
     
+    // MARK: Motion Gestures
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
+        if motion == .MotionShake {
+            self.searchHistory = []
+            
+            self.searchResultsTableView.tableView.reloadData()
+        }
+    }
+    
 }
 
 // MARK: - Data Passing
