@@ -363,9 +363,19 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
             
             
             var selected: [DMBDenkmalMapAnnotation] = []
-            self.filteredData[indexPath.section - 1][indexPath.row].array.forEach({ mon in
+            for var i = 0; i < filteredData[indexPath.section - 1][indexPath.row].array.count; i++ {
+                let mon = filteredData[indexPath.section - 1][indexPath.row].array[i]
+                
                 let address = mon.getAddress()
-                let anno = DMBDenkmalMapAnnotation(title: mon.getName()!, type: mon.getType()!.getName()!, coordinate: CLLocationCoordinate2D(latitude: address.getLat()!, longitude: address.getLong()!), monument: mon )
+                let title = mon.getName()!
+                let type = mon.getType()!.getName()!
+                
+                var long = address.getLong()
+                long = long != nil ? long : 0
+                var lat = address.getLat()
+                lat = lat != nil ? lat : 0
+                let anno = DMBDenkmalMapAnnotation(title: title, type: type, coordinate: CLLocationCoordinate2D(latitude: lat!, longitude: long!), monument: mon)
+                
                 var street = address.getStreet()
                 street = street != nil ? street : ""
                 var number = address.getNr()
@@ -373,7 +383,7 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
                 anno.subtitle = street! + " " + number!
                 
                 selected.append(anno)
-            })
+            }
             
             annotationsToDraw = selected
             searchItemDisplayOnMap = true
