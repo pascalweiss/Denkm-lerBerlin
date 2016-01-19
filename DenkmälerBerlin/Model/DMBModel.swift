@@ -78,6 +78,11 @@ class DMBModel {
         }
     }
     
+    func deleteHistory() {
+        let history = Table(DMBTable.history)
+        try! dbConnection.run(history.delete())
+    }
+    
     /*
      _____       _   _ _            ___                  _
     | ____|_ __ | |_(_) |_ _   _   / _ \ _   _  ___ _ __(_) ___  ___

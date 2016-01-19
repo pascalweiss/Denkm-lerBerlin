@@ -118,6 +118,10 @@ struct DMBModelEXAMPLES {
         // Get History Entries
         DMBModel.sharedInstance.getHistory().forEach({h in h.printIt()})
         
+        DMBModel.sharedInstance.deleteHistory()
+        // Get History Entries
+        DMBModel.sharedInstance.getHistory().forEach({h in h.printIt()})
+        
 
         print("\nSearch with filter:\n" +
             "===================\n")
