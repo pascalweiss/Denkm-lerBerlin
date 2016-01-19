@@ -117,7 +117,6 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
                 number = number != nil ? number : ""
                 anno.subtitle = street! + " " + number!
                 
-                print(monumentCoordinate)
                 let region = MKCoordinateRegion(center: monumentCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
                 
                 self.mapView.setRegion(region, animated: true)

@@ -56,6 +56,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     let pendingOperations = PendingOperations()
     let pendingDrawOps = PendingDrawOperations()
     
+    var activitySymbol: UIActivityIndicatorView?
     
     // Annotations variables
     let clusterManager = FBClusteringManager()
@@ -168,9 +169,15 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         
         let trackingItem = MKUserTrackingBarButtonItem(mapView: mapView)
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        activitySymbol = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        activitySymbol!.startAnimating()
+        
+        let activityItem = UIBarButtonItem(customView: activitySymbol!)
+        
+        
         let resetItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "resetSearch:")
         
-        toolbar.setItems([trackingItem,flexSpace,resetItem], animated: true)
+        toolbar.setItems([trackingItem,flexSpace,activityItem,flexSpace,resetItem], animated: true)
         //toolbar.backgroundColor = UIColor.redColor()
         self.view.addSubview(toolbar)
     }
@@ -551,6 +558,7 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
         if let _ = view.annotation as? DMBDenkmalMapAnnotation {
             if control == view.rightCalloutAccessoryView {
                 monumentToSend = (view.annotation as! DMBDenkmalMapAnnotation).monument
+                
                 performSegueWithIdentifier("Detail", sender: self)
             }
             if control == view.leftCalloutAccessoryView {
@@ -681,12 +689,15 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
                 //print("2Pending operation was cancelled")
                 return
             }
+            
+            self.activitySymbol?.stopAnimating()
             self.pendingDrawOps.drawsInProgress.removeAll()
             //print("found annos: \(getOperation.annotationsFromDb.count)")
             self.annotationsToDraw = getOperation.annotationsFromDb
             
         }
         
+        activitySymbol?.startAnimating()
         pendingDrawOps.drawsInProgress.append(getOperation)
         pendingDrawOps.drawQueue.addOperation(getOperation)
     }
