@@ -74,7 +74,9 @@ class DMBDetailsTableViewController: UITableViewController {
         
         // Picture for Header
         let picURL: NSURL?;
-        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg"); //monument!.getPicUrl();
+//        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg");
+        let strURL = monument!.getPicUrl()
+        picURL = strURL.count == 0 ? nil : NSURL.init(string: strURL[0].getURL()!);
         if (picURL != nil){
             // get picture from URL
             let imageData: NSData? = NSData.init(contentsOfURL: picURL!)!;
@@ -99,8 +101,15 @@ class DMBDetailsTableViewController: UITableViewController {
                 let monumentCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long);
                 
                 // add Annotation
-                let anno = DMBDenkmalMapAnnotation.init(title: monument.getName()!, type: (monument.getType()?.getName()!)!, coordinate: CLLocationCoordinate2D(latitude: long, longitude: lat))
-                //anno.title = monument.getName();
+                let address = monument.getAddress()
+                let anno = DMBDenkmalMapAnnotation.init(title: monument.getName()!, type: (monument.getType()?.getName()!)!, coordinate: CLLocationCoordinate2D(latitude: long, longitude: lat), monument: monument)
+                
+                var street = address.getStreet()
+                street = street != nil ? street : ""
+                var number = address.getNr()
+                number = number != nil ? number : ""
+                anno.subtitle = street! + " " + number!
+                
                 mapView.addAnnotation(anno);
                 
                 mapView.centerCoordinate = monumentCoordinate;
@@ -161,7 +170,7 @@ class DMBDetailsTableViewController: UITableViewController {
             
             let currentKey = printOrder[indexPath.row];
             cell.labelDescriptionHeading.text = currentKey;
-            let fullText: String? = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."; //monumentData[currentKey];
+            let fullText: String? = monumentData.count == 0 ? "" : monumentData[currentKey]; //"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."; //
             
             if (fullText != nil) {
                 // truncate text if neccessary

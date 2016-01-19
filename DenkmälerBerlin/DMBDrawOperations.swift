@@ -43,7 +43,15 @@ class GetMonumentsForArea : NSOperation {
         
         for monument in monuments {
             let address = monument.getAddress()
-            annotationsFromDb.append(DMBDenkmalMapAnnotation(title: monument.getName()!, type: (monument.getType()?.getName())!, coordinate: CLLocationCoordinate2D(latitude: address.getLat()!, longitude: address.getLong()!)))
+            let annotation = DMBDenkmalMapAnnotation(title: monument.getName()!, type: (monument.getType()?.getName())!, coordinate: CLLocationCoordinate2D(latitude: address.getLat()!, longitude: address.getLong()!), monument: monument)
+            
+            var street = address.getStreet()
+            street = street != nil ? street : ""
+            var number = address.getNr()
+            number = number != nil ? number : ""
+            annotation.subtitle = street! + " " + number!
+            
+            annotationsFromDb.append(annotation)
             
         }
         

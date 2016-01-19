@@ -32,6 +32,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     var searchController: UISearchController!
     var searchStillTyping = false
     var lastSearchString: String = ""
+    var searchItemDisplayOnMap = false
     
     // Array for all Monuments
     var filteredData: [ [(key: String, array: [DMBMonument])] ] = Array(count: 4, repeatedValue: Array<(key: String, array: [DMBMonument])>())
@@ -71,6 +72,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     var swCoord: CLLocationCoordinate2D?
     var latitudeDelta: Double?
     var longitudeDelta: Double?
+    var monumentToSend: DMBMonument?
 
     // MARK: Life-Cycle
     override func viewDidLoad() {
@@ -78,9 +80,24 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         
         self.tabBarController?.tabBar.hidden = true
         
+        let toolbar = UIToolbar()
+        toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
+        toolbar.sizeToFit()
+        
+        let trackingItem = MKUserTrackingBarButtonItem(mapView: mapView)
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let resetItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "resetSearch:")
+        
+        toolbar.setItems([trackingItem,flexSpace,resetItem], animated: true)
+        //toolbar.backgroundColor = UIColor.redColor()
+        self.view.addSubview(toolbar)
+        
         clManager = initMapLocationManager()
         DMBModel.sharedInstance
         
+        // Setze Globale Color
+        UIButton.appearance().tintColor = self.view.tintColor
+        UISwitch.appearance().tintColor = self.view.tintColor
         
         // Setup Search Controller
         setupSearchController()
@@ -115,6 +132,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         }
     }
     
+    func resetSearch(sender:UIBarButtonItem!){
+        searchItemDisplayOnMap = false
+        getMonumentsForVisibleMapArea()
+        
+    }
+    
     /// Reset die Mehr Anzeigen Buttons bei neuladen der Suchergebnisse
     func resetShowMoreButton(){
         for i in 0..<showMoreEntries.count {
@@ -140,6 +163,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         
         if segue.identifier == "Detail" {
             // Data Passing for Annotations
+            let destinationVC = segue.destinationViewController as! DMBDetailsTableViewController
+            
+            destinationVC.monument = monumentToSend
             
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Karte", style: .Plain, target: nil, action: nil)
         }
@@ -330,6 +356,25 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = self.tableView(tableView, cellForRowAtIndexPath: indexPath) as! DMBSearchResultsTableViewCell
             DMBModel.sharedInstance.setHistoryEntry(cell.titleTextLabel.text!)
             updateLocalSearchHistory()
+            
+            
+            var selected: [DMBDenkmalMapAnnotation] = []
+            self.filteredData[indexPath.section - 1][indexPath.row].array.forEach({ mon in
+                let address = mon.getAddress()
+                let anno = DMBDenkmalMapAnnotation(title: mon.getName()!, type: mon.getType()!.getName()!, coordinate: CLLocationCoordinate2D(latitude: address.getLat()!, longitude: address.getLong()!), monument: mon )
+                var street = address.getStreet()
+                street = street != nil ? street : ""
+                var number = address.getNr()
+                number = number != nil ? number : ""
+                anno.subtitle = street! + " " + number!
+                
+                selected.append(anno)
+            })
+            
+            annotationsToDraw = selected
+            searchItemDisplayOnMap = true
+            searchController.active = false
+            
         }
     }
 
@@ -434,7 +479,6 @@ extension MapViewController: UISearchResultsUpdating, UISearchControllerDelegate
                 self.resetShowMoreButton()
                 self.searchResultsTableView.tableView.reloadData()
                 self.searchStillTyping = false
-                
             })
         }
         
@@ -452,35 +496,6 @@ extension MapViewController: UISearchResultsUpdating, UISearchControllerDelegate
             searchResultsTableView.tableView.reloadData()
         }
         
-    }
-    
-    func getMonumentsForVisibleMapArea(){
-        
-        if pendingDrawOps.drawsInProgress.count > 0 {
-            pendingDrawOps.drawQueue.cancelAllOperations()
-            print("Pending operation was cancelled")
-        }
-        setUpVisibleMapRegionParams()
-        let area = MKCoordinateRegion.init(
-            center: CLLocationCoordinate2D.init(latitude: centerCoord!.latitude, longitude: centerCoord!.longitude),
-            span: MKCoordinateSpan.init(latitudeDelta: latitudeDelta!, longitudeDelta: longitudeDelta!))
-        
-        let getOperation = GetMonumentsForArea(mapArea: area)
-        
-        getOperation.completionBlock = {
-            if getOperation.cancelled {
-                self.pendingDrawOps.drawsInProgress.removeAll()
-                //print("2Pending operation was cancelled")
-                return
-            }
-            self.pendingDrawOps.drawsInProgress.removeAll()
-            //print("found annos: \(getOperation.annotationsFromDb.count)")
-            self.annotationsToDraw = getOperation.annotationsFromDb
-            
-        }
-        
-        pendingDrawOps.drawsInProgress.append(getOperation)
-        pendingDrawOps.drawQueue.addOperation(getOperation)
     }
 
 }
@@ -521,6 +536,7 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
         
         if let _ = view.annotation as? DMBDenkmalMapAnnotation {
             if control == view.rightCalloutAccessoryView {
+                monumentToSend = (view.annotation as! DMBDenkmalMapAnnotation).monument
                 performSegueWithIdentifier("Detail", sender: self)
             }
             if control == view.leftCalloutAccessoryView {
@@ -533,7 +549,11 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool){
-        getMonumentsForVisibleMapArea()
+        setUpVisibleMapRegionParams()
+        drawClusters()
+        if !searchItemDisplayOnMap {
+            getMonumentsForVisibleMapArea()
+        }
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -625,5 +645,35 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
             let annotationArray = self.clusterManager.clusteredAnnotationsWithinMapRect(self.mapView.visibleMapRect, withZoomScale:scale)
             self.clusterManager.displayAnnotations(annotationArray, onMapView:self.mapView)
         })
+    }
+    
+    // MARK: Threaded Get Monuments
+    func getMonumentsForVisibleMapArea(){
+        
+        if pendingDrawOps.drawsInProgress.count > 0 {
+            pendingDrawOps.drawQueue.cancelAllOperations()
+            print("Pending operation was cancelled")
+        }
+        setUpVisibleMapRegionParams()
+        let area = MKCoordinateRegion.init(
+            center: CLLocationCoordinate2D.init(latitude: centerCoord!.latitude, longitude: centerCoord!.longitude),
+            span: MKCoordinateSpan.init(latitudeDelta: latitudeDelta!, longitudeDelta: longitudeDelta!))
+        
+        let getOperation = GetMonumentsForArea(mapArea: area)
+        
+        getOperation.completionBlock = {
+            if getOperation.cancelled {
+                self.pendingDrawOps.drawsInProgress.removeAll()
+                //print("2Pending operation was cancelled")
+                return
+            }
+            self.pendingDrawOps.drawsInProgress.removeAll()
+            //print("found annos: \(getOperation.annotationsFromDb.count)")
+            self.annotationsToDraw = getOperation.annotationsFromDb
+            
+        }
+        
+        pendingDrawOps.drawsInProgress.append(getOperation)
+        pendingDrawOps.drawQueue.addOperation(getOperation)
     }
 }
