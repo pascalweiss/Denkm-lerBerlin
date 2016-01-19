@@ -40,93 +40,117 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
         }
     
         // Name
-        if (monument.getName() != nil){
-            monumentData.updateValue(monument.getName()!, forKey: "Name");
+        let monName = self.monument.getName()
+        if (monName != nil){
+            self.monumentData.updateValue(monName!, forKey: "Name");
             
         }
         
         // Description
-        if (monument.getDescription() != nil){
-            monumentData.updateValue(monument.getDescription()!, forKey: "Beschreibung");
-        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            let monDescription = self.monument.getDescription()
+            if (monDescription != nil){
+                self.monumentData.updateValue(monDescription!, forKey: "Beschreibung");
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.tableView.reloadData()
+                })
+            }
+        })
         
         // Date
-        if (monument.getCreationPeriod() != nil){
+        let monCreationPeriod = self.monument.getCreationPeriod()
+        if (monCreationPeriod != nil){
             var dateString: String = "";
             let dateFormater = NSDateFormatter.init();
             dateFormater.timeZone = NSTimeZone(name: "Europe/Berlin");
             dateFormater.locale = NSLocale(localeIdentifier: "de-DE");
             dateFormater.dateFormat = "MMMM yyyy";
-            if (monument.getCreationPeriod()?.getFrom() != nil){
-                dateString = dateFormater.stringFromDate(monument.getCreationPeriod()!.getFrom()!) + " - ";
+            if (monCreationPeriod?.getFrom() != nil){
+                dateString = dateFormater.stringFromDate(monCreationPeriod!.getFrom()!) + " - ";
             }
-            if (monument.getCreationPeriod()?.getTo() != nil) {
-                dateString += dateFormater.stringFromDate(monument.getCreationPeriod()!.getTo()!);
+            if (monCreationPeriod?.getTo() != nil) {
+                dateString += dateFormater.stringFromDate(monCreationPeriod!.getTo()!);
             }
-            monumentData.updateValue(dateString, forKey: "Bauzeit");
+            self.monumentData.updateValue(dateString, forKey: "Bauzeit");
+            
         }
         
         // Address
+        let monAddress = self.monument.getAddress()
+        let monStreet = monAddress.getStreet()
+        let monNumber = monAddress.getNr()
         var addressString: String = "";
-        if (monument.getAddress().getStreet() != nil){
-            addressString = monument.getAddress().getStreet()! + " ";
+        if (monStreet != nil){
+            addressString = monStreet! + " ";
         }
-        if (monument.getAddress().getNr() != nil) {
-            addressString += monument.getAddress().getNr()!;
+        if (monNumber != nil) {
+            addressString += monNumber!;
         }
         if (addressString != ""){
-            monumentData.updateValue(addressString, forKey: "Adresse");
+            self.monumentData.updateValue(addressString, forKey: "Adresse");
         }
         
         
-        // Picture for Header
-        let picURL: NSURL?;
-//        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg");
-        let strURL = monument!.getPicUrl()
-        picURL = strURL.count == 0 ? nil : NSURL.init(string: strURL[0].getURL()!);
-        if (picURL != nil){
-            // get picture from URL
-            let imageData: NSData? = NSData.init(contentsOfURL: picURL!)!;
-            if (imageData != nil){
-                let image: UIImage? = UIImage.init(data: imageData!);
-                if (image != nil){
-                    // make image view
-                    let imageView = UIImageView.init(frame: CGRect(x: mapView.frame.origin.x, y: mapView.frame.origin.y, width: UIScreen.mainScreen().bounds.width, height: mapView.frame.height));
-                    imageView.image = image;
-                    imageView.contentMode = .ScaleAspectFill;
-                    imageView.clipsToBounds = true;
-                    // add image view to superview
-                    self.view.addSubview(imageView);
+        // MAP
+        // show object on map
+        let lat = self.monument.getAddress().getLat();
+        let long = self.monument.getAddress().getLong();
+        
+        if (lat != nil && long != nil) {
+            // center map on monument coordinates
+            
+            let monumentCoordinate = CLLocationCoordinate2D(latitude: lat!, longitude: long!);
+            
+            // add Annotation
+            let anno = DMBDenkmalMapAnnotation.init(title: self.monument.getName()!, type: (self.monument.getType()?.getName()!)!, coordinate: monumentCoordinate, monument: self.monument)
+            
+            
+            let region = MKCoordinateRegion(center: monumentCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            
+            self.mapView.setRegion(region, animated: true)
+            
+            self.mapView.addAnnotation(anno);
+            
+            //mapView.centerCoordinate = monumentCoordinate;
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                self.mapView.showAnnotations([anno], animated: true);
+            });
+        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            
+            
+            // Picture for Header
+            let picURL: NSURL?;
+            //        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg");
+            let strURL = self.monument!.getPicUrl()
+            picURL = strURL.count == 0 ? nil : NSURL.init(string: strURL[0].getURL()!);
+            if (picURL != nil){
+                // get picture from URL
+                let imageData: NSData? = NSData.init(contentsOfURL: picURL!)!;
+                if (imageData != nil){
+                    let image: UIImage? = UIImage.init(data: imageData!);
+                    if (image != nil){
+                        // make image view
+                        let imageView = UIImageView.init(frame: CGRect(x: self.mapView.frame.origin.x, y: self.mapView.frame.origin.y, width: UIScreen.mainScreen().bounds.width, height: self.mapView.frame.height));
+                        imageView.image = image;
+                        imageView.contentMode = .ScaleAspectFill;
+                        imageView.clipsToBounds = true;
+                        // add image view to superview
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.view.addSubview(imageView);
+                        });
+                        
+                    }
                 }
             }
-        } else {
-            // show object on map
-            if (monument.getAddress().getLat() != nil && monument.getAddress().getLong() != nil) {
-                // center map on monument coordinates
-                let lat = monument.getAddress().getLat()!;
-                let long = monument.getAddress().getLong()!;
-                let monumentCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long);
-                
-                // add Annotation
-                let address = monument.getAddress()
-                let anno = DMBDenkmalMapAnnotation.init(title: monument.getName()!, type: (monument.getType()?.getName()!)!, coordinate: monumentCoordinate, monument: monument)
-                
-                var street = address.getStreet()
-                street = street != nil ? street : ""
-                var number = address.getNr()
-                number = number != nil ? number : ""
-                anno.subtitle = street! + " " + number!
-                
-                let region = MKCoordinateRegion(center: monumentCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-                
-                self.mapView.setRegion(region, animated: true)
-                
-                mapView.addAnnotation(anno);
-                
-                //mapView.centerCoordinate = monumentCoordinate;
-                mapView.showAnnotations([anno], animated: true);
-            }
-        }
+            
+        });
+        
+        
         // DONE
         // navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == true, animated: false)
     }

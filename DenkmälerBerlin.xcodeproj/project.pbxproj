@@ -58,7 +58,6 @@
 		50F2E08B1C007FD700CE633B /* DMBSubDistrict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */; };
 		50F2E0951C0080CA00CE633B /* DMBDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */; };
 		50F2E0971C0083CE00CE633B /* DMBSubDistrictRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2E0961C0083CE00CE633B /* DMBSubDistrictRelation.swift */; };
-		9EE6864D1C4BC9C400A5DE8A /* DMBRangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE6864C1C4BC9C400A5DE8A /* DMBRangeSlider.swift */; };
 		57EB18EC1C4585EF007F6149 /* DenkmalAnnotationCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18E61C4585EF007F6149 /* DenkmalAnnotationCluster.swift */; };
 		57EB18ED1C4585EF007F6149 /* DenkmalAnnotationClusterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18E71C4585EF007F6149 /* DenkmalAnnotationClusterView.swift */; };
 		57EB18EE1C4585EF007F6149 /* FBBoundingBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18E81C4585EF007F6149 /* FBBoundingBox.swift */; };
@@ -66,6 +65,7 @@
 		57EB18F01C4585EF007F6149 /* FBQuadTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18EA1C4585EF007F6149 /* FBQuadTree.swift */; };
 		57EB18F11C4585EF007F6149 /* FBQuadTreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB18EB1C4585EF007F6149 /* FBQuadTreeNode.swift */; };
 		57EB19011C4D81E5007F6149 /* DMBDrawOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EB19001C4D81E5007F6149 /* DMBDrawOperations.swift */; };
+		9EE6864D1C4BC9C400A5DE8A /* DMBRangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE6864C1C4BC9C400A5DE8A /* DMBRangeSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,7 +277,6 @@
 		50F2E08A1C007FD700CE633B /* DMBSubDistrict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSubDistrict.swift; path = Model/DMBSubDistrict.swift; sourceTree = "<group>"; };
 		50F2E0941C0080CA00CE633B /* DMBDistrictRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBDistrictRelation.swift; path = Model/DMBDistrictRelation.swift; sourceTree = "<group>"; };
 		50F2E0961C0083CE00CE633B /* DMBSubDistrictRelation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSubDistrictRelation.swift; path = Model/DMBSubDistrictRelation.swift; sourceTree = "<group>"; };
-		9EE6864C1C4BC9C400A5DE8A /* DMBRangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBRangeSlider.swift; path = ViewController/DMBRangeSlider.swift; sourceTree = "<group>"; };
 		57EB18E61C4585EF007F6149 /* DenkmalAnnotationCluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DenkmalAnnotationCluster.swift; sourceTree = "<group>"; };
 		57EB18E71C4585EF007F6149 /* DenkmalAnnotationClusterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DenkmalAnnotationClusterView.swift; sourceTree = "<group>"; };
 		57EB18E81C4585EF007F6149 /* FBBoundingBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBBoundingBox.swift; sourceTree = "<group>"; };
@@ -285,6 +284,7 @@
 		57EB18EA1C4585EF007F6149 /* FBQuadTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBQuadTree.swift; sourceTree = "<group>"; };
 		57EB18EB1C4585EF007F6149 /* FBQuadTreeNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBQuadTreeNode.swift; sourceTree = "<group>"; };
 		57EB19001C4D81E5007F6149 /* DMBDrawOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMBDrawOperations.swift; sourceTree = "<group>"; };
+		9EE6864C1C4BC9C400A5DE8A /* DMBRangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBRangeSlider.swift; path = ViewController/DMBRangeSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,8 +345,6 @@
 			children = (
 				57EB19121C4D8203007F6149 /* Supporting */,
 				57EB18D51C4585E0007F6149 /* Clusterer */,
-				50AC10531C451F1D0070851B /* DMBDetailsTableViewCell.swift */,
-				50AC10541C451F1D0070851B /* DMBDetailsTextTableViewCell.swift */,
 				50A3F8701C3C26A00065B335 /* SearchController */,
 				5034FF241BE90BE300A3C77F /* ViewCells */,
 				5034FF181BE90B6C00A3C77F /* DMBFilterViewController.swift */,
@@ -361,6 +359,8 @@
 		5034FF241BE90BE300A3C77F /* ViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				50AC10531C451F1D0070851B /* DMBDetailsTableViewCell.swift */,
+				50AC10541C451F1D0070851B /* DMBDetailsTextTableViewCell.swift */,
 				502603C51C45BAF10080EA77 /* DMBSearchResultCellProtoype.xib */,
 				502603C61C45BAF10080EA77 /* DMBSearchResultsTableViewCell.swift */,
 				5034FF171BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift */,
@@ -807,7 +807,7 @@
 				50B3B66C1C0060600042B3F7 /* DMBNotion.swift in Sources */,
 				57EB18ED1C4585EF007F6149 /* DenkmalAnnotationClusterView.swift in Sources */,
 				502FDA001C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift in Sources */,
-                502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */,
+				502343E51BFCE892008794D4 /* DMBFilter.swift in Sources */,
 				9EE6864D1C4BC9C400A5DE8A /* DMBRangeSlider.swift in Sources */,
 				57EB18EC1C4585EF007F6149 /* DenkmalAnnotationCluster.swift in Sources */,
 				50F1223B1C430418008C2CC9 /* DMBAdvSearchTableViewCell.swift in Sources */,
