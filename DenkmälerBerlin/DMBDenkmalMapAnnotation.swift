@@ -41,14 +41,14 @@ class DMBDenkmalMapAnnotation: NSObject, MKAnnotation {
         let addressDictionary = [String(kABPersonAddressStreetKey): self.subtitle as! AnyObject]
         let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: addressDictionary)
         
-        print("addressDictionary: ")
-        print(addressDictionary.keys)
-        print("palcemark: " + placemark.description)
+//        print("addressDictionary: ")
+//        print(addressDictionary.keys)
+        //print("palcemark: " + placemark.description)
         
         let mapItem = MKMapItem(placemark: placemark)
         mapItem.name = title
         
-        print("mapItem: " + mapItem.description)
+        //print("mapItem: " + mapItem.description)
         
         
         return mapItem

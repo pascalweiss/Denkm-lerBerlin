@@ -61,8 +61,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     let clusterManager = FBClusteringManager()
     var annotationsToDraw: [DMBDenkmalMapAnnotation] = [] {
         didSet {
-            print("annotationsToDraw was changed")
-            print("actual size: \(annotationsToDraw.count)")
+            // TODO: print("annotationsToDraw was changed")
+            // TDOD: print("actual size: \(annotationsToDraw.count)")
             drawClusters()
         }
     }
@@ -79,21 +79,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         super.viewDidLoad()
         
         self.tabBarController?.tabBar.hidden = true
+        addToolBarToBottom()
         
-        let toolbar = UIToolbar()
-        toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
-        toolbar.sizeToFit()
-        
-        let trackingItem = MKUserTrackingBarButtonItem(mapView: mapView)
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let resetItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "resetSearch:")
-        
-        toolbar.setItems([trackingItem,flexSpace,resetItem], animated: true)
-        //toolbar.backgroundColor = UIColor.redColor()
-        self.view.addSubview(toolbar)
         
         clManager = initMapLocationManager()
-        DMBModel.sharedInstance
         
         // Setze Globale Color
         UIButton.appearance().tintColor = self.view.tintColor
@@ -169,6 +158,21 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
             
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Karte", style: .Plain, target: nil, action: nil)
         }
+    }
+    
+    // MARK: Toolbar
+    func addToolBarToBottom(){
+        let toolbar = UIToolbar()
+        toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
+        toolbar.sizeToFit()
+        
+        let trackingItem = MKUserTrackingBarButtonItem(mapView: mapView)
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let resetItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Stop, target: self, action: "resetSearch:")
+        
+        toolbar.setItems([trackingItem,flexSpace,resetItem], animated: true)
+        //toolbar.backgroundColor = UIColor.redColor()
+        self.view.addSubview(toolbar)
     }
     
 }
@@ -638,7 +642,7 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
         NSOperationQueue().addOperationWithBlock({
             self.clusterManager.tree = nil
             self.clusterManager.addAnnotations(self.annotationsToDraw)
-            print("Annos to draw: \(self.annotationsToDraw.count)")
+            // TODO: print("Annos to draw: \(self.annotationsToDraw.count)")
             let mapBoundsWidth = Double(self.mapView.bounds.size.width)
             let mapRectWidth:Double = self.mapView.visibleMapRect.size.width
             let scale:Double = mapBoundsWidth / mapRectWidth
@@ -652,7 +656,7 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
         
         if pendingDrawOps.drawsInProgress.count > 0 {
             pendingDrawOps.drawQueue.cancelAllOperations()
-            print("Pending operation was cancelled")
+            // TODO: print("Pending operation was cancelled")
         }
         setUpVisibleMapRegionParams()
         let area = MKCoordinateRegion.init(

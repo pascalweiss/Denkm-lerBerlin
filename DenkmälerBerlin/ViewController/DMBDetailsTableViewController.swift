@@ -9,11 +9,18 @@
 import UIKit
 import MapKit
 
-class DMBDetailsTableViewController: UITableViewController {
+class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
     
     // MARK: Properties
     
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapView: MKMapView! {
+        didSet {
+            mapView.mapType = .Standard
+            mapView.showsPointsOfInterest = false
+            mapView.userInteractionEnabled = false
+            mapView.delegate = self
+        }
+    }
     
     var monument: DMBMonument! = DMBModel.sharedInstance.getAllMonuments()[12];
     var monumentData: Dictionary<String, String>! = Dictionary<String, String>();
@@ -102,7 +109,7 @@ class DMBDetailsTableViewController: UITableViewController {
                 
                 // add Annotation
                 let address = monument.getAddress()
-                let anno = DMBDenkmalMapAnnotation.init(title: monument.getName()!, type: (monument.getType()?.getName()!)!, coordinate: CLLocationCoordinate2D(latitude: long, longitude: lat), monument: monument)
+                let anno = DMBDenkmalMapAnnotation.init(title: monument.getName()!, type: (monument.getType()?.getName()!)!, coordinate: monumentCoordinate, monument: monument)
                 
                 var street = address.getStreet()
                 street = street != nil ? street : ""
@@ -110,9 +117,14 @@ class DMBDetailsTableViewController: UITableViewController {
                 number = number != nil ? number : ""
                 anno.subtitle = street! + " " + number!
                 
+                print(monumentCoordinate)
+                let region = MKCoordinateRegion(center: monumentCoordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                
+                self.mapView.setRegion(region, animated: true)
+                
                 mapView.addAnnotation(anno);
                 
-                mapView.centerCoordinate = monumentCoordinate;
+                //mapView.centerCoordinate = monumentCoordinate;
                 mapView.showAnnotations([anno], animated: true);
             }
         }
