@@ -189,7 +189,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
 
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
         if motion == .MotionShake {
-            self.searchHistory = []
+            DMBModel.sharedInstance.deleteHistory()
+            self.updateLocalSearchHistory()
             
             self.searchResultsTableView.tableView.reloadData()
         }
