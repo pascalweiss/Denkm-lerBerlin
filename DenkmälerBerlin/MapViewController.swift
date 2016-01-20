@@ -25,6 +25,10 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     var searchHistory: [String] = []
     var showHistory: Bool = true
     
+    // Default View
+    var defaultView: UIView?
+    var showDefaultLabels = (history: UILabel(), noMatch: UILabel(), activity: UIActivityIndicatorView())
+    
     // MARK: Blur Effect
     var blurEffectView: UIVisualEffectView?
     
@@ -92,6 +96,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
         // Setup Search Controller
         setupSearchController()
         setupSearchResultsTable()
+        
+        
         
         updateLocalSearchHistory()
     }
@@ -222,6 +228,7 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
         addGestureRecognitionToTableView()
         addBlurEffectToSearchResultTable()
         
+        setupDefaultView()
         blurEffectView!.addSubview(searchResultsTableView.tableView)
     }
     
@@ -246,6 +253,42 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
         // Versteckt Tastatur wenn gescrollt wird
         searchResultsTableView.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         
+    }
+    
+    func setupDefaultView(){
+        
+        // Setzt Position unter die NavBar und Größe an Display angepasst
+        let viewFrame = self.view.frame
+        let x = self.navigationController?.navigationBar.frame.origin.x
+        let y = (self.navigationController?.navigationBar.frame.origin.y)! + (self.navigationController?.navigationBar.frame.height)!
+        let originPoint = CGPoint(x: x!, y: y)
+        let size = CGSize(width: viewFrame.size.width, height: viewFrame.size.height - y /*- (self.tabBarController?.tabBar.frame.height)!*/)
+        
+        let searchResultsTableViewRect = CGRect(origin: originPoint, size: size)
+        
+        defaultView = UIView(frame: searchResultsTableViewRect)
+        
+        
+        showDefaultLabels.history = UILabel(frame: CGRect(x: 0, y: viewFrame.size.height * 0.1, width: viewFrame.size.width, height: 18))
+        showDefaultLabels.history.text = "Verlauf leer"
+        showDefaultLabels.history.textAlignment = NSTextAlignment.Center
+        showDefaultLabels.history.textColor = UIColor.lightGrayColor()
+        showDefaultLabels.history.hidden = true
+        
+        showDefaultLabels.noMatch = UILabel(frame: CGRect(x: 0, y: viewFrame.size.height * 0.1, width: viewFrame.size.width, height: 18))
+        showDefaultLabels.noMatch.text = "Kein Treffer"
+        showDefaultLabels.noMatch.textAlignment = NSTextAlignment.Center
+        showDefaultLabels.noMatch.textColor = UIColor.lightGrayColor()
+        showDefaultLabels.noMatch.hidden = true
+        
+        showDefaultLabels.activity = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        showDefaultLabels.activity.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        showDefaultLabels.activity.center = CGPoint(x: viewFrame.size.width / 2, y: viewFrame.size.height * 0.15)
+        
+        defaultView!.addSubview(showDefaultLabels.history)
+        defaultView!.addSubview(showDefaultLabels.noMatch)
+        defaultView?.addSubview(showDefaultLabels.activity)
+        blurEffectView!.addSubview(defaultView!)
     }
     
     // MARK: Background Effect
@@ -336,6 +379,7 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.subTitleLabel.hidden = true
                 }
             } else {
+                
                 cell.subTitleLabel.hidden = false
                 switch indexPath.section {
                 case 1:
@@ -482,6 +526,9 @@ extension MapViewController: UISearchResultsUpdating, UISearchControllerDelegate
             searchHistory.append(entry.getSearchString()!)
         })
         searchHistory = searchHistory.reverse()
+        
+        showDefaultLabels.noMatch.hidden = true
+        showDefaultLabels.history.hidden = searchHistory.count == 0 ? false : true
     }
     
     
@@ -515,20 +562,35 @@ extension MapViewController: UISearchResultsUpdating, UISearchControllerDelegate
                 self.resetShowMoreButton()
                 self.searchResultsTableView.tableView.reloadData()
                 self.searchStillTyping = false
+                
+                var empty = true
+                for entry in self.filteredData {
+                    if entry.count != 0 {
+                        empty = false
+                    }
+                }
+                
+                
+                self.showDefaultLabels.noMatch.hidden = empty ? false : true
+                self.showDefaultLabels.activity.stopAnimating()
             })
         }
         
         pendingOperations.searchsInProgress[threadNumber] = search
         
         if searchText.isEmpty == false {
+            self.showDefaultLabels.history.hidden = true
+            self.showDefaultLabels.activity.startAnimating()
             pendingOperations.searchQueue.addOperation(search)
             showHistory = false
         } else { // wenn Searchfield leer dann alle Threads killen z.b. wenn man mit Backspace löscht
+            self.showDefaultLabels.activity.stopAnimating()
             pendingOperations.searchsInProgress.forEach({s in s.1.cancel() })
             
             showHistory = true
             searchStillTyping = false
             resetShowMoreButton()
+            updateLocalSearchHistory()
             searchResultsTableView.tableView.reloadData()
         }
         
