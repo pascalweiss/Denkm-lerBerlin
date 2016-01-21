@@ -65,8 +65,9 @@ class DMBDetailsTextTableViewCell: UITableViewCell {
         // Text Element
         let textView: UITextView = UITextView.init(frame: CGRect(x: 10, y: 64, width: deviceWidth - 10, height: 0));
         textView.text = fullText;
+        textView.scrollEnabled = true;
         textView.editable = false;
-        textView.sizeToFit();
+        //textView.sizeToFit();
         modalViewController.view.addSubview(textView);
         
         //display it

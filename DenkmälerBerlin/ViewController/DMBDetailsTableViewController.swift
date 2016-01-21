@@ -13,17 +13,16 @@ class DMBDetailsTableViewController: UITableViewController {
     
     // MARK: Properties
     
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var tableHeaderView: UIView!
     
     var monument: DMBMonument! = DMBModel.sharedInstance.getAllMonuments()[12];
     var monumentData: Dictionary<String, String>! = Dictionary<String, String>();
     var printOrder: [String] = ["Adresse", "Bauzeit", "Beschreibung"];
     var descriptionPosition = 0;
+    var heightForDescriptionCell:CGFloat = 0;
     
     override func viewDidLoad() {
         super.viewDidLoad();
-        //mapView.userInteractionEnabled = false;
-        mapView.zoomEnabled = false;
         tableView.bounces = false;
         // construct property array from monument properties
         
@@ -73,24 +72,32 @@ class DMBDetailsTableViewController: UITableViewController {
         
         
         // Picture for Header
+        var imageSuccess = false;
         let picURL: NSURL?;
-        picURL = NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg"); //monument!.getPicUrl();
+        picURL = monument!.getPicUrl(); //NSURL.init(string: "https://thumbs.dreamstime.com/z/berlin-above-aerial-view-center-germany-35821603.jpg");
         if (picURL != nil){
             // get picture from URL
-            let imageData: NSData? = NSData.init(contentsOfURL: picURL!)!;
+            let imageData: NSData? = NSData.init(contentsOfURL: picURL!);
             if (imageData != nil){
                 let image: UIImage? = UIImage.init(data: imageData!);
                 if (image != nil){
                     // make image view
-                    let imageView = UIImageView.init(frame: CGRect(x: mapView.frame.origin.x, y: mapView.frame.origin.y, width: UIScreen.mainScreen().bounds.width, height: mapView.frame.height));
+                    let imageView = UIImageView.init(frame: CGRect(x: tableHeaderView.frame.origin.x, y: tableHeaderView.frame.origin.y, width: UIScreen.mainScreen().bounds.width, height: tableHeaderView.frame.height));
                     imageView.image = image;
                     imageView.contentMode = .ScaleAspectFill;
                     imageView.clipsToBounds = true;
                     // add image view to superview
                     self.view.addSubview(imageView);
+                    imageSuccess = true;
                 }
             }
-        } else {
+        }
+        
+        if(!imageSuccess){
+            let mapView = MKMapView.init(frame: CGRect(x: tableHeaderView.frame.origin.x, y: tableHeaderView.frame.origin.y, width: UIScreen.mainScreen().bounds.width, height: tableHeaderView.frame.height));
+            tableView.addSubview(mapView);
+            //mapView.userInteractionEnabled = false;
+            mapView.zoomEnabled = false;
             // show object on map
             if (monument.getAddress().getLat() != nil && monument.getAddress().getLong() != nil) {
                 // center map on monument coordinates
@@ -107,6 +114,12 @@ class DMBDetailsTableViewController: UITableViewController {
                 mapView.showAnnotations([anno], animated: true);
             }
         }
+        
+        // The height is calculated as follows: screenHeight - (navigationbarHeight + headerviewHeight + sectionheaderHeight + height of the other rows)
+        
+        heightForDescriptionCell = UIScreen.mainScreen().bounds.height - (self.navigationController!.navigationBar.frame.height + tableHeaderView.frame.height + CGFloat(28) + CGFloat(printOrder.count * 44));
+        print(self.tableView.frame.height);
+        print(UIScreen.mainScreen().bounds.height);
         // DONE
         // navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == true, animated: false)
     }
@@ -134,11 +147,7 @@ class DMBDetailsTableViewController: UITableViewController {
         if (indexPath.row != self.descriptionPosition){
             return 44;
         } else {
-            if (self.printOrder.count < 2){
-                return 352;
-            } else {
-                return 220;
-            }
+            return heightForDescriptionCell;
         }
     }
     
@@ -158,6 +167,8 @@ class DMBDetailsTableViewController: UITableViewController {
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("descriptionTextCell", forIndexPath: indexPath) as! DMBDetailsTextTableViewCell;
             cell.passControllerReference(self);
+            cell.tvDescriptionText.bounces = false;
+            cell.tvDescriptionText.scrollEnabled = false;
             
             let currentKey = printOrder[indexPath.row];
             cell.labelDescriptionHeading.text = currentKey;
@@ -170,7 +181,7 @@ class DMBDetailsTableViewController: UITableViewController {
                 if (self.printOrder.count < 2){
                     charactersToDisplay = 900;
                 } else {
-                    charactersToDisplay = 600;
+                    charactersToDisplay = 700;
                 }
                 
                 if (charactersToDisplay > fullText!.characters.count){

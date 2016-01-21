@@ -76,20 +76,8 @@
                         <view key="tableHeaderView" contentMode="scaleToFill" id="gQq-Fm-CmJ">
                             <rect key="frame" x="0.0" y="64" width="320" height="101"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SaV-xj-D8A">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
-                                    <animations/>
-                                </mapView>
-                            </subviews>
                             <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="trailing" secondItem="SaV-xj-D8A" secondAttribute="trailing" id="A0D-dT-C2C"/>
-                                <constraint firstItem="SaV-xj-D8A" firstAttribute="leading" secondItem="gQq-Fm-CmJ" secondAttribute="leading" id="Pcr-eQ-gL7"/>
-                                <constraint firstItem="SaV-xj-D8A" firstAttribute="top" secondItem="gQq-Fm-CmJ" secondAttribute="top" id="TmL-TX-9Fc"/>
-                                <constraint firstAttribute="bottom" secondItem="SaV-xj-D8A" secondAttribute="bottom" id="mfR-ym-232"/>
-                            </constraints>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="contentValueCell" id="cp8-cU-cs3" customClass="DMBDetailsTableViewCell" customModule="Denkma_lerBerlin" customModuleProvider="target">
@@ -121,11 +109,11 @@
                                     <outlet property="labelPropertyValue" destination="zaT-n8-aDw" id="iOD-HE-hul"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="descriptionTextCell" rowHeight="352" id="9Vh-lR-Oid" customClass="DMBDetailsTextTableViewCell" customModule="Denkma_lerBerlin" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="237" width="320" height="352"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="descriptionTextCell" rowHeight="91" id="9Vh-lR-Oid" customClass="DMBDetailsTextTableViewCell" customModule="Denkma_lerBerlin" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="237" width="320" height="91"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Vh-lR-Oid" id="pFa-48-Nge">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="351"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beschreibung" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CcG-tr-okp">
@@ -145,7 +133,7 @@
                                             </connections>
                                         </button>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur  ...More" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4jj-wR-55f">
-                                            <rect key="frame" x="16" y="26" width="296" height="300"/>
+                                            <rect key="frame" x="16" y="26" width="296" height="56"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -158,11 +146,11 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="4ei-Vj-pJO" secondAttribute="trailing" id="7Sh-ps-TNW"/>
                                         <constraint firstItem="4ei-Vj-pJO" firstAttribute="leading" secondItem="CcG-tr-okp" secondAttribute="trailing" constant="94" id="F6t-S6-qtS"/>
                                         <constraint firstItem="4jj-wR-55f" firstAttribute="top" secondItem="4ei-Vj-pJO" secondAttribute="bottom" constant="-8" id="Gka-Gc-xJY"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="4jj-wR-55f" secondAttribute="bottom" constant="17" id="OWB-bi-pe4"/>
                                         <constraint firstItem="4ei-Vj-pJO" firstAttribute="top" secondItem="pFa-48-Nge" secondAttribute="topMargin" constant="-4" id="fRU-na-tRg"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="4jj-wR-55f" secondAttribute="trailing" id="hkr-xG-oMB"/>
                                         <constraint firstAttribute="topMargin" secondItem="CcG-tr-okp" secondAttribute="top" id="lIx-UU-V4g"/>
                                         <constraint firstItem="4jj-wR-55f" firstAttribute="top" secondItem="CcG-tr-okp" secondAttribute="bottom" constant="-3" id="oV8-Ln-l7k"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="4jj-wR-55f" secondAttribute="bottom" id="vRT-iL-DA6"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <animations/>
@@ -180,7 +168,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Details" id="XUW-DV-KXV"/>
                     <connections>
-                        <outlet property="mapView" destination="SaV-xj-D8A" id="aXT-yp-3i5"/>
+                        <outlet property="tableHeaderView" destination="gQq-Fm-CmJ" id="Uer-M2-4hZ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HW5-L7-twL" userLabel="First Responder" sceneMemberID="firstResponder"/>
