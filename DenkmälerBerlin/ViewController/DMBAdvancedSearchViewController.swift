@@ -25,7 +25,7 @@ class DMBAdvancedSearchViewController: UITableViewController {
     var allDistricts  = [(type: String, on: Bool)]()
     var allTimeLimits = [(type: String, on: Bool)]()
     var allSections   = [[(type: String, on: Bool)]]()
-    let headerTitles  = ["Denkmaltypen", "Bezirke", "Zeitraum"]
+    let headerTitles  = ["Zeitraum", "Denkmaltypen", "Bezirke"]
     
     // MARK: Elemente fuer Range Slider
     let customRangeSlider = RangeSlider(frame: CGRectZero)

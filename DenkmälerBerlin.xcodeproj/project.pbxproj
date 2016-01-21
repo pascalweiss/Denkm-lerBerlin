@@ -30,7 +30,6 @@
 		502FDA001C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502FD9FF1C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift */; };
 		502FDA121C3C0AEC0010E1FB /* DMBSearchResultsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502FDA111C3C0AEC0010E1FB /* DMBSearchResultsHeaderView.swift */; };
 		5034FF1D1BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF171BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift */; };
-		5034FF1E1BE90B6C00A3C77F /* DMBFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF181BE90B6C00A3C77F /* DMBFilterViewController.swift */; };
 		5034FF1F1BE90B6C00A3C77F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034FF191BE90B6C00A3C77F /* MapViewController.swift */; };
 		5034FF221BE90BAB00A3C77F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5034FF211BE90BAB00A3C77F /* Main.storyboard */; };
 		506B82621BFFCDC2001B971A /* DMBType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506B82611BFFCDC2001B971A /* DMBType.swift */; };
@@ -241,7 +240,6 @@
 		502FD9FF1C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBAdvancedSearchViewController.swift; path = ViewController/DMBAdvancedSearchViewController.swift; sourceTree = "<group>"; };
 		502FDA111C3C0AEC0010E1FB /* DMBSearchResultsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBSearchResultsHeaderView.swift; path = ViewController/SubViewController/DMBSearchResultsHeaderView.swift; sourceTree = "<group>"; };
 		5034FF171BE90B6C00A3C77F /* DMBDenkmalMapAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMBDenkmalMapAnnotation.swift; sourceTree = "<group>"; };
-		5034FF181BE90B6C00A3C77F /* DMBFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBFilterViewController.swift; path = "DenkmälerBerlin/ViewController/DMBFilterViewController.swift"; sourceTree = SOURCE_ROOT; };
 		5034FF191BE90B6C00A3C77F /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		5034FF211BE90BAB00A3C77F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Main.storyboard; sourceTree = "<group>"; };
 		506B82611BFFCDC2001B971A /* DMBType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DMBType.swift; path = Model/DMBType.swift; sourceTree = "<group>"; };
@@ -347,7 +345,6 @@
 				57EB18D51C4585E0007F6149 /* Clusterer */,
 				50A3F8701C3C26A00065B335 /* SearchController */,
 				5034FF241BE90BE300A3C77F /* ViewCells */,
-				5034FF181BE90B6C00A3C77F /* DMBFilterViewController.swift */,
 				5034FF191BE90B6C00A3C77F /* MapViewController.swift */,
 				5016DDE51BF1F5BE0041414B /* DMBDetailsTableViewController.swift */,
 				502FD9FF1C3BF6C80010E1FB /* DMBAdvancedSearchViewController.swift */,
@@ -787,7 +784,6 @@
 				50A3F85F1C3C17BD0065B335 /* DMBLocationRelation.swift in Sources */,
 				50DBD35F1C1C829B0010F68E /* Array+groupBy.swift in Sources */,
 				5007DE091BFF34A300987901 /* DMBDummyData.swift in Sources */,
-				5034FF1E1BE90B6C00A3C77F /* DMBFilterViewController.swift in Sources */,
 				50188DE11C3EED99007137E2 /* DMBSearchOperations.swift in Sources */,
 				507C94A71C4934730022A6E7 /* DMBPictureURL.swift in Sources */,
 				502343F31BFDD1D1008794D4 /* DMBEpoche.swift in Sources */,
