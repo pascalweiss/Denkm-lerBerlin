@@ -66,10 +66,10 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
             dateFormater.locale = NSLocale(localeIdentifier: "de-DE");
             dateFormater.dateFormat = "MMMM yyyy";
             if (monCreationPeriod?.getFrom() != nil){
-                dateString = dateFormater.stringFromDate(monCreationPeriod!.getFrom()!) + " - ";
+                dateString = dateFormater.stringFromDate(monCreationPeriod!.getFrom()!);
             }
             if (monCreationPeriod?.getTo() != nil) {
-                dateString += dateFormater.stringFromDate(monCreationPeriod!.getTo()!);
+                dateString += " - " +  dateFormater.stringFromDate(monCreationPeriod!.getTo()!);
             }
             self.monumentData.updateValue(dateString, forKey: "Bauzeit");
             
@@ -215,6 +215,64 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
                 }
             }
             return cell;
+        }
+    }
+    
+    // MARK: - Map
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var reuseId = ""
+        if let _ = annotation as? DenkmalAnnotationCluster {
+            reuseId = "Cluster"
+            var clusterView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
+            clusterView = DenkmalAnnotationClusterView(annotation: annotation, reuseIdentifier: reuseId)
+            let tapGesture = UITapGestureRecognizer(target: self, action: "zoominOnCluster:")
+            tapGesture.numberOfTapsRequired = 2
+            clusterView?.addGestureRecognizer(tapGesture)
+            clusterView?.userInteractionEnabled
+            return clusterView
+        } else {
+            if let annotation = annotation as? DMBDenkmalMapAnnotation {
+                let reuseId = "DenkmalAnnotation"
+                let annotationView: MKAnnotationView
+                
+                annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+                annotationView.canShowCallout = true
+                annotationView.calloutOffset = CGPoint(x: -5, y: -5)
+                annotationView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIView
+                
+                let button = UIButton(type: .System) as UIButton
+                button.setTitle("↪︎", forState: .Normal)
+                button.frame = CGRect(x: 30,y: 30,width: 30,height: 30)
+                
+                annotationView.leftCalloutAccessoryView = button
+                
+                switch annotation.type! {
+                case "Gesamtanlage" :
+                    annotationView.image = UIImage(named: "redMarker.png")
+                    break
+                case "Bodendenkmal":
+                    annotationView.image = UIImage(named: "oliveMarker.png")
+                    break
+                case "Baudenkmal":
+                    annotationView.image = UIImage(named: "blueMarker.png")
+                    break
+                case "Gartendenkmal":
+                    annotationView.image = UIImage(named: "lightgreenMarker.png")
+                    break
+                case "Ensemble":
+                    annotationView.image = UIImage(named: "orangeMarker.png")
+                    break
+                case "Ensembleteil":
+                    annotationView.image = UIImage(named: "yellowMarker.png")
+                    break
+                default:
+                    break
+                }
+                annotationView.frame = CGRectMake(0, 0, 35, 35)
+                return annotationView
+            }
+            return nil
         }
     }
 }
