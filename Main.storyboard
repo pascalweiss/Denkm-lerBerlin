@@ -73,11 +73,17 @@
                             <rect key="frame" x="0.0" y="64" width="320" height="101"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SaV-xj-D8A">
+                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SaV-xj-D8A">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                 </mapView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="SaV-xj-D8A" firstAttribute="top" secondItem="gQq-Fm-CmJ" secondAttribute="top" id="IwC-Ob-LZd"/>
+                                <constraint firstAttribute="trailing" secondItem="SaV-xj-D8A" secondAttribute="trailing" id="J3t-Lc-Cdm"/>
+                                <constraint firstAttribute="bottom" secondItem="SaV-xj-D8A" secondAttribute="bottom" id="NS1-Vq-FOt"/>
+                                <constraint firstItem="SaV-xj-D8A" firstAttribute="leading" secondItem="gQq-Fm-CmJ" secondAttribute="leading" id="jgG-Y7-IPv"/>
+                            </constraints>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="contentValueCell" id="cp8-cU-cs3" customClass="DMBDetailsTableViewCell" customModule="Denkma_lerBerlin" customModuleProvider="target">
