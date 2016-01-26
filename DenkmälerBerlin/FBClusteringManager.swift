@@ -71,9 +71,9 @@ class FBClusteringManager : NSObject {
         lock.lock()
 
         for i in minX...maxX {
-
+            
             for j in minY...maxY {
-
+                
                 let mapPoint = MKMapPoint(x: Double(i)/scaleFactor, y: Double(j)/scaleFactor)
                 
                 let mapSize = MKMapSize(width: 1.0/scaleFactor, height: 1.0/scaleFactor)
@@ -107,18 +107,22 @@ class FBClusteringManager : NSObject {
                     cluster.coordinate = coordinate
                     cluster.annotations = annotations
                     
-                    //print("cluster.annotations.count:: \(cluster.annotations.count)")
-                    
-                    clusteredAnnotations.append(cluster)
+                    if count <= 5 {
+                        let coordSpan = cluster.getClusterSpan()
+                        if (coordSpan.latitudeDelta == 0.0 && coordSpan.longitudeDelta == 0.0) {
+                            for annotation in annotations {
+                                clusteredAnnotations.append(annotation)
+                            }
+                        } else {
+                            clusteredAnnotations.append(cluster)
+                        }
+                    } else {
+                        clusteredAnnotations.append(cluster)
+                    }
                 }
-
-                
-                
             }
-           
+            
         }
-        
-    
         lock.unlock()
         
         return clusteredAnnotations

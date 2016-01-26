@@ -66,8 +66,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate{
     let clusterManager = FBClusteringManager()
     var annotationsToDraw: [DMBDenkmalMapAnnotation] = [] {
         didSet {
-            // TODO: print("annotationsToDraw was changed")
-            // TDOD: print("actual size: \(annotationsToDraw.count)")
             drawClusters()
         }
     }
@@ -704,7 +702,7 @@ extension MapViewController: CLLocationManagerDelegate, MKMapViewDelegate {
                 default:
                     break
                 }
-                annotationView.frame = CGRectMake(0, 0, 25, 25)
+                annotationView.frame = CGRectMake(0, 0, 35, 35)
                 return annotationView
             }
             return nil

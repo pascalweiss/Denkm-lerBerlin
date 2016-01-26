@@ -40,17 +40,9 @@ class DMBDenkmalMapAnnotation: NSObject, MKAnnotation {
     func landmarkToMKMapItem() -> MKMapItem {
         let addressDictionary = [String(kABPersonAddressStreetKey): self.subtitle as! AnyObject]
         let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: addressDictionary)
-        
-//        print("addressDictionary: ")
-//        print(addressDictionary.keys)
-        //print("palcemark: " + placemark.description)
-        
         let mapItem = MKMapItem(placemark: placemark)
         mapItem.name = title
-        
-        //print("mapItem: " + mapItem.description)
-        
-        
+    
         return mapItem
     }
 }
