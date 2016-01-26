@@ -28,7 +28,7 @@ class DMBModel {
     private let debug = false
     
     private let recopyDatabase = false // true Setzt Datenbank zurück
-    private let sqliteFileName = "DMBsqlite_v7"
+    private let sqliteFileName = "DMBsqlite3_v8"
 
     private init() {
         if debug {
