@@ -445,7 +445,9 @@ extension MapViewController: UITableViewDelegate, UITableViewDataSource {
                 number = number != nil ? number : ""
                 anno.subtitle = street! + " " + number!
                 
-                selected.append(anno)
+                if long != 0 && lat != 0 {
+                    selected.append(anno)
+                }
             }
             
             annotationsToDraw = selected
