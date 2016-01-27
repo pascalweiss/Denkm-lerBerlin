@@ -136,7 +136,7 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate, N
         
         // The height is calculated as follows: screenHeight - (navigationbarHeight + headerviewHeight + sectionheaderHeight + height of the other rows)
         heightForDescriptionCell = UIScreen.mainScreen().bounds.height - (self.navigationController!.navigationBar.frame.height + self.mapView.frame.height + CGFloat(28) + CGFloat(printOrder.count * 44));
-    }
+        }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -240,7 +240,6 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate, N
             let cell = tableView.dequeueReusableCellWithIdentifier("descriptionTextCell", forIndexPath: indexPath) as! DMBDetailsTextTableViewCell;
             cell.passControllerReference(self);
             cell.tvDescriptionText.bounces = false;
-            cell.tvDescriptionText.scrollEnabled = false;
             
             let currentKey = printOrder[indexPath.row];
             cell.labelDescriptionHeading.text = currentKey;
@@ -249,43 +248,25 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate, N
                 // truncate text if neccessary
                 cell.fullText = fullText!;
                 cell.tvDescriptionText.text = fullText!;
-                var heightOfTextToDisplay = calculateHeightOfText(fullText!, width: cell.bounds.width, font: UIFont.systemFontOfSize(14));
+                
+                cell.tvDescriptionText.textContainer.maximumNumberOfLines = 0;
+                let heightOfTextToDisplay = cell.tvDescriptionText.textContainer.size.height;
                 
                 if (heightOfTextToDisplay > heightForDescriptionCell - 10){
-                    // truncating the text works as follows:
-                    // 1. The text is shortened by 20 characters from the back
-                    // 2. The next end of the sentence is searched (also backwards)
-                    // 3. The text is truncated to this point and a height is calculated
-                    // 4. That height is compared to the height of the TextField
-                    //    These steps are repeated until the height of the truncated text
-                    //    is smaller than the height of the TextField
-                    var shortText: String;
-                    shortText = fullText!;
-                    
-                    repeat {
-                        let tempIndex = shortText.endIndex.advancedBy(-20);
-                        shortText = shortText.substringToIndex(tempIndex);
-                        let pointIndex = shortText.rangeOfString(".", options: .BackwardsSearch)!.endIndex;
-                        shortText = shortText.substringToIndex(pointIndex);
-                        heightOfTextToDisplay = calculateHeightOfText(shortText, width: cell.bounds.width, font: UIFont.systemFontOfSize(14));
-                        
-                    } while (heightOfTextToDisplay > heightForDescriptionCell - 10);
-                    
+                    cell.tvDescriptionText.scrollEnabled = false;
+                    cell.tvDescriptionText.textContainer.lineBreakMode = .ByTruncatingTail;
                     cell.btnMoreText.enabled = true;
-                    cell.tvDescriptionText.text = shortText + " [...]";
                 }
             }
             return cell;
         }
     }
     
-    private func calculateHeightOfText(text: String, width: CGFloat, font: UIFont) -> CGFloat {
+    private func calculateHeightOfText(text: String, targetWidth: CGFloat, targetHeight: CGFloat, font: UIFont) -> CGFloat {
         let tempString = NSString(string: text);
         let context: NSStringDrawingContext = NSStringDrawingContext();
-        context.minimumScaleFactor = 0.8;
-        let width: CGFloat = CGFloat(width);
         
-        let frame = tempString.boundingRectWithSize(CGSizeMake(width, 2000), options:NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: context);
+        let frame = tempString.boundingRectWithSize(CGSizeMake(targetWidth, targetHeight), options:NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: context);
         
         return frame.size.height;
     }

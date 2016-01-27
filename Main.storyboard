@@ -81,7 +81,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="101"/>
                                     <animations/>
                                 </mapView>
-                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Lga-sU-gRA">
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Lga-sU-gRA">
                                     <rect key="frame" x="150" y="41" width="20" height="20"/>
                                     <animations/>
                                 </activityIndicatorView>
@@ -89,10 +89,12 @@
                             <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="Lga-sU-gRA" firstAttribute="centerY" secondItem="SaV-xj-D8A" secondAttribute="centerY" id="EB4-zt-qKm"/>
                                 <constraint firstItem="SaV-xj-D8A" firstAttribute="top" secondItem="gQq-Fm-CmJ" secondAttribute="top" id="IwC-Ob-LZd"/>
                                 <constraint firstAttribute="trailing" secondItem="SaV-xj-D8A" secondAttribute="trailing" id="J3t-Lc-Cdm"/>
                                 <constraint firstAttribute="bottom" secondItem="SaV-xj-D8A" secondAttribute="bottom" id="NS1-Vq-FOt"/>
                                 <constraint firstItem="SaV-xj-D8A" firstAttribute="leading" secondItem="gQq-Fm-CmJ" secondAttribute="leading" id="jgG-Y7-IPv"/>
+                                <constraint firstItem="Lga-sU-gRA" firstAttribute="centerX" secondItem="SaV-xj-D8A" secondAttribute="centerX" id="l7y-sp-QVd"/>
                             </constraints>
                         </view>
                         <prototypes>
