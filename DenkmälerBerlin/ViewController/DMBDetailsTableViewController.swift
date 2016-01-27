@@ -9,10 +9,11 @@
 import UIKit
 import MapKit
 
-class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
+class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate, NSURLSessionDownloadDelegate {
     
     // MARK: Properties
     
+    @IBOutlet weak var downloadIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
             mapView.mapType = .Standard
@@ -22,15 +23,27 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
         }
     }
     
+    var imageView: UIImageView!;
+    var imageStatusLabel: UILabel!;
     var monument: DMBMonument! = DMBModel.sharedInstance.getAllMonuments()[12];
     var monumentData: Dictionary<String, String>! = Dictionary<String, String>();
     var printOrder: [String] = ["Adresse", "Bauzeit", "Beschreibung"];
     var descriptionPosition = 0;
     var heightForDescriptionCell:CGFloat = 0;
+
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        // initialize Views
+        imageStatusLabel = UILabel.init();
+        imageStatusLabel.hidden = true;
+        imageView = UIImageView.init(frame: CGRect(x: self.mapView.frame.origin.x, y: self.mapView.frame.origin.y, width: UIScreen.mainScreen().bounds.width, height: self.mapView.frame.height));
+        imageView.hidden = true;
+        self.view.addSubview(imageStatusLabel);
+        self.view.addSubview(imageView);
+        // set random properties
         tableView.bounces = false;
+        downloadIndicator.hidesWhenStopped = true;
         // construct property array from monument properties
         
         // set Description Position
@@ -108,46 +121,87 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate {
             self.mapView.showAnnotations([anno], animated: true);
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            // Picture for Header
-            let picURL: NSURL?;
-            let strURL = self.monument!.getPicUrl()
-            picURL = strURL.count == 0 ? nil : NSURL.init(string: strURL[0].getURL()!);
-            if (picURL != nil){
-                // get picture from URL
-                let imageData: NSData? = NSData.init(contentsOfURL: picURL!)!;
-                if (imageData != nil){
-                    let image: UIImage? = UIImage.init(data: imageData!);
-                    if (image != nil){
-                        // make image view
-                        let imageView = UIImageView.init(frame: CGRect(x: self.mapView.frame.origin.x, y: self.mapView.frame.origin.y, width: UIScreen.mainScreen().bounds.width, height: self.mapView.frame.height));
-                        imageView.image = image;
-                        imageView.contentMode = .ScaleAspectFill;
-                        imageView.clipsToBounds = true;
-                        // add image view to superview
-                        
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.view.addSubview(imageView);
-                        });
-                        
-                    }
-                }
-            }
-            
-        });
+        // Picture for Header
+        let picURL: NSURL?;
+        let strURL = self.monument!.getPicUrl()
+        picURL = strURL.count == 0 ? nil : NSURL.init(string: strURL[0].getURL()!);
+        if (picURL != nil){
+            // get picture from URL
+            downloadIndicator.startAnimating();
+            let config = NSURLSessionConfiguration.defaultSessionConfiguration();
+            let session = NSURLSession.init(configuration: config, delegate: self, delegateQueue: nil);
+            let downloadTask = session.downloadTaskWithURL(picURL!);
+            downloadTask.resume();
+        }
         
         // The height is calculated as follows: screenHeight - (navigationbarHeight + headerviewHeight + sectionheaderHeight + height of the other rows)
         heightForDescriptionCell = UIScreen.mainScreen().bounds.height - (self.navigationController!.navigationBar.frame.height + self.mapView.frame.height + CGFloat(28) + CGFloat(printOrder.count * 44));
-        print(self.tableView.frame.height);
-        print(UIScreen.mainScreen().bounds.height);
-        // DONE
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    // MARK: - NSURLSession Delegates
+    
+    func URLSession(session: NSURLSession, didBecomeInvalidWithError error: NSError?) {
+        downloadIndicator.stopAnimating();
+        if (error != nil) {
+            setImageStatusLabelWithMessage("Fehler beim Herunterladen des Bildes");
+            print(error!);
+        } else {
+            setImageStatusLabelWithMessage("Bild Download unerwartet beendet");
+        }
+    }
+    
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        downloadIndicator.stopAnimating();
+        if (error != nil) {
+            setImageStatusLabelWithMessage("Fehler beim Herunterladen des Bildes");
+            print(task.response!);
+            print(error!);
+        } else {
+            setImageStatusLabelWithMessage("Kein Bild vorhanden");
+        }
+    }
+    
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+        let imageData: NSData? = NSData.init(contentsOfURL: location);
+        let image: UIImage? = UIImage.init(data: imageData!);
+        if (image != nil){
+            // make image view
+            imageView.image = image;
+            imageView.contentMode = .ScaleAspectFill;
+            imageView.clipsToBounds = true;
+            // add image view to superview
+            imageView.hidden = false;
+        } else {
+            setImageStatusLabelWithMessage("Fehler beim Anzeigen des Bildes");
+        }
+        downloadIndicator.stopAnimating();
+    }
+    
+    // MARK: - MessageLabel LifeCycle
+    
+    private func setImageStatusLabelWithMessage(message: String){
+        let mes = NSString.init(string: message);
+        let size = mes.sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(17.0)]);
+        imageStatusLabel.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height);
+        imageStatusLabel.text = message;
+        imageStatusLabel.center.x = mapView.center.x;
+        imageStatusLabel.hidden = false;
+        let labelTimer = NSTimer(timeInterval: 20.0, target: self, selector: Selector("timerFired"), userInfo: nil, repeats: false);
+        NSRunLoop.mainRunLoop().addTimer(labelTimer, forMode: NSRunLoopCommonModes);
+    }
+    
+    func timerFired(){
+        print("fired");
+        imageStatusLabel.hidden = true;
+    }
+    
+    
+    
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
