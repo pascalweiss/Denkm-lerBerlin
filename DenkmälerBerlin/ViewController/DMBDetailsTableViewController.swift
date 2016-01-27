@@ -247,29 +247,47 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate, N
             let fullText: String? = monumentData.count == 0 ? "" : monumentData[currentKey];
             if (fullText != nil) {
                 // truncate text if neccessary
-                var charactersToDisplay: Int;
+                cell.fullText = fullText!;
+                cell.tvDescriptionText.text = fullText!;
+                var heightOfTextToDisplay = calculateHeightOfText(fullText!, width: cell.bounds.width, font: UIFont.systemFontOfSize(14));
                 
-                if (self.printOrder.count < 2){
-                    charactersToDisplay = 900;
-                } else {
-                    charactersToDisplay = 700;
-                }
-                
-                if (charactersToDisplay > fullText!.characters.count){
-                    cell.fullText = fullText!;
-                    cell.tvDescriptionText.text = fullText!;
-                } else {
-                    let tempIndex = fullText!.startIndex.advancedBy(+charactersToDisplay);
-                    let shortText = fullText!.substringToIndex(tempIndex);
-                    let index = shortText.rangeOfString(".", options: .BackwardsSearch)!.endIndex;
+                if (heightOfTextToDisplay > heightForDescriptionCell - 10){
+                    // truncating the text works as follows:
+                    // 1. The text is shortened by 20 characters from the back
+                    // 2. The next end of the sentence is searched (also backwards)
+                    // 3. The text is truncated to this point and a height is calculated
+                    // 4. That height is compared to the height of the TextField
+                    //    These steps are repeated until the height of the truncated text
+                    //    is smaller than the height of the TextField
+                    var shortText: String;
+                    shortText = fullText!;
                     
-                    cell.fullText = fullText;
-                    cell.tvDescriptionText.text = shortText.substringToIndex(index) + " [...]";
+                    repeat {
+                        let tempIndex = shortText.endIndex.advancedBy(-20);
+                        shortText = shortText.substringToIndex(tempIndex);
+                        let pointIndex = shortText.rangeOfString(".", options: .BackwardsSearch)!.endIndex;
+                        shortText = shortText.substringToIndex(pointIndex);
+                        heightOfTextToDisplay = calculateHeightOfText(shortText, width: cell.bounds.width, font: UIFont.systemFontOfSize(14));
+                        
+                    } while (heightOfTextToDisplay > heightForDescriptionCell - 10);
+                    
                     cell.btnMoreText.enabled = true;
+                    cell.tvDescriptionText.text = shortText + " [...]";
                 }
             }
             return cell;
         }
+    }
+    
+    private func calculateHeightOfText(text: String, width: CGFloat, font: UIFont) -> CGFloat {
+        let tempString = NSString(string: text);
+        let context: NSStringDrawingContext = NSStringDrawingContext();
+        context.minimumScaleFactor = 0.8;
+        let width: CGFloat = CGFloat(width);
+        
+        let frame = tempString.boundingRectWithSize(CGSizeMake(width, 2000), options:NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: context);
+        
+        return frame.size.height;
     }
     
     // MARK: - Map
@@ -330,3 +348,13 @@ class DMBDetailsTableViewController: UITableViewController, MKMapViewDelegate, N
         }
     }
 }
+
+//Stash
+/*
+str.boundingRectWithSize(cell.tvDescriptionText.bounds.size, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14.0)], context: nil);
+
+print(sizeOfTextToDisplay.height);
+print(sizeOfTextToDisplay.width);
+print(cell.tvDescriptionText.bounds.size.height);
+print(cell.tvDescriptionText.bounds.size.width);
+*/
